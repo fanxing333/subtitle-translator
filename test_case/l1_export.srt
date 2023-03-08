@@ -1,0 +1,1652 @@
+1
+00:00:01,260 --> 00:00:12,243
+- Hi everyone and welcome to the first lecture of our online course on deep learning systems, algorithms and implementation.
+大家好，欢迎来到我们的深度学习系统、算法和实现在线课程的第一讲。
+
+2
+00:00:13,230 --> 00:00:23,553
+I'm Zico Kolter, I'm going to be giving this lecture, but I'm teaching this course with my co-instructor, Tianqi Chen, who will be giving some of the later lectures.
+我是Zico Kolter，我将主讲这个讲座，但我与我的合作导师Tianqi Chen一起教授这门课程，他将在后面的讲座中主讲。
+
+3
+00:00:24,690 --> 00:00:32,190
+We're both faculty at Carnegie Mellon University, and we're also offering this course this Fall at CMU.
+我们都是卡内基梅隆大学的教师，我们也将在CMU秋季学期开设这门课程。
+
+4
+00:00:32,190 --> 00:00:38,703
+But we're making all the material public as part of this online course.
+但我们将所有的材料都公开作为这个在线课程的一部分。
+
+5
+00:00:39,930 --> 00:00:49,473
+This lecture's gonna be a basic introduction to the topics of this course, as well as cover some of the logistics of the course.
+这个讲座将是关于这门课程主题的基本介绍，以及涵盖一些课程的日常事务。
+
+6
+00:00:50,640 --> 00:01:00,360
+As such, it's gonna be a bit different from other lectures where we'l actually go into detail about the methods, the math, the code, et cetera.
+因此，它将与其他讲座有所不同，其他讲座将详细介绍方法、数学、代码等。
+
+7
+00:01:00,360 --> 00:01:10,350
+This is really just a lecture with slides in it, but we're gonna cover a bit about why this course might be of interest to you.
+这只是一个带有幻灯片的讲座，但我们将介绍一些为什么这门课程可能对你有兴趣的内容。
+
+8
+00:01:10,350 --> 00:01:21,963
+Why we think these are important topics to know about,  and also cover a bit of background on the logistics and setup of this course.
+为什么我们认为这些是重要的主题，以及关于这门课程的背景和设置的一些背景知识。
+
+9
+00:01:23,760 --> 00:01:27,780
+All right, so as I said, this lecture really has two parts.
+好的，正如我所说，这个讲座实际上有两个部分。
+
+10
+00:01:27,780 --> 00:01:31,380
+The first part is about why you should study, deep learning systems at all.
+第一部分是关于为什么你应该学习深度学习系统的原因。
+
+11
+00:01:31,380 --> 00:01:33,267
+Why you might wanna take this course.
+为什么你可能想要学习这门课程。
+
+12
+00:01:33,267 --> 00:01:37,293
+And the second will be more about the course info and logistics.
+第二部分将更多地涉及课程信息和日常事务。
+
+13
+00:01:38,190 --> 00:01:45,123
+So let's jump right in and get started talking about why you might want to study deep learning systems.
+所以让我们开始谈论为什么你可能想要学习深度学习系统。
+
+14
+00:01:46,740 --> 00:01:55,980
+Now the aim of this course is to provide you with an introduction to the functioning of modern, deep learning systems.
+现在，这门课程的目的是为您提供现代深度学习系统的运作介绍。
+
+15
+00:01:55,980 --> 00:02:03,063
+And what that means is, you're going to learn about how these things work internally.
+这意味着，您将学习这些系统的内部工作原理。
+
+16
+00:02:04,110 --> 00:02:20,100
+You're gonna learn about methods, like automatic differentiation, a number of basic neural network architectures, optimization, as well as methods for efficient operations on systems like GPUs.
+您将学习自动微分、许多基本的神经网络架构、优化以及在GPU等系统上进行高效操作的方法。
+
+17
+00:02:20,100 --> 00:02:26,973
+This is how these modern deep learning systems actually are run efficiently on modern hardware.
+这就是这些现代深度学习系统如何在现代硬件上高效运行的方式。
+
+18
+00:02:28,980 --> 00:02:41,850
+To solidify your understanding, the main effort that you'll put in throughout this course is that through the homeworks, you will develop the needle library.
+为了巩固您的理解，您将通过作业开发needle库来完成这门课程的主要任务。
+
+19
+00:02:41,850 --> 00:02:46,020
+Needle stands for the necessary elements of deep learning.
+针代表深度学习的必要元素。
+
+20
+00:02:46,020 --> 00:02:50,343
+And it's a deep learning library loosely similar to PyTorch.
+它是一个类似于PyTorch的深度学习库。
+
+21
+00:02:52,080 --> 00:03:05,270
+You're going to incrementally throughout your assignments, implement many common architectures and many of the aspects of this library really from scratch.
+在你的作业中，你将逐步实现许多常见的架构和许多这个库的方面，真正从头开始。
+
+22
+00:03:07,470 --> 00:03:19,650
+So why should you do this? Why might you want to study deep learning? And why might you want to study deep learning systems? Well, to start off with, let's answer the easier question first.
+那么为什么你要这样做呢？为什么你可能想学习深度学习？为什么你可能想学习深度学习系统？首先，让我们先回答更容易的问题。
+
+23
+00:03:19,650 --> 00:03:37,140
+Why do you want to study, or why might you want to study deep learning? Now chances are, if you're taking this course, you probably already like deep learning or at least know about deep learning and probably have a pretty good idea about why you might want to study deep learning.
+为什么你想学习深度学习，或者为什么你可能想学习深度学习？现在，如果你正在学习这门课程，你很可能已经喜欢深度学习，或者至少知道深度学习，并且可能已经对为什么你想学习深度学习有了一个很好的想法。
+
+24
+00:03:37,140 --> 00:03:51,610
+But I will give a few quick examples anyway, many of which you've probably already seen, but it wouldn't really be a deep learning course if we didn't start off the first lecture with some cool pictures about the things that deep learning can currently do.
+但我还是会给出一些快速的例子，其中许多你可能已经看过，但如果我们没有在第一讲中展示一些深度学习目前可以做到的酷炫图片，那么这就不是一门深度学习课程了。
+
+25
+00:03:52,680 --> 00:04:08,520
+So maybe you heard about the famous AlexNet architecture, which was developed in 2012, which performed very, very well on the ImageNet image classification challenge.
+所以也许你听说过著名的AlexNet架构，它是在2012年开发的，非常非常好地完成了ImageNet图像分类挑战。
+
+26
+00:04:08,520 --> 00:04:22,800
+I need to highlight right off the bat, this is not a history of deep learning, nor is it assigning credit to any sort of first elements that, first architectures of deep learning, that's an argument I do not wanna get into.
+我需要强调的是，这不是深度学习的历史，也不是为深度学习的第一个元素或第一个架构分配功劳的争论，这是我不想卷入的争论。
+
+27
+00:04:22,800 --> 00:04:51,713
+But this was a very, very famous architecture that really at least as a field and as a technique in the public view really did turn a corner on availability and power of deep learning by essentially building an architecture that could classify images into one of 1000 classes, much better than standard computer vision techniques at the time.
+但这是一个非常著名的架构，至少作为一个领域和一种技术在公众视野中真正转变了深度学习的可用性和能力，通过构建一个可以将图像分类为1000个类别的架构，比当时的标准计算机视觉技术更好。
+
+28
+00:04:53,790 --> 00:05:11,223
+You probably also heard about the AlphaGo system, which was developed in 2016 and defeated, not quite the world champion, I guess, or number one, but a very, very highly ranked, essentially, one of the world's best players at the game of Go.
+你可能也听说过AlphaGo系统，它是在2016年开发的，击败了不是世界冠军，我想说的是排名非常高的，实际上是世界上最好的Go玩家之一。
+
+29
+00:05:12,270 --> 00:05:31,503
+Now the game of Go for a long time was viewed as a grand challenge for computer play of games because the number of possible moves at each location is very, very large and standard techniques like those used in chess, just weren't very applicable here.
+现在，长期以来，围棋一直被视为计算机游戏的一个重大挑战，因为每个位置可能的移动数量非常大，而像在国际象棋中使用的标准技术在这里并不适用。
+
+30
+00:05:32,340 --> 00:05:53,250
+But using techniques from deep learning, this team at DeepMind was able to build a system that could defeat essentially at the time, one of the best players in the world, and soon after all the best human players in the world, much, much faster than I think anyone in the field really expected it to happen.
+但是使用深度学习技术，DeepMind团队成功构建了一个系统，能够在当时击败世界上最好的玩家之一，不久之后又击败了全世界最好的人类玩家，比我认为领域内任何人都预料到的要快得多。
+
+31
+00:05:56,250 --> 00:06:12,660
+Maybe you've also heard or seen about images like these, these are images of faces generated by the StyleGAN system, and I know we're all used to seeing these things now, we're actually quite used to seeing faces that are not real, we see them everywhere now.
+也许你也听说或看到过这样的图像，这些是由StyleGAN系统生成的面部图像，我知道我们现在都习惯看到这些东西了，我们实际上已经很习惯看到不真实的面孔了，我们现在到处都能看到它们。
+
+32
+00:06:12,660 --> 00:06:20,820
+But I remember when this post was first made on Twitter, people were advertising this paper on Twitter and I thought people were joking.
+但我记得当这篇文章第一次在Twitter上发布时，人们在Twitter上宣传这篇论文，我以为人们在开玩笑。
+
+33
+00:06:20,820 --> 00:06:31,140
+I thought, actually, this was just a set of pictures from the training set that people were joking about and saying they were generated by the GAN, by the adversarial network.
+我认为，实际上，这只是一组人们在开玩笑说是由对抗网络生成的训练集中的图片。
+
+34
+00:06:31,140 --> 00:06:35,520
+But no, they really were, right, these are actually fake images generated by this network.
+但是不，它们真的是，这些是由这个网络生成的假图像。
+
+35
+00:06:35,520 --> 00:06:46,923
+And I think that we almost take it for granted now just how easy it is to generate pictures of fake people, which was a capability we did not have four or five years ago.
+我认为我们现在几乎认为生成虚假人物的图片是多么容易，而这是我们四五年前所没有的能力。
+
+36
+00:06:49,260 --> 00:06:54,420
+A little bit more recent history now, you've likely heard about the GPT-3 system.
+现在再来看一下更近期的历史，你可能听说过GPT-3系统。
+
+37
+00:06:54,420 --> 00:07:04,170
+This is a system built by OpenAI that can generate text and the way it generates text is it essentially writes text one word or one token at a time.
+这是由OpenAI构建的一个系统，可以生成文本，它生成文本的方式是逐个单词或标记地写入文本。
+
+38
+00:07:04,170 --> 00:07:12,840
+So given all the previous tokens in a sentence, it predicts the next one and then it adds that, appends that to the text, and predicts the next one.
+因此，给定句子中的所有先前标记，它预测下一个标记，然后将其添加到文本中，并预测下一个标记。
+
+39
+00:07:12,840 --> 00:07:31,680
+And from this very simple seeming process, we are nonetheless able to generate amazingly complex and coherent pieces of text just from essentially a deep learning system that's meant to predict really a distribution over next possible tokens in text.
+通过这个看似简单的过程，我们仍然能够生成非常复杂和连贯的文本片段，只需要一个实际上是用于预测文本中下一个可能标记分布的深度学习系统。
+
+40
+00:07:31,680 --> 00:07:45,720
+And in fact here, it hopefully it's legible in the video here, but this, I actually asked GPT-3 to write a summary of this course, and it spit out a very reasonable summary of a deep learning course.
+实际上，在这里，视频中希望它是可读的，但是我实际上要求GPT-3写一份关于这门课程的摘要，它输出了一份非常合理的深度学习课程摘要。
+
+41
+00:07:45,720 --> 00:07:54,480
+In fact, it's actually a very bad summary of this course, because it's says, we're gonna talk about the theory and the math and then we're gonna cover unsupervised learning and reinforcement learning.
+实际上，这是这门课程的一个非常糟糕的摘要，因为它说，我们将讨论理论和数学，然后我们将涵盖无监督学习和强化学习。
+
+42
+00:07:54,480 --> 00:08:04,293
+But it would be a very good summary of a kind of generic deep learning course that will be offered that is offered, in fact here and will be offered at many, many universities.
+但这将是一种通用深度学习课程的非常好的概括，这种课程在这里提供，并将在许多大学提供。
+
+43
+00:08:06,570 --> 00:08:10,470
+You've also probably seen AlphaFold and the AlphaFold 2 system.
+你可能也看过AlphaFold和AlphaFold 2系统。
+
+44
+00:08:10,470 --> 00:08:18,720
+This is a system that predicts the 3D structure of proteins from their DNA sequence.
+这是一个系统，可以从DNA序列预测蛋白质的三维结构。
+
+45
+00:08:18,720 --> 00:08:32,970
+This for a very, very long time has been a grand challenge in biology, understanding how DNA sequences form the 3D structure of proteins that actually carry out tasks in the body.
+这在生物学中长期以来一直是一个重大挑战，理解DNA序列如何形成实际在身体中执行任务的蛋白质的三维结构。
+
+46
+00:08:32,970 --> 00:08:47,700
+And for a very, very long time, this is a chart here of the progress and accuracy of these systems over many years at sort of a well known competition on this task of protein folding prediction.
+而且在这个任务的一个众所周知的竞赛中，这些系统的进展和准确性在多年中一直是一个图表。
+
+47
+00:08:47,700 --> 00:09:13,983
+And over the course of four years, this system, AlphaFold built by DeepMind, again, was able to really produce a amazing breakthrough, amazing scientific breakthrough in the quality and accuracy of this prediction to the point where effectively you could argue that at least in some restricted cases, this problem is in fact effectively solved.
+在四年的时间里，由DeepMind构建的AlphaFold系统真正取得了惊人的突破，使这种预测的质量和准确性达到了一个可以争论的程度，至少在某些受限制的情况下，这个问题实际上已经被有效地解决了。
+
+48
+00:09:15,720 --> 00:09:26,103
+And finally, it wouldn't be 2022 if I didn't include a picture of an image generated by a deep learning system.
+最后，如果我不包括一个由深度学习系统生成的图像，那就不是2022年了。
+
+49
+00:09:27,150 --> 00:09:34,890
+This is a picture generated by the Stable Diffusion system, which actually was released like a week and a half ago.
+这是由Stable Diffusion系统生成的一张图片，实际上是在一周半前发布的。
+
+50
+00:09:34,890 --> 00:09:43,410
+In fact, it was released on the same day we announced, we also posted the video announcing this public course, so they really stole our thunder here.
+事实上，它是在我们宣布这个公开课的视频发布的同一天发布的，所以他们真的抢了我们的风头。
+
+51
+00:09:43,410 --> 00:09:51,540
+Of course, this also relates to the work done by the DALLE-2 system and going back for the DALLE system and many papers before then.
+当然，这也与DALLE-2系统以及DALLE系统和以前的许多论文有关。
+
+52
+00:09:51,540 --> 00:10:09,000
+But these systems are amazing in that they can take a text prompt and generate, that probably no one has ever really thought of before, and generate a very realistic painting in many cases or image in many cases that corresponds to that text.
+但这些系统的惊人之处在于它们可以接受一个文本提示，并生成一个在许多情况下与该文本相对应的非常逼真的绘画或图像，这可能是没有人真正想过的。
+
+53
+00:10:09,000 --> 00:10:19,260
+So here I wrote the text prompt of a dog dressed as a university professor nervously preparing his first lecture of the semester, 10 minutes before the start of class.
+所以在这里，我写了一个狗穿着大学教授的衣服，在开课前10分钟紧张地准备他的第一堂课的文本提示。
+
+54
+00:10:19,260 --> 00:10:23,190
+I don't know why I would've thought of that thing, you can imagine it yourself.
+我不知道为什么我会想到那个东西，你可以自己想象。
+
+55
+00:10:23,190 --> 00:10:39,870
+And it was an oil painting on canvas and you see what the system generated was, well, it looks like a dog dressed as a university professor preparing a lecture, I guess 10 minutes before class, that part maybe is evident in his expression and it looks kinda like an oil painting.
+这是一幅油画，画在帆布上。你可以看到系统生成的画面，看起来像一只穿着大学教授装扮的狗，正在准备讲课，也许是在上课前十分钟，这一点可能可以从他的表情中看出来，而且它看起来有点像一幅油画。
+
+56
+00:10:39,870 --> 00:10:45,220
+And this is just so amazing, the capabilities that we have in these systems.
+这真是太神奇了，我们在这些系统中拥有的能力。
+
+57
+00:10:46,800 --> 00:10:56,370
+Now one thing you may notice about all these examples I give, except the very first one, is that they're all done essentially at companies, not actually the last one.
+现在，你可能会注意到我给出的所有例子，除了第一个例子，基本上都是在公司完成的，实际上最后一个例子并不是。
+
+58
+00:10:56,370 --> 00:11:02,973
+So Stable Diffusion actually is done at a relatively small company, but they still have a fair amount of resources that were behind this effort.
+因此，Stable Diffusion实际上是由一个相对较小的公司完成的，但他们仍然有相当多的资源投入到这个项目中。
+
+59
+00:11:04,770 --> 00:11:11,580
+And the other point I wanna make though, is in case you're a little bit concerned saying, oh, all this stuff is just happening at big companies.
+我想要强调的另一个观点是，如果你有点担心说，哦，所有这些东西都只是在大公司发生。
+
+60
+00:11:11,580 --> 00:11:25,830
+What can one person or a small group of people really do to influence this? I would, first of all, point to that first paper and Stable Diffusion paper actually is bookend examples of what a few people can do with the right methods and the right cleverness.
+一个人或一个小团队真的能做些什么来影响这个领域吗？首先，我想指出那篇第一篇论文和Stable Diffusion论文实际上是几个人用正确的方法和正确的聪明才智所做出的两个例子。
+
+61
+00:11:25,830 --> 00:11:35,883
+But I wanna highlight a few examples too, of smaller efforts that I think have still been amazingly impressive at shaping the field of deep learning.
+但我还想强调一些例子，这些例子是由我认为仍然非常令人印象深刻的小型努力所塑造的深度学习领域的。
+
+62
+00:11:37,210 --> 00:11:53,970
+So the DeOldify work essentially done by two people is more or less, or was, I believe still is more or less, a state of the art technique for taking old pictures, old photographs in black and white and creating color versions of these.
+DeOldify工作基本上是由两个人完成的，或者说是，我相信仍然是，将黑白老照片转换成彩色版本的最先进技术。
+
+63
+00:11:53,970 --> 00:12:10,710
+Now image colorization has been researched as a topic for a long time, but this system really is an effort of a few people that ultimately achieves, I think the visually best version of this sort of task that I have seen from this.
+现在，图像着色作为一个主题已经被研究了很长时间，但这个系统真的是几个人的努力，最终实现了我从这个任务中看到的最好的视觉版本。
+
+64
+00:12:10,710 --> 00:12:14,880
+Done essentially by two people with very limited resources, at least in the initial versions.
+最初版本基本上是由两个人用非常有限的资源完成的。
+
+65
+00:12:16,620 --> 00:12:23,253
+If you work in computer vision these days, you've probably heard of the PyTorch image models or timm library.
+如果你现在从事计算机视觉工作，你可能已经听说过PyTorch图像模型或timm库。
+
+66
+00:12:24,120 --> 00:12:45,900
+This is essentially work by one person that wanted to implement a whole bunch of, with some help now, but at least starting out one person, Ross Wightman, who wanted to implement a whole lot of deep learning image classification models from many, many papers and test them all out on benchmark data.
+这实际上是一个人的工作，他想要实现许多深度学习图像分类模型，从许多论文中测试它们在基准数据上的表现，虽然现在有一些帮助，但至少起初是一个人，Ross Wightman。
+
+67
+00:12:45,900 --> 00:12:50,490
+And in many cases using pre-trained weights from those papers or many cases, training them from scratch.
+在许多情况下，使用那些论文中的预训练权重，或者从头开始训练。
+
+68
+00:12:50,490 --> 00:13:07,293
+And this has been, started at least as a relatively small effort by one person and has become really the dominant image classification library that we all use academically when we are building these vision systems.
+这至少是由一个人相对较小的努力开始的，并且已经成为我们在构建这些视觉系统时学术上使用的主要图像分类库。
+
+69
+00:13:08,880 --> 00:13:31,680
+And finally, I won't highlight these other ones actually, because these in fact are community efforts, but there's been many other examples of libraries, systems, big, big sort of code endeavors that are essentially community driven and that they are for both libraries and frameworks that have been community driven that have really driven the field forward.
+最后，我不会实际突出这些其他的，因为事实上它们是社区努力，但还有许多其他的库、系统、大型代码项目，它们本质上是社区驱动的，它们是为了库和框架，这些库和框架真正推动了该领域的发展。
+
+70
+00:13:31,680 --> 00:13:39,513
+And I'll actually mention some of these again when I introduce briefly my co-teacher in this course, Tianqi.
+当我简要介绍这门课的合作教师Tianqi时，我将再次提到其中的一些。
+
+71
+00:13:42,060 --> 00:13:47,223
+So all of this that I've talked about so far probably is not news to you.
+到目前为止，我所谈论的所有内容可能对你来说并不新鲜。
+
+72
+00:13:48,150 --> 00:13:58,950
+If you're watching this, you probably say, yes, I get it, deep learning is great, that's why I'm taking this course, that's why I'm listening to this video so far, if you haven't skipped forward already.
+如果你正在观看这个视频，你可能会说，是的，我明白，深度学习很棒，这就是为什么我要学这门课，这就是为什么我要听这个视频，如果你还没有跳过去的话。
+
+73
+00:14:00,030 --> 00:14:34,893
+But why should you learn about deep learning systems? Why do you actually want to study deep learning systems? Not just deep learning, but the actual architectures behind that enable these systems and the way I'm going to motivate this is I'm going to show a chart here of a Google Trends chart of the interest measured somehow in deep learning, the term deep learning over the past 15 years or so, 14 years.
+但是你为什么要学习深度学习系统呢？为什么你真正想要研究深度学习系统？不仅仅是深度学习，而是实际的架构，使这些系统成为可能的架构，我要激励的方式是，我将展示一个谷歌趋势图表，显示过去15年或14年中深度学习这个术语的兴趣测量情况。
+
+74
+00:14:36,420 --> 00:14:42,660
+And I'm gonna annotate this chart with a few events of note.
+我将用一些注释来标注这个图表中的一些值得注意的事件。
+
+75
+00:14:42,660 --> 00:14:53,430
+So in the late 2000s, this is actually when the field of deep learning in some sense took off academically.
+在2000年代后期，这实际上是深度学习领域在学术上起飞的时候。
+
+76
+00:14:53,430 --> 00:15:08,733
+So I was going to conferences at this time and I remember at conferences like NeurIPS, this deep learning became a thing, a field where there were lots of papers in it every year in the late 2000s.
+所以我在那个时候参加会议，我记得在像NeurIPS这样的会议上，深度学习成为了一个领域，在那里每年都有很多论文。
+
+77
+00:15:09,840 --> 00:15:13,410
+But still, maybe this is always how academic work happens.
+但是，也许这总是学术工作的方式。
+
+78
+00:15:13,410 --> 00:15:18,030
+Still, there wasn't much as measured by Google Trends relative to the current day.
+
+79
+00:15:18,030 --> 00:15:30,280
+There wasn't a whole lot of interest in deep learning, it was just sort of an academic trend like many others that you've probably not heard of because they were 15 years old and no one's using them anymore.
+它只是一个学术趋势，就像你可能从未听说过的其他15年前的趋势一样，现在也没有人再使用它们了。
+
+80
+00:15:31,770 --> 00:15:59,280
+Then in 2012, as I mentioned, the AlexNet network was released, which again, this is not a history of the field of deep learning, and I've of course should also mention, though I should, of course mention that the actual mathematics of deep learning and neural networks goes back well into the 80s and probably before then to the 70s, this is just a sort of recent history, of course.
+然后在2012年，正如我所提到的，AlexNet网络被发布了，再次强调，这不是深度学习领域的历史，当然我也应该提到，深度学习和神经网络的实际数学基础可以追溯到80年代甚至70年代之前，这只是最近的历史，当然。
+
+81
+00:15:59,280 --> 00:16:07,023
+And again, I'm only annotating a few events, not trying to make claims about who was first to do what, et cetera, it's a game I don't wanna play in.
+而且，我只注释了一些事件，而不是试图声称谁是第一个做什么的，等等，这是我不想玩的游戏。
+
+82
+00:16:08,430 --> 00:16:19,770
+But the AlexNet was a very popular architecture, yet still, and there started to be a little uptick in interest in deep learning, but still not too much happened.
+但是AlexNet是一个非常流行的架构，然而，深度学习的兴趣开始有所增加，但仍然没有太多的发展。
+
+83
+00:16:19,770 --> 00:16:25,090
+So state of the art performance on image classification and still not too much happened.
+因此，在图像分类的最新性能方面，仍然没有太多的发展。
+
+84
+00:16:26,250 --> 00:16:34,470
+So then what happened? When did this start to really take off? Well, a few other things happened in the later years.
+那么接下来发生了什么？这是什么时候开始真正起飞的？后来的几年发生了一些其他的事情。
+
+85
+00:16:34,470 --> 00:16:43,283
+So in 2015, in 2016, some libraries like Keras and TensorFlow and PyTorch were released.
+因此，在2015年和2016年，一些库，如Keras、TensorFlow和PyTorch被发布了。
+
+86
+00:16:44,250 --> 00:17:02,463
+And if you actually look at the timing of when deep learning became truly popular, it coincides much more with the release of these libraries than the actual sort of what we think of as some of the big notable papers or events in the field.
+如果你真正看一下深度学习变得真正流行的时间，它与这些库的发布时间更加吻合，而不是我们认为的一些重要的论文或事件。
+
+87
+00:17:03,390 --> 00:17:22,677
+And so I kind of wanna make the controversial, but maybe not that controversial claim that the single largest driver of the widespread adoption of deep learning has been the creation of what essentially amounts to, easy to use automatic differentiation libraries.
+因此，我想要提出一个有争议但可能并不那么有争议的观点，即深度学习广泛采用的最大驱动力是创建了一些易于使用的自动微分库。
+
+88
+00:17:22,677 --> 00:17:25,830
+Now that's a little bit too simplified, of course.
+当然，这有点过于简化了。
+
+89
+00:17:25,830 --> 00:17:31,200
+The actual deep learning systems, which we're gonna talk about in this course involve much more than automatic differentiation.
+实际的深度学习系统，我们将在本课程中讨论，涉及的远不止自动微分。
+
+90
+00:17:31,200 --> 00:17:41,130
+But this core technology, which again goes back to the 70s, not a new technology, but the widespread avail, and there were frameworks before that.
+但是这个核心技术，它再次回到了70年代，不是一项新技术，但是广泛的可用性，之前也有一些框架。
+
+91
+00:17:41,130 --> 00:17:48,840
+So before PyTorch, there was Torch, just not many people used it, because you had to learn a whole new language called Lua to implement your models there.
+在PyTorch之前，有Torch，只是没有太多人使用它，因为你必须学习一种叫做Lua的全新语言来实现你的模型。
+
+92
+00:17:48,840 --> 00:17:59,820
+So the availability of Python based frameworks that lets you quickly prototype new architectures, new models.
+因此，基于Python的框架的可用性，让你可以快速地原型化新的架构、新的模型。
+
+93
+00:17:59,820 --> 00:18:08,343
+This I think was the single biggest driver of the explosion of interest in deep learning.
+我认为这是深度学习兴趣爆炸的最大推动力。
+
+94
+00:18:09,690 --> 00:18:15,570
+Now one thing you may also see from this chart is maybe we're in bad territory recently, maybe something's happening recently.
+现在你可能会从这张图表中看到一些不好的趋势，可能最近发生了一些事情。
+
+95
+00:18:15,570 --> 00:18:22,170
+I don't think it is I think, there's often issues with sort of the latest data in Google Trends.
+我认为不是这样的，我认为通常在Google Trends的最新数据中会有问题。
+
+96
+00:18:22,170 --> 00:18:33,000
+But more than that, I think probably was also happening is that a lot of these things are just now falling under the umbrella of AI, which I will try to avoid that term, I'll try to be specific about deep learning as much as possible.
+但更重要的是，我认为可能正在发生的是，很多这些事情现在都被归为人工智能的范畴，我会尽可能避免使用这个术语，我会尽可能具体地谈论深度学习。
+
+97
+00:18:33,000 --> 00:18:38,913
+But probably a lot what's happening, is people are just using the term AI to talk about a lot of these things and not the term deep learning always.
+但可能正在发生的是，人们只是用“人工智能”这个术语来谈论很多这些事情，而不总是用“深度学习”的术语。
+
+98
+00:18:40,530 --> 00:18:48,380
+So another way of sort of emphasizing this exact same point, I'm actually going to reference of story from Tianqi's work.
+为了强调这个完全相同的观点，我要引用Tianqi工作中的一个故事。
+
+99
+00:18:49,350 --> 00:18:58,770
+And he, I actually was quite, I admit, I was quite late to the game when it came to deep learning, despite being around people that were using it, some of the pioneers in the field.
+我承认，尽管周围有一些领域的先驱在使用它，但我对深度学习的了解相当晚。
+
+100
+00:18:58,770 --> 00:19:01,893
+I actually didn't start working in deep learning until about 2015.
+我直到2015年才开始从事深度学习。
+
+101
+00:19:03,000 --> 00:19:07,353
+Maybe not surprisingly about when I could easily prototype stuff.
+也许不出所料，当我可以轻松地原型制作时。
+
+102
+00:19:08,790 --> 00:19:18,510
+But Tianqi, he was actually working on deep learning back in the day, back in 2012, when a lot of these architectures were first being developed.
+但是，Tianqi实际上在2012年就开始研究深度学习了，当时很多这些架构都是首次开发的。
+
+103
+00:19:18,510 --> 00:19:35,703
+And in fact, one of his first projects as a PhD student was to write code for ConvNets that would accelerate their development on GPUs this around the same time that AlexNet and such was being developed and so he was doing similar things at the time.
+事实上，他作为博士生的第一个项目之一就是编写ConvNets的代码，以加速它们在GPU上的开发，这大约是在AlexNet等同时期开发的，所以他当时也在做类似的事情。
+
+104
+00:19:37,080 --> 00:19:57,750
+And the figures he gives is that to implement really a capable convolution architecture for image classification on a data set like ImageNet at the time, it took him about 44,000 lines of code and about six months of coding to do so.
+他给出的数字是，要在像ImageNet这样的数据集上实现真正有能力的卷积架构，他需要大约44,000行代码和大约六个月的编码时间。
+
+105
+00:19:57,750 --> 00:20:07,923
+And I'll make this point later, but Tianqi is a really good coder and it still took him this long to write a working deep learning architecture.
+我稍后会提到这一点，但是Tianqi是一个非常好的编码人员，他仍然需要这么长时间来编写一个工作的深度学习架构。
+
+106
+00:20:09,960 --> 00:20:21,240
+Contrast that with today, today, if you wanna do the same thing, you would probably have to write about 100 lines of code and you could probably do it in a few hours.
+与今天相比，如果你想做同样的事情，你可能需要编写约100行代码，而且可能只需要几个小时。
+
+107
+00:20:21,240 --> 00:20:30,243
+And the reason why is because of deep learning systems like PyTorch, like TensorFlow and now like JAX.
+原因是因为像PyTorch、TensorFlow和现在的JAX这样的深度学习系统。
+
+108
+00:20:32,280 --> 00:20:42,780
+And I think we often don't fully appreciate just how much of an enabling factor it is to be able to iterate this quickly.
+我认为我们经常没有完全意识到能够如此快速迭代的能力有多么重要。
+
+109
+00:20:42,780 --> 00:20:47,970
+We think of deep learning models as being slow to train and slow to develop and especially large ones.
+我们认为深度学习模型训练和开发速度慢，特别是大型模型。
+
+110
+00:20:47,970 --> 00:20:58,623
+But this is amazingly fast, we have an amazingly fast current iteration time enabled by these deep learning systems.
+但是这是惊人的快速，我们有这些深度学习系统提供的惊人的快速迭代时间。
+
+111
+00:21:01,890 --> 00:21:11,553
+But this still doesn't answer the question that I set out to answer, which is, why should you take this course? So maybe you agree now that deep learning systems are great.
+但这仍然没有回答我要回答的问题，那就是，为什么你应该学习这门课程？所以也许你现在同意深度学习系统很棒。
+
+112
+00:21:12,450 --> 00:21:18,753
+Why don't you just use them, right? You can just use, I'm sure you already do, right? You probably use PyTorch, and TensorFlow and JAX.
+为什么不直接使用它们呢？你可以使用，我相信你已经在使用PyTorch、TensorFlow和JAX了。
+
+113
+00:21:20,040 --> 00:21:39,300
+Why should you take a course about how these systems actually work? And there I actually think there are three reasons, I'm going to give for why this course might be right for you to take if you are interested in deep learning.
+为什么你应该学习这些系统的工作原理？我认为有三个原因，如果你对深度学习感兴趣，那么这门课程可能适合你。
+
+114
+00:21:40,530 --> 00:21:49,230
+The first reason of course is, maybe obviously, if you want to build deep learning systems, you better understand them.
+第一个原因当然是，如果你想构建深度学习系统，你最好了解它们。
+
+115
+00:21:50,970 --> 00:22:01,470
+So despite the current state of deep learning libraries where you may say that, okay, libraries like TensorFlow and PyTorch kind of won, they're the standards everyone uses.
+尽管当前深度学习库的状态可能是，TensorFlow和PyTorch赢了，它们是每个人使用的标准。
+
+116
+00:22:02,340 --> 00:22:04,320
+It's actually not really true.
+但实际上并不是真的。
+
+117
+00:22:04,320 --> 00:22:18,647
+I think actually the field of deep learning systems is remarkably fluid as evidenced by the relatively recent emergence of JAX as a dominant framework for a lot of research in deep learning.
+我认为深度学习系统领域实际上非常流动，这可以通过JAX作为深度学习研究的主要框架的相对近期出现来证明。
+
+118
+00:22:18,647 --> 00:22:21,990
+It's a relatively new thing, this happened the last couple years.
+这是一个相对较新的事情，发生在过去几年中。
+
+119
+00:22:23,130 --> 00:22:37,590
+But I don't think we're done yet in some way, I think there's actually a lot of work to be done in developing new systems, maybe more specialized systems, maybe systems that specialize in some different area or different paradigm for deep learning.
+但我认为我们还没有完成，我认为在开发新系统方面还有很多工作要做，也许是更专业的系统，也许是专门针对深度学习的不同领域或不同范式的系统。
+
+120
+00:22:37,590 --> 00:22:43,080
+But I don't think we're finished with what the final state of deep learning systems is gonna look like.
+但我认为我们还没有完成深度学习系统的最终状态会是什么样子。
+
+121
+00:22:43,080 --> 00:23:00,330
+And if you want to develop your own frameworks or build upon existing frameworks and by the way, all the frameworks out there essentially are open source, so you could definitely just download them, the source currently and start contributing to it if you understand them.
+如果你想开发自己的框架或建立在现有框架之上，顺便说一下，所有框架本质上都是开源的，所以如果你了解它们，你肯定可以下载它们的源代码并开始为它们做出贡献。
+
+122
+00:23:00,330 --> 00:23:07,550
+If you want to do all that, then this course, and some practice will prepare you to do this.
+如果你想做到这一切，那么这门课程和一些实践将会为你做好准备。
+
+123
+00:23:07,550 --> 00:23:15,353
+So this is maybe the most obvious reason why you might wanna take this course if you want to build and contribute to these libraries as well.
+因此，如果你想构建和贡献于这些库，这可能是最明显的原因为什么你想要学习这门课程。
+
+124
+00:23:17,700 --> 00:23:28,263
+But that's not the only reason, and the second reason for taking this course is actually the one that I would emphasize most heavily for practitioners in the field.
+但这不是唯一的原因，第二个学习这门课程的原因实际上是我最强调的原因。
+
+125
+00:23:29,490 --> 00:23:42,813
+And that reason is, understanding how the internals of deep learning systems work lets you use them more efficiently and more effectively.
+这个原因是，了解深度学习系统的内部工作原理可以让你更有效地使用它们。
+
+126
+00:23:44,850 --> 00:24:03,270
+And I really do mean that, right? So if you want to build scalable models, efficient models, models that will execute quickly or that make full utilization of a GPU, you really do want to understand how these systems are working underneath the hood.
+我真的是这个意思，如果你想构建可扩展的模型、高效的模型、快速执行或充分利用GPU的模型，你真的需要了解这些系统在引擎盖下的工作原理。
+
+127
+00:24:03,270 --> 00:24:22,560
+What is really being executed? How are they translating your high level description of a network architecture, to something that really executes on hardware and then trains and differentiates that system and adjust parameters and all that.
+
+128
+00:24:22,560 --> 00:24:31,470
+How does that work and understanding how that works will actually enable you to write more efficient and more effective code.
+了解这个过程将使你能够编写更高效、更有效的代码。
+
+129
+00:24:31,470 --> 00:24:34,703
+And this is especially true if you're doing research in deep learning.
+如果你正在进行深度学习的研究，这尤其正确。
+
+130
+00:24:34,703 --> 00:24:42,060
+So especially if you are doing things like, developing new kinds of layers, new architectures, new structures in deep learning.
+特别是如果你正在开发新的层、新的架构、新的深度学习结构等等。
+
+131
+00:24:42,060 --> 00:24:51,030
+This will be vastly improved if you understand the logic and the mechanisms behind these systems.
+如果你理解这些系统背后的逻辑和机制，这将大大提高你的研究效率。
+
+132
+00:24:51,030 --> 00:25:05,163
+I've always kind of referred to understanding deep learning systems as a kind of superpower that can let you accomplish your research aims even if your research aims are not about system building can enable you to accomplish them much more efficiently.
+我一直认为理解深度学习系统是一种超能力，即使你的研究目标不是系统构建，也可以让你更有效地实现它们。
+
+133
+00:25:07,920 --> 00:25:14,403
+This is probably the main reason why most of you, I think, can and should take this course.
+这可能是大多数人学习这门课程的主要原因。
+
+134
+00:25:15,780 --> 00:25:24,003
+But I would be remiss if I didn't add one more reason to this pile, which is that, deep learning systems are really, really cool.
+但如果我不再加上一个原因，那就是深度学习系统真的很酷。
+
+135
+00:25:25,440 --> 00:25:31,653
+And the reason why these systems are so much fun is actually very simple.
+这些系统之所以如此有趣的原因实际上非常简单。
+
+136
+00:25:32,670 --> 00:25:42,993
+And that is, that despite the seeming complexity of these things, PyTorch and TensorFlow at this point are millions of lines of code.
+尽管PyTorch和TensorFlow看起来非常复杂，但它们实际上是数百万行代码。
+
+137
+00:25:44,010 --> 00:26:01,263
+But despite the seeming complexity of these libraries, the core underlying algorithms behind deep learning systems, behind quite capable deep learning systems, to be honest, are extremely, extremely simple.
+但是，尽管这些库看起来很复杂，但深度学习系统背后的核心算法实际上非常简单。
+
+138
+00:26:02,190 --> 00:26:17,130
+Really the core algorithms behind every single deep learning architecture, every single, all of those advances in machine learning models that you saw that I put up on those previous screens.
+实际上，每个深度学习架构的核心算法，包括我在之前的屏幕上展示的所有机器学习模型的进展，都基本上是基于自动微分和基于梯度的优化。
+
+139
+00:26:17,130 --> 00:26:31,980
+At least algorithmically, they're all essentially based upon automatic differentiation and gradient based optimization, at least from a mathematical standpoint, those are the two or handful of algorithms that actually underlie all of this.
+至少从数学的角度来看，这是所有这些算法的基础。
+
+140
+00:26:31,980 --> 00:26:46,443
+And then on the implementation side, essentially, they are built upon efficient linear algebra, especially efficient matrix multiplies on GPU systems.
+然后，在实现方面，它们基本上是建立在高效的线性代数上，特别是在GPU系统上的高效矩阵乘法上。
+
+141
+00:26:48,120 --> 00:26:57,153
+Unlike say an operating system where if you wanna build an operating system, you really have to build quite a bit of code, you have to write a lot of code.
+与操作系统不同，如果你想要构建一个操作系统，你实际上需要构建相当多的代码，需要编写大量的代码。
+
+142
+00:26:59,550 --> 00:27:04,290
+And so courses on operating systems that take you through operating systems and usually build a very, very basic one.
+因此，操作系统课程通常会带你通过操作系统并构建一个非常基本的操作系统。
+
+143
+00:27:04,290 --> 00:27:10,470
+And you have to write, even for that, you have to write a lot of code to do anything at all reasonable.
+即使对于那个非常基本的操作系统，你也必须编写大量的代码才能做出任何合理的事情。
+
+144
+00:27:10,470 --> 00:27:19,950
+But you actually could write and you will write a reasonable deep learning library, if you wanna be really compact with your code, you could probably do it in less than 2000 lines of code.
+但是，如果你想要非常紧凑地编写一个合理的深度学习库，你实际上可以在不到2000行代码的情况下完成。
+
+145
+00:27:21,000 --> 00:27:31,740
+Something that will run on a GPU that will do automatic differentiation, that will have operations like convolutions and convolution networks, recurrent networks, transformers, all this kind of thing, right.
+
+146
+00:27:31,740 --> 00:27:38,043
+You can do it in almost no code because the actual ideas underlying these systems are simple.
+你几乎可以用很少的代码完成。因为这些系统背后的实际思想是简单的。
+
+147
+00:27:40,350 --> 00:27:48,510
+And they're also, and I say this a little bit tongue in cheek, but they're also kind of magical.
+而且，我有点开玩笑地说，它们也有点神奇。
+
+148
+00:27:50,280 --> 00:28:05,240
+Before I worked in deep learning, I sort of was brought up in traditional machine learning when we derived all our gradients by hand, and that was the big effort you went through when you derived some new model, as you wrote out a bunch of gradients by hand.
+在我还没有涉足深度学习之前，我是传统机器学习的信徒，我们通过手动推导所有的梯度，这是你推导新模型时需要付出的巨大努力，你需要手写一堆梯度。
+
+149
+00:28:06,660 --> 00:28:33,933
+I remember the first time I built an automatic differentiation library and I realized that I could take, form some complex expression, take its gradient and then form an even more complex expression of its gradient and differentiate through that thing, and do all that despite the fact that I actually would really struggle to even derive that by hand.
+我记得第一次构建自动微分库时，我意识到我可以从一些复杂的表达式中取出梯度，然后形成一个更复杂的梯度表达式，并通过那个东西进行微分，尽管我实际上会很难手动推导出来。
+
+150
+00:28:35,190 --> 00:28:42,573
+I probably could do it, but it would take me quite a while to derive this manually yet I could write some code that did it.
+我可能能够做到，但手动推导需要花费相当长的时间，而我可以编写一些代码来完成它。
+
+151
+00:28:43,560 --> 00:28:46,230
+This is really, really cool.
+这真的很酷。
+
+152
+00:28:46,230 --> 00:28:50,240
+And it's an experience I think everyone working in deep learning should have.
+我认为每个从事深度学习的人都应该有这样的经历。
+
+153
+00:28:52,590 --> 00:29:02,793
+All right, so with all that being said, let me give a little bit more now boring information about this course and the logistics of this course.
+好的，说了这么多，让我再介绍一下这门课程和课程的后勤方面。
+
+154
+00:29:05,880 --> 00:29:10,880
+First up to introduce myself and my co-instructor Tianqi.
+首先是介绍我和我的合作导师Tianqi。
+
+155
+00:29:13,050 --> 00:29:19,023
+I am a faculty member at Carnegie Mellon, I've been there since 2012.
+我是卡内基梅隆大学的教职员工，自2012年以来一直在那里工作。
+
+156
+00:29:20,430 --> 00:29:26,640
+But in addition to working in industry or at CMU, I've also done a fair amount of work in industry.
+但除了在工业界或卡内基梅隆大学工作外，我还在工业界做了很多工作。
+
+157
+00:29:26,640 --> 00:29:29,040
+So I was previously at a company called C3 AI.
+所以我以前在一个叫做C3 AI的公司工作。
+
+158
+00:29:29,040 --> 00:29:34,683
+Now I work, I'm a chief scientist in AI research at Bosch and the Bosch Center for AI.
+现在我是博世和博世人工智能中心的首席科学家。
+
+159
+00:29:35,880 --> 00:29:48,570
+And my research in academics focuses on a lot of techniques for new algorithms and new methods now in deep learning.
+我的学术研究主要集中在深度学习的新算法和新方法上。
+
+160
+00:29:48,570 --> 00:29:59,520
+So I've done a lot of work on adversarial robustness, I've done a lot of work, especially certified and provable defenses against adversarial attacks.
+所以我在对抗性鲁棒性方面做了很多工作，尤其是针对对抗性攻击的认证和可证明的防御。
+
+161
+00:29:59,520 --> 00:30:19,110
+Also done a lot of work in what we call implicit layers, these are layers that instead of just being formed by some sort of stacking of traditional operations, you form them by actually solving a more complex operator like an optimization problem, or like a fixed point equation.
+还在所谓的隐式层方面做了很多工作，这些层不仅仅是通过传统操作的堆叠形成的，而是通过解决更复杂的运算符（如优化问题或固定点方程）来形成的。
+
+162
+00:30:19,110 --> 00:30:21,270
+And you actually differentiate through those analytically.
+你可以通过这些层进行解析微分。
+
+163
+00:30:21,270 --> 00:30:28,740
+In fact, we'll according to the current schedule, at least, if there is time, we will have a lecture on implicit layers at the very end of this course.
+事实上，根据当前的时间表，如果有时间的话，我们将在这门课程的最后一节课上讲解隐式层。
+
+164
+00:30:28,740 --> 00:30:30,990
+Implemented, of course, in our own framework.
+当然，我们会在我们自己的框架中实现它。
+
+165
+00:30:32,190 --> 00:30:47,520
+I was also an early PyTorch adopter, and one of my marks of pride, I'm going to quickly sort of not hold a candle to the system's work, Tianqi has done that, I'm about to show in a second.
+我也是早期的PyTorch采用者之一，我要快速地展示一下我自己的成就，虽然我不会像Tianqi所做的那样。
+
+166
+00:30:47,520 --> 00:30:57,420
+But myself and my group, we were early PyTorch adopters, we were actually mentioned as the first group releasing third party libraries for PyTorch.
+但是我和我的团队，我们是早期的PyTorch采用者，实际上我们被提及为第一个发布PyTorch第三方库的团队。
+
+167
+00:30:57,420 --> 00:31:16,770
+And one of my claims to fame there is that as part of our efforts to release an optimization layer, so this was a layer, a third party library that would solve optimization problems as a layer in a deep networks like quadratic programs, if you know what those are.
+
+168
+00:31:16,770 --> 00:31:32,160
+And to do so, I wrote a CUDA kernel as part of PyTorch that could do batch parallel solving of multiple linear systems as part of our, as one step of our optimization solver.
+我编写了一个CUDA内核作为PyTorch的一部分，可以批量并行解决多个线性系统，作为我们优化求解器的一步。
+
+169
+00:31:32,160 --> 00:31:47,220
+And the real claim to fame there, of course, is that in doing so I messed up or rather, I wouldn't standardize somehow the matrix striding that PyTorch assumes coming out of its CUDA kernels.
+
+170
+00:31:47,220 --> 00:31:58,590
+And I introduced a bug in PyTorch's linear solver that I think persisted for a year after that, just everyone was so confused about why this linear solver would just randomly crash at times.
+这导致我在PyTorch的线性求解器中引入了一个错误，我认为这个错误持续了一年之久，每个人都很困惑为什么这个线性求解器会在某些时候随机崩溃。
+
+171
+00:31:58,590 --> 00:32:02,883
+So that's my claim to fame, I guess, sadly about deep learning systems.
+所以这就是我在深度学习系统方面的成就，我想，可悲的是。
+
+172
+00:32:03,780 --> 00:32:07,170
+Now the other instructor is a bit different.
+现在另一个讲师有点不同。
+
+173
+00:32:07,170 --> 00:32:12,170
+So Tianqi Chen is also a faculty member at CMU.
+
+174
+00:32:12,360 --> 00:32:23,430
+And also in addition to this has a foot in industry, so he was the co-founder of the OctoML company, which is a company now does a lot of support and development for the TVM library.
+此外还在工业界有所涉足，他是OctoML公司的联合创始人，该公司现在为TVM库提供了很多支持和开发。
+
+175
+00:32:23,430 --> 00:32:25,650
+But the real claim to fame is the following.
+但真正的成就是以下。
+
+176
+00:32:25,650 --> 00:32:34,290
+So I'm giving this lecture so I can suitably embarrass Tianqi a little bit in our introduction here.
+我正在讲这个讲座，所以我可以在这里适当地让陈天奇有点尴尬。
+
+177
+00:32:34,290 --> 00:32:46,440
+For a long time, the standard story I will give about him is that in deep learning systems or machine learning systems as a whole, there really are three big players in this field.
+很长一段时间以来，我会给他一个标准的故事，即在深度学习系统或整个机器学习系统中，实际上有三个大玩家。
+
+178
+00:32:46,440 --> 00:32:51,360
+There is Google, of course, releasing TensorFlow, JAX and many other libraries.
+当然有谷歌，发布TensorFlow、JAX和许多其他库。
+
+179
+00:32:51,360 --> 00:32:58,980
+There's Facebook, of course from PyTorch, but also things like Prophet, a time series library, and then there's Tianqi.
+当然还有Facebook，来自PyTorch，但也有像Prophet这样的时间序列库，然后还有天奇。
+
+180
+00:32:58,980 --> 00:33:12,543
+So Tianqi has been, he was the original developer of XGBoost, one of the most frequently used libraries for gradient boosting and still one of the most widely used libraries for tabular data.
+天奇一直是XGBoost的原始开发者之一，这是最常用的梯度提升库之一，仍然是最广泛使用的表格数据库之一。
+
+181
+00:33:13,440 --> 00:33:19,470
+He was a lead developer for the MXNet library, which was another deep learning framework like PyTorch and TensorFlow.
+他曾是MXNet库的首席开发人员，这是另一个类似于PyTorch和TensorFlow的深度学习框架。
+
+182
+00:33:19,470 --> 00:33:25,140
+And then most recently, one of the founding developers and core developers of the Apache TVM library.
+最近，他是Apache TVM库的创始开发人员和核心开发人员之一。
+
+183
+00:33:25,140 --> 00:33:35,430
+And so he has done kind of an amazing number of things in machine learning systems as a whole, and actually quite excited to be able to teach this course with him.
+因此，他在机器学习系统方面做了很多惊人的事情，我非常兴奋能够和他一起教授这门课程。
+
+184
+00:33:36,960 --> 00:33:47,880
+So before now I jump into the details of this course and these lectures, I want to offer a big disclaimer, which I think needs to be said here.
+在我深入介绍这门课程和这些讲座的细节之前，我想提供一个重要的免责声明，我认为这需要在这里说一下。
+
+185
+00:33:47,880 --> 00:33:53,420
+And what I'm saying here is that we are offering this course online for the first time.
+我要说的是，我们首次在线上提供这门课程。
+
+186
+00:33:53,420 --> 00:34:05,550
+现在，课程网站dlsyscourse.org上有所有这些信息，并将列出和发布课程的所有讲座。
+我们以前没有这样做过，而且许多材料，特别是作业，这是这门课程最复杂的部分，正在重新制定。
+
+187
+00:34:05,550 --> 00:34:14,130
+Actually being revamped, even for the CMU version and then that will be they're kind of beta testing this, and then you'll be given the assignments soon after that.
+实际上，即使是对于CMU版本，也正在进行重新制定，然后他们将进行测试，然后您将很快获得作业。
+
+188
+00:34:14,130 --> 00:34:36,990
+But as par for the course here, there are, no pun intended, but as par for the course, there are going to be bugs in the content and the assignments, or just in the logistics of how we run things, right? This is the first time we're offering this as an online course, there are going to be bugs, there are going to be hiccups, please bear with us.
+但是，按照惯例，内容和作业中会有错误，或者在我们运行事物的逻辑方面会有错误，对吧？这是我们首次在线上提供这门课程，会有错误，会有小问题，请耐心等待。
+
+189
+00:34:36,990 --> 00:34:46,950
+There's a saying that you get what you pay for, right? And this course is free, it's free because we want people to be taking it and want this material to be out there.
+有一句话说得好，你得到你所付出的，对吧？这门课程是免费的，我们希望人们参加并且想让这些材料出现。
+
+190
+00:34:46,950 --> 00:34:53,430
+But we are doing this ourselves and we are putting it together ourselves and there will be bugs in it.
+但是我们自己在做这件事，我们自己在组织这个课程，其中会有错误。
+
+191
+00:34:53,430 --> 00:35:09,914
+So we apologize kind of ahead of time for this, please bear with us, we will do our best to fix these things and extend deadlines as needed to account for these bugs, but they will be there, and we appreciate, you are all beta testers for this course as we create it.
+因此，我们提前为此道歉，请耐心等待，我们将尽力修复这些问题并根据需要延长截止日期以解决这些问题，但是它们将存在，我们感谢您作为我们创建这门课程的测试人员之一。
+
+192
+00:35:09,914 --> 00:35:17,523
+So part of the fun of taking an online course for the first time is that you become a beta tester for the course.
+因此，首次参加在线课程的乐趣之一是成为课程的测试人员。
+
+193
+00:35:19,050 --> 00:35:31,143
+All right, now learning objectives, what are you gonna learn in this course? I've probably made this clear from past slides, but let me lay it out just in very, hopefully clear terms here.
+好了，现在是学习目标，你将在这门课程中学到什么？我可能已经在过去的幻灯片中表明了这一点，但是让我在这里以非常清晰的方式阐述一下。
+
+194
+00:35:32,430 --> 00:35:36,630
+If you stay through this whole course, do all the assignments and do a final project.
+如果你完成整个课程，完成所有作业并完成一个最终项目。
+
+195
+00:35:36,630 --> 00:35:48,630
+Then by the end of this course, you will understand the basic functioning of modern, deep learning libraries, including concepts like automatic differentiation and grade based optimization from an algorithmic standpoint.
+那么在课程结束时，你将从算法的角度理解现代深度学习库的基本功能，包括自动微分和基于梯度的优化等概念。
+
+196
+00:35:49,830 --> 00:36:14,313
+You will be able to implement really from scratch, right, because we're talking about implementing these without PyTorch or without TensorFlow behind you, but just really, just from raw Python, you'll be able to implement several standard deep learning architectures, things like MLPs, ConvNets, RNNs or LSTMs, various kinds of RNNs, and then transformers, and do it truly from scratch.
+你将能够真正从头开始实现几个标准的深度学习架构，例如MLP、ConvNets、RNN或LSTMs、各种类型的RNN和transformers，而且完全不需要PyTorch或TensorFlow的支持，只需使用原始的Python代码即可实现。
+
+197
+00:36:15,450 --> 00:36:26,373
+And you will also understand and implement how hardware acceleration works under the hood and be able to develop your own highly efficient code.
+你还将理解并实现硬件加速的工作原理，并能够开发自己的高效代码。
+
+198
+00:36:28,830 --> 00:36:36,840
+Now it's not going to be, I should emphasize it's not going to be nearly as efficient as libraries like PyTorch or TensorFlow.
+现在需要强调的是，这些代码的效率远不如PyTorch或TensorFlow等库。
+
+199
+00:36:36,840 --> 00:36:45,090
+There's still a big gap between the very best that optimization can do and that the code optimization can do, I should emphasize.
+优化的最佳效果与代码优化的最佳效果之间仍然存在很大差距。
+
+200
+00:36:45,090 --> 00:36:49,710
+And what you can do with 2000 lines of code, no question.
+但你可以用2000行代码做到很多事情。
+
+201
+00:36:49,710 --> 00:37:14,313
+So we're not gonna break any speed records here, but you will be able to create libraries that work on reasonable, medium sized data, data like CIFAR, right, reasonably sized networks and architectures, you'll be able to develop them, write medium size architectures that actually work for these systems and do it entirely from scratch on GPU with automatic differentiation, with nice optimizers, all that.
+因此，我们不会创造任何速度记录，但你将能够创建适用于合理的、中等规模的数据，例如CIFAR等数据集的库，编写适用于这些系统的中等规模的网络和架构，并完全在GPU上使用自动微分、优化器等实现。
+
+202
+00:37:15,870 --> 00:37:30,060
+Now the course website, which is dlsyscourse.org, has all this information and will have a listing and also posting of all the lectures for the course.
+
+203
+00:37:30,060 --> 00:37:34,680
+And you can look at the schedule of topics to see what you'll be learning there.
+你可以查看主题的时间表，了解你将学习的内容。
+
+204
+00:37:34,680 --> 00:37:44,970
+Now, one thing to emphasize is that that schedule, at least the schedule here that I'm listing is the schedule for the CMU version, which is about two weeks ahead of the online version.
+需要强调的一点是，至少我列出的这个时间表是CMU版本的时间表，比在线版本提前两周。
+
+205
+00:37:44,970 --> 00:37:55,320
+But we will also post the dates and the videos for all the online lectures as they become available and it will follow the same structure as the main CMU course.
+但我们也会发布所有在线讲座的日期和视频，其结构与主要的CMU课程相同。
+
+206
+00:37:55,320 --> 00:38:03,480
+Actually only this lecture has slightly different slides because there's different logistics for the online course versus the CMU course.
+实际上，只有这个讲座的幻灯片稍微有些不同，因为在线课程和CMU课程的物流不同。
+
+207
+00:38:03,480 --> 00:38:13,920
+But the rest of the schedule will follow the same schedule between the CMU version of the course and the online course and the schedule is up on the website.
+但是，除此之外，CMU版本的课程和在线课程的其余日程安排将遵循相同的日程安排，并且日程安排已经发布在网站上。
+
+208
+00:38:13,920 --> 00:38:24,090
+It talks about things like covering an ML refresher and background, automatic differentiation, different types of architectures, et cetera.
+它涵盖了诸如机器学习复习和背景、自动微分、不同类型的架构等内容。
+
+209
+00:38:24,090 --> 00:38:55,863
+Now one thing you will see is a lot of the lectures are broken down between algorithm lectures, so lectures covering kind of the methodological algorithms or techniques used to solve some or to accomplish some task in deep learning, and then implementation lectures where we will actually implement some portions of this or walk you through some simple live coding of how these things actually are done in practice.
+现在你会看到很多讲座都被分成了算法讲座和实现讲座，算法讲座涵盖了用于解决深度学习中某些任务或实现某些任务的方法论算法或技术，而实现讲座则会实际实现其中的一些部分或向你演示这些东西在实践中是如何完成的。
+
+210
+00:38:57,840 --> 00:39:14,310
+Now in order to take this course, what should you know ahead of time? And to be honest about this, there is some reasonable prerequisites you should have here in order to get the most out of this course.
+现在，为了参加这门课程，你需要提前了解些什么？说实话，你应该具备一些合理的先决条件，以便从这门课程中获得最大的收益。
+
+211
+00:39:14,310 --> 00:39:19,020
+Now it's not to say that if you don't have all these things, the course is impossible.
+现在并不是说如果你没有所有这些东西，这门课程就不可能了。
+
+212
+00:39:19,020 --> 00:39:29,110
+If you're really excited about it and want to learn some of these things concurrently as you go through the course, you are welcome to, just know that it will be more effort to do so.
+如果你真的对此感到兴奋，并想在学习这些东西的同时学习这些东西，那么你是受欢迎的，只要知道这需要更多的努力。
+
+213
+00:39:30,030 --> 00:39:33,270
+But to take this course, you should have some background in systems programming.
+但是，要参加这门课程，你应该具备一些系统编程的背景。
+
+214
+00:39:33,270 --> 00:39:51,243
+That means basically C++ coding, how to compile things, how to compile things like, not just run Python scripts, but actually compile executable code that sort of runs on natively on hardware.
+这基本上意味着C++编码，如何编译东西，如何编译像本地硬件上运行的可执行代码，而不仅仅是运行Python脚本。
+
+215
+00:39:53,310 --> 00:39:59,880
+Linear algebra, so you should be familiar with vector and matrix notation.
+线性代数，所以你应该熟悉向量和矩阵符号。
+
+216
+00:39:59,880 --> 00:40:10,740
+So there's no math, I mentioned in this lecture, but later lectures will actually require, I will write things like a bunch of matrices and vectors multiply it against each other.
+所以在这个讲座中没有数学，但是后面的讲座实际上需要，我会写一些矩阵和向量相乘的东西。
+
+217
+00:40:10,740 --> 00:40:16,383
+I will do things like take gradients or derivatives of these things and you should know what that means.
+我会做一些类似于对这些东西进行梯度或导数的操作，你应该知道这意味着什么。
+
+218
+00:40:18,330 --> 00:40:29,610
+That means also, and probably the biggest requirement really is linear algebra, but there's other things too, like calculus, really, to be clear, just taking derivatives.
+这也意味着，可能最大的要求就是线性代数，但还有其他的东西，比如微积分，确切地说，只是求导数。
+
+219
+00:40:29,610 --> 00:40:37,443
+We don't really do any integrals, there's some integrals in probability, I guess, but we don't do many integrals in deep learning.
+我们实际上并不做任何积分，可能在概率中会有一些积分，但在深度学习中我们并不做很多积分。
+
+220
+00:40:38,340 --> 00:40:45,120
+But you should know when I write things like gradient symbols and stuff like that, you should know what these things mean or have some understanding of it.
+但是，当我写梯度符号之类的东西时，你应该知道这些东西的含义或者对它们有一些了解。
+
+221
+00:40:45,120 --> 00:40:54,840
+We can provide some links to refreshers or background material on this, but if this is really brand new to you, this could be somewhat challenging to become familiar with.
+我们可以提供一些关于这方面的复习或背景材料的链接，但如果这对你来说是全新的，那么熟悉它可能会有些具有挑战性。
+
+222
+00:40:54,840 --> 00:41:07,290
+As well as sort of basic proofs, now we're not gonna do many proofs in this course to be very clear, this is really a systems course, but you should be familiar with sort of the basic constructs of how you go about deriving things mathematically.
+还有一些基本的证明，我们在这门课程中不会做很多证明，这实际上是一门系统课程，但你应该熟悉如何在数学上推导基本结构。
+
+223
+00:41:07,290 --> 00:41:36,270
+How do you derive a gradient and stuff like this? You need some Python and C++ development background and a common question that's asked, is how much C++ background do you need? The answer is, I don't think that much, we're not using any advanced features of C++ or anything, we're not even using, certainly not C++20 and not even C++11 or anything like that.
+如何推导梯度等等？你需要一些Python和C++开发背景，一个常见的问题是你需要多少C++背景？答案是，我认为不需要太多，我们没有使用任何高级的C++特性或任何东西，我们甚至没有使用C++20，当然也没有使用C++11或任何类似的东西。
+
+224
+00:41:36,270 --> 00:41:39,540
+I don't even know if that's the right year to be honest.
+说实话，我甚至不知道那是不是正确的年份。
+
+225
+00:41:39,540 --> 00:41:42,750
+I don't know those things very well, we're not using unique pointers or anything like that.
+我不太了解这些东西，我们没有使用unique pointers或任何类似的东西。
+
+226
+00:41:42,750 --> 00:41:46,770
+It's really just C with a few classes in addition.
+实际上只是C语言加上一些类。
+
+227
+00:41:46,770 --> 00:42:06,600
+So I see this as actually very minimal C++ experience, but what you should know how to do is if we give you a template for writing a matrix multiplication call in C++, so this template would take in a bunch of float pointers and const float pointers and stuff like that.
+所以我认为这实际上是非常少的C++经验，但你应该知道如何使用我们为你提供的C++矩阵乘法调用模板，这个模板会接受一堆浮点指针和const浮点指针等等。
+
+228
+00:42:06,600 --> 00:42:24,510
+The sizes of these matrices, things like this, where those pointers point to the raw underlying data in the in the matrices, you should know how to write quickly a matrix multiplication routine that would multiply these two matrices together.
+这些矩阵的大小，这些指针指向矩阵中的原始底层数据，你应该知道如何快速编写一个矩阵乘法例程，将这两个矩阵相乘。
+
+229
+00:42:24,510 --> 00:42:45,030
+And then most importantly, because this will happen, when you mess up your indexing in C++ because there's no safe indexing there and you have a segfault of your program, you should know how to debug it, either through a debugger, or if you're like me, then through at least, the very least through printf statements that, this is how I debug honestly, C++ code.
+最重要的是，因为这将会发生，当你在C++中弄错索引时，因为那里没有安全的索引，你的程序会出现段错误，你应该知道如何调试它，无论是通过调试器，还是像我一样，至少通过printf语句来调试C++代码。
+
+230
+00:42:45,030 --> 00:42:53,400
+But you should know how to fix things when your code segfaults, right? So that's kind of the level of C++ background you need.
+但是你应该知道当你的代码出现段错误时如何修复，对吧？所以这就是你需要的C++背景水平。
+
+231
+00:42:53,400 --> 00:43:04,440
+Python, you should probably be familiar with classes and such in Python too, because you will be implementing most of the structure of this library in Python and that you have to be familiar with.
+对于Python，你应该熟悉Python中的类和其他一些内容，因为你将在Python中实现这个库的大部分结构，你需要熟悉这些。
+
+232
+00:43:04,440 --> 00:43:07,650
+But C++ is really sort of for the low level background.
+但是C++确实是用于低级背景的。
+
+233
+00:43:07,650 --> 00:43:14,403
+You don't need to know CUDA programming ahead of time, we will cover what you need to know for the course, but you need to understand basic C++ programming.
+你不需要提前了解CUDA编程，我们会在课程中涵盖你需要了解的内容，但你需要理解基本的C++编程。
+
+234
+00:43:15,390 --> 00:43:19,116
+And then finally you do need to have prior experience with machine learning.
+最后，你确实需要有机器学习的先前经验。
+
+235
+00:43:19,116 --> 00:43:27,570
+If all of this, if machine learning is really new to you, you're much better off taking a machine learning course first and then taking this course afterwards.
+如果机器学习对你来说真的很新，那么最好先参加一门机器学习课程，然后再参加这门课程。
+
+236
+00:43:27,570 --> 00:43:39,513
+You will get much, much more out of this if you're already familiar with machine learning and probably already familiar with deep learning, to a large degree and then take this course to understand more how these things actually work.
+如果你已经熟悉机器学习，并且可能已经熟悉深度学习，那么参加这门课程可以更好地了解这些东西的实际工作原理。
+
+237
+00:43:41,010 --> 00:43:58,053
+So if you are unsure about your background, then what I would say is, take a look at the first three lectures, I guess not including this one, the next three, and look at homework zero, which is gonna be released two days after we release, we officially start the class.
+所以，如果你对自己的背景不确定，那么我建议你看一下前三节课，不包括这一节，接下来的三节课，并查看作业零，这将在我们正式开始课程两天后发布。
+
+238
+00:43:59,580 --> 00:44:07,590
+This homework zero is essentially meant to be a refresher on some basic ideas of traditional ways of writing things.
+这个作业零基本上是关于传统写作方式的一些基本思想的复习。
+
+239
+00:44:07,590 --> 00:44:12,630
+Basically you will implement softmax regression and a simple two layer neural network.
+基本上，你将实现softmax回归和一个简单的两层神经网络。
+
+240
+00:44:12,630 --> 00:44:30,230
+And you should be familiar with how, neural network in using kind of manual backprop and you should be familiar with that, you should have seen this before and maybe with a bit of refresher, be able to do that relatively quickly to know this course is right for you.
+你应该熟悉如何使用手动反向传播的神经网络，你应该之前见过这个，并且通过一些复习，能够相对快速地完成，以确定这门课程是否适合你。
+
+241
+00:44:31,711 --> 00:44:36,600
+And one of these, you actually will also write C with a C++ backend.
+其中一个，你实际上也会使用C++后端编写C。
+
+242
+00:44:36,600 --> 00:44:42,330
+But if that is very challenging for you, then probably should take some other material before you take this course.
+但是如果这对你来说非常具有挑战性，那么可能应该在参加这门课程之前先学习其他材料。
+
+243
+00:44:42,330 --> 00:44:52,953
+But if all those things are pretty straightforward or really can be made more straightforward again, if you brush up a little bit, then this course is likely the right level for you.
+但是如果所有这些事情都相当简单，或者通过一些复习可以变得更简单，那么这门课程可能是适合你的水平。
+
+244
+00:44:54,600 --> 00:45:08,790
+Now there are four main elements to this course, the video lectures of which you are watching the first one, programming based homeworks, a final project done in groups and interaction in the course forum.
+现在，这门课程有四个主要元素，你正在观看第一个元素的视频讲座，包括基于编程的作业、小组完成的最终项目和在课程论坛中的互动。
+
+245
+00:45:08,790 --> 00:45:12,810
+And it's important to take part in all of these in order to get the full value of the course.
+参与所有这些元素非常重要，才能充分获得课程的价值。
+
+246
+00:45:12,810 --> 00:45:20,430
+I really think that each of these components plays a crucial, crucial role in really understanding the material.
+我真的认为每个组成部分都在真正理解材料方面发挥了至关重要的作用。
+
+247
+00:45:20,430 --> 00:45:25,140
+Even if, for example, lectures are not directly using the homework, they're still very important to know.
+即使，例如，讲座没有直接使用作业，它们仍然非常重要。
+
+248
+00:45:25,140 --> 00:45:36,820
+And even if the forum is in some sense, optional, it's very valuable to get interaction with other students taking the course in order to get the most out of it possible.
+即使论坛在某种意义上是可选的，与其他学生互动以获得尽可能多的收益非常有价值。
+
+249
+00:45:38,880 --> 00:45:45,030
+I do want to emphasize that this online public course is offered really independently of the CMU version.
+我想强调的是，这个在线公开课程是独立于CMU版本提供的。
+
+250
+00:45:45,030 --> 00:45:53,280
+So we can't offer CMU credit or things like this for taking this course, even if you pass and do well on the course.
+因此，即使你通过并在课程上表现良好，我们也不能提供CMU学分或类似的东西。
+
+251
+00:45:53,280 --> 00:46:07,740
+But what we will do is for everyone in the course who completes the assignments, gets an average of 80% or higher and submits a final project, you'll receive a certificate of completion for the course to sort of indicate you've completed it.
+但是，对于完成作业，平均分达到80％或更高并提交最终项目的课程中的每个人，您将获得一张完成课程的证书，以表明您已经完成了它。
+
+252
+00:46:07,740 --> 00:46:13,290
+We'll somehow make it official, probably post it on the website or something so you can have an official link to it and things like that.
+我们会将其正式化，可能会在网站上发布，以便您可以获得官方链接等。
+
+253
+00:46:13,290 --> 00:46:26,850
+But you will receive a certificate of completion personalized to you that in some sense, certifies you've taken and completed this course, even in online, even just, in some sense in the online public version.
+但是，您将收到一张个性化的完成证书，以某种方式证明您已经参加并成功完成了这门课程，即使只是在在线公开版本中。
+
+254
+00:46:26,850 --> 00:46:35,553
+Because it is a lot of effort and we do want to ensure that you have something to show and some sort of record that you've completed this and done it successfully.
+因为这需要很多努力，我们确实希望您有一些可以展示和证明您已经成功完成了它的记录。
+
+255
+00:46:37,020 --> 00:46:44,490
+Now I'll end by just describing each of these a little bit in each of these four elements in a bit more detail here.
+现在，我将简要描述这四个元素中的每一个。
+
+256
+00:46:44,490 --> 00:46:48,990
+So the video lectures themselves are going to be essentially in the format you're watching right now.
+因此，视频讲座本身将基本上采用您正在观看的格式。
+
+257
+00:46:48,990 --> 00:46:58,047
+So they will be live recordings of the lecture, they will consist of slide presentations like this one.
+因此，它们将是讲座的实时录音，包括像这样的幻灯片演示。
+
+258
+00:46:58,047 --> 00:47:02,610
+But most won't just be this, I think this is the only lecture that is just nothing but slides.
+但大多数不会只是这样，我认为这是唯一一堂只有幻灯片的讲座。
+
+259
+00:47:02,610 --> 00:47:16,290
+The rest will all also have things like mathematical notes to them, derivations and in many cases live coding to illustrate some ideas, okay? Videos for all the intellectuals will be posted to YouTube or other video sites.
+其余的都会有数学笔记、推导和许多情况下的实时编码来说明一些想法，好吗？所有智力人士的视频都将发布到YouTube或其他视频网站。
+
+260
+00:47:16,290 --> 00:47:22,650
+We're gonna try to make them available on a few different video sites so that they can be accessed globally according to the course schedule.
+我们将尝试将它们发布到几个不同的视频网站，以便根据课程时间表全球访问。
+
+261
+00:47:22,650 --> 00:47:27,960
+And videos will be available to everyone, so because they're on YouTube anyone can watch them.
+视频将对所有人开放，因此因为它们在YouTube上，任何人都可以观看它们。
+
+262
+00:47:27,960 --> 00:47:34,760
+So you can actually watch without officially enrolling in the course, many of you probably are watching without officially enrolling in the course.
+因此，您实际上可以在不正式注册课程的情况下观看，您们中的许多人可能正在观看而没有正式注册课程。
+
+263
+00:47:35,850 --> 00:47:37,920
+They don't require registering for the course.
+它们不需要注册课程。
+
+264
+00:47:37,920 --> 00:47:45,750
+One thing I will mention, which you can probably tell from this, if you've made it this far through the lecture so far, is that these lectures are taken in one take.
+我要提到的一件事是，如果您已经通过本讲座到达了这个地方，您可能已经知道，这些讲座是一次性的。
+
+265
+00:47:45,750 --> 00:47:48,450
+We're not doing a lot of editing here.
+我们在这里没有做很多编辑。
+
+266
+00:47:48,450 --> 00:48:01,613
+Essentially, we are recording these live and we will with minimal can be cutting at the beginning at the end or if something really goes bad cropping in the middle, we're mostly gonna do these in one take and with all the hiccups and such that happen in a real lecture.
+基本上，我们正在现场录制这些内容，我们将在开头和结尾进行最小的剪辑，或者如果某些事情真的很糟糕，我们会在中间进行裁剪，我们大多数情况下会一次性完成这些内容，并且会有所有在真实讲座中发生的小问题。
+
+267
+00:48:01,613 --> 00:48:09,333
+So this is sort of a online version, but still kind of live stream, think of them as live streams of lectures.
+因此，这是一种在线版本，但仍然是一种直播，将它们视为讲座的直播。
+
+268
+00:48:11,340 --> 00:48:14,220
+The second component that I mentioned was programming assignments.
+我提到的第二个组成部分是编程作业。
+
+269
+00:48:14,220 --> 00:48:18,960
+And this is actually, if I was to say, this is probably the most important component of the class.
+实际上，如果我要说，这可能是课程中最重要的组成部分。
+
+270
+00:48:18,960 --> 00:48:43,413
+So in addition to homework zero, which is kind of a separate thing in and of itself, there are four homeworks, homeworks one through four, and these four homeworks take you through the process of building different aspects of this needle library, this minimal Python, deep learning framework.
+除了零作业之外，这是一个独立的东西，还有四个作业，作业一到四，这四个作业将带您完成构建这个needle库的不同方面的过程，这个最小的Python深度学习框架。
+
+271
+00:48:44,340 --> 00:48:50,790
+And in particular, you're going to first develop an automatic differentiation framework for needle.
+特别是，您将首先为needle开发自动微分框架。
+
+272
+00:48:50,790 --> 00:49:02,040
+Then you will use this to build a simple neural network library with things like modules for neural networks, optimization techniques, data loading, that kind of stuff.
+然后，您将使用此框架构建一个简单的神经网络库，其中包括神经网络模块、优化技术、数据加载等模块。
+
+273
+00:49:02,040 --> 00:49:09,120
+You will then implement linear algebra backends on both CPUs and GPU systems.
+然后，您将在CPU和GPU系统上实现线性代数后端。
+
+274
+00:49:09,120 --> 00:49:20,883
+And finally, you'll use these things implement a number of, in the fourth assignment, a number of common architectures like combination networks recurrent networks and possibly Transformers.
+最后，在第四个任务中，您将使用这些东西实现许多常见的架构，如组合网络、循环网络和可能的Transformer。
+
+275
+00:49:22,890 --> 00:49:33,750
+Each of these assignments builds on previous ones and you actually have to complete them in order, you have to complete the first assignment before you can do later ones because they build on each other.
+每个任务都建立在前面的任务之上，您必须按顺序完成它们，必须先完成第一个任务，然后才能完成后面的任务，因为它们相互依赖。
+
+276
+00:49:33,750 --> 00:49:44,640
+And this process of building this library really is the key component of the course and it is how you will learn the most through it.
+构建这个库的过程实际上是课程的关键组成部分，也是您通过它学习最多的方式。
+
+277
+00:49:44,640 --> 00:49:58,350
+So anyone can watch the lecture videos, but in order to submit the assignments, you do need to officially sign up for the course.
+因此，任何人都可以观看讲座视频，但是为了提交作业，您需要正式注册课程。
+
+278
+00:49:58,350 --> 00:50:14,223
+So you have to actually register for the course, so if you're watching this video just on YouTube and have not signed up for the course yet, if you want to submit the assignments, which is really the way you learn this material, then you sign up for the course and you will get an account to submit assignments to our auto grading setup.
+因此，您必须实际注册课程，因此，如果您只是在YouTube上观看此视频并且尚未注册课程，则如果您想提交作业（这确实是您学习此材料的方式），则注册课程，您将获得一个帐户，以向我们的自动评分设置提交作业。
+
+279
+00:50:15,450 --> 00:50:20,853
+Now one thing I want to mention is that the homeworks are entirely coding based.
+现在，我想提到的一件事是，作业完全基于编码。
+
+280
+00:50:21,690 --> 00:50:30,600
+There's no derivations, nothing like this in the homeworks or whatever derivation we have, it's sort of implicit because then you have to code it up afterwards, to know if it actually works or not.
+作业中没有推导，也没有任何推导，因为之后您必须将其编码，以了解它是否实际有效。
+
+281
+00:50:30,600 --> 00:50:33,870
+The homeworks are entirely coding based and they're all auto graded.
+作业完全基于编码，全部自动评分。
+
+282
+00:50:33,870 --> 00:50:35,550
+This is actually true for the CNU version too.
+这在CNU版本中也是完全相同的。
+
+283
+00:50:35,550 --> 00:50:37,650
+This is the exact same in the CNU version of the course.
+这在CNU版本中也是完全相同的。
+
+284
+00:50:37,650 --> 00:50:44,280
+Everything, there's no theory questions on the homework, it is just programming assignments, all code based.
+作业中没有理论问题，只有编程作业，全部基于代码。
+
+285
+00:50:44,280 --> 00:50:51,393
+And it's graded through our own auto grading system that I've actually been developing for a few years.
+它通过我们自己的自动评分系统进行评分，我实际上已经开发了几年。
+
+286
+00:50:52,860 --> 00:51:08,283
+And this auto grading system works a bit differently from others you may have seen, I'll document this a lot in a future lecture, actually a separate video about the auto grading system I'll post soon after this one.
+这个自动评分系统与您可能见过的其他系统有些不同，我将在未来的讲座中详细记录这一点，实际上是关于自动评分系统的单独视频，我将在此视频之后不久发布。
+
+287
+00:51:09,330 --> 00:51:12,570
+I'll run to the process of submitting code to this auto grader.
+我将介绍提交代码到这个自动评分器的过程。
+
+288
+00:51:12,570 --> 00:51:28,410
+But the big difference that I'll just highlight right now is that in this auto grader, you actually run all your code locally rather than submitting your code and having it run on the auto grader which causes all sorts of problems because the environment in the auto grader is never the same as the one you've coded on locally.
+但是我现在要强调的一个重大区别是，在这个自动评分系统中，你实际上是在本地运行所有的代码，而不是提交你的代码并让它在自动评分系统上运行，这会导致各种各样的问题，因为自动评分系统中的环境永远不会与你本地编写的环境相同。
+
+289
+00:51:28,410 --> 00:51:32,310
+So you actually run all your execution locally and you only submit answers.
+所以你实际上是在本地运行所有的执行，只提交答案。
+
+290
+00:51:32,310 --> 00:51:44,790
+So the answers and check against reference solutions in the auto grading system, which makes it much more efficient, much faster to run as well as sort of makes it a little bit less painful in terms of debugging environment setups.
+因此，答案会与自动评分系统中的参考解决方案进行比较，这使得它更加高效，运行速度更快，同时在调试环境设置方面也会少一些痛苦。
+
+291
+00:51:44,790 --> 00:51:49,710
+So I'll go through all that in a second in later lecture.
+我会在稍后的讲座中详细介绍所有这些内容。
+
+292
+00:51:49,710 --> 00:51:57,540
+It also means that essentially running in Colab environments, at least currently, I know Colab's changing monthly, so we may run into some issues, hiccups with Colab.
+
+293
+00:51:57,540 --> 00:52:06,570
+But at least currently you can do all the assignments in Colab and submit them, execute them all in Colab and do all the auto grading and use that.
+但至少目前是可以的，你可以在Colab中完成所有的作业并提交它们，执行所有的自动评分并使用它。
+
+294
+00:52:06,570 --> 00:52:14,850
+And as I said, I will go through that, the setup and at least the desired workflow for how you should do assignments.
+正如我所说的，我将在另一个视频中介绍设置和至少应该如何完成作业的期望工作流程。
+
+295
+00:52:14,850 --> 00:52:23,043
+I'll go through that in a separate video in a few, probably posted actually concurrently with this one, but in a few more in a days.
+我会在几天内发布一个单独的视频，可能与这个视频同时发布。
+
+296
+00:52:25,230 --> 00:52:28,770
+All right, the second to last component is the final project.
+好的，倒数第二个组成部分是期末项目。
+
+297
+00:52:28,770 --> 00:52:39,270
+So in addition to homeworks, there will be a final project and unlike the homeworks, which are to be done individually, the final project should be done in groups.
+除了作业外，还将有一个期末项目，与个人完成的作业不同，期末项目应该是小组完成的。
+
+298
+00:52:39,270 --> 00:52:54,330
+So you will form groups, there will be posting on the forums to form groups as the time comes then in groups of three, especially for the online course, if you wanna find a group of one, or if you find bigger groups that's certainly fine the point is to form a group and do a final project.
+你们会组成小组，在论坛上发布组队信息，然后以三人小组的形式进行，特别是对于在线课程，如果你想找到一个人的小组，或者如果你找到更大的小组，那当然也可以，重点是要组成一个小组并完成一个期末项目。
+
+299
+00:52:54,330 --> 00:53:00,450
+And the idea here is the final project involves developing some new piece of functionality for needle.
+这里的想法是开发一些新的needle功能，
+
+300
+00:53:00,450 --> 00:53:09,300
+So it's kind of homework five, designing homework five, right? Well, to be clear, it's homework zero and homework four, the homework so you're the final project is like homework five.
+所以它有点像作业五的设计，对吧？嗯，要明确的是，它是作业零和作业四，作业，所以你的期末项目就像作业五。
+
+301
+00:53:09,300 --> 00:53:16,170
+You develop some new functionality capability to the needle framework.
+你需要开发一些新的功能能力到needle框架中。
+
+302
+00:53:16,170 --> 00:53:26,400
+It's really important though, that this final project involves some kind of extension to needle, not just implementing some architecture and certainly not just implementing an architecture in PyTorch or TensorFlow.
+但是非常重要的是，这个最终项目必须涉及到对needle的扩展，而不仅仅是实现一些架构，当然也不是在PyTorch或TensorFlow中实现架构。
+
+303
+00:53:26,400 --> 00:53:35,823
+You can't just do that as a final project, it really has to be an extension of the needle library, add a different kind of hardware acceleration to the back end.
+你不能只做这个作为最终项目，它必须是needle库的扩展，向后端添加不同种类的硬件加速。
+
+304
+00:53:37,140 --> 00:53:42,140
+Our GPU work is gonna work on CUDA using CUDA libraries.
+我们的GPU工作将使用CUDA库在CUDA上工作。
+
+305
+00:53:42,270 --> 00:53:57,520
+So you could do one that uses OpenCL or maybe optimizes for the M1 Apple chip, stuff like this, right? All these things are possible, or maybe you do sort of hardware fused optimization for fused operators and things like this.
+所以你可以做一个使用OpenCL的，或者可能针对M1苹果芯片进行优化的，诸如此类的东西，对吧？所有这些都是可能的，或者你可以做一些硬件融合优化，用于融合运算符等等。
+
+306
+00:53:57,520 --> 00:54:01,320
+These there all potential projects, we'll also post a few more possibilities.
+这些都是潜在的项目，我们也会发布一些更多的可能性。
+
+307
+00:54:01,320 --> 00:54:05,943
+But the idea is that you want to do some extension of needle as your final project.
+但是想法是你想做一些needle的扩展作为你的最终项目。
+
+308
+00:54:07,560 --> 00:54:11,700
+And finally, the last thing is the course forum.
+最后，最后一件事是课程论坛。
+
+309
+00:54:11,700 --> 00:54:17,700
+So for those who sign up for the course, and actually again, this part requires you to actually enroll in the course.
+所以对于那些报名参加课程的人，实际上，这部分需要你实际上在课程中注册。
+
+310
+00:54:17,700 --> 00:54:29,123
+When you enroll in the course, you will soon thereafter get an invitation to join the class forum where you could log in after this class, after watching this lecture, if you haven't done so yet.
+当你注册课程后，你很快就会收到一个邀请加入班级论坛的邀请，在这个课程之后，如果你还没有这样做的话，你可以登录。
+
+311
+00:54:30,120 --> 00:54:38,043
+And you should use this course forum, essentially as a resource to discuss and talk about the aspects of the course.
+你应该将这个课程论坛作为一个资源，讨论和谈论课程的各个方面。
+
+312
+00:54:39,210 --> 00:54:43,860
+You can and should ask for help, for example, with assignments in the forum.
+你可以和应该在论坛中寻求帮助，例如，对于作业的问题。
+
+313
+00:54:43,860 --> 00:54:52,505
+We won't be able to answer all questions that is, we instructors and the TAs won't be able to answer all of them just due to sort of availability.
+我们不可能回答所有的问题，也就是说，我们的教师和TAs不可能回答所有的问题，因为时间有限。
+
+314
+00:54:52,505 --> 00:54:58,770
+But please do up vote questions that you find important and relevant that you are struggling with maybe.
+但是请up vote你认为重要和相关的问题，你可能遇到的问题。
+
+315
+00:54:58,770 --> 00:55:06,630
+And we will try to answer the most upvoted or the most liked questions to be sure that they're not sort of widespread issues that everyone's encountering.
+我们会尽力回答最受欢迎或最受喜欢的问题，以确保它们不是每个人都遇到的普遍问题。
+
+316
+00:55:06,630 --> 00:55:20,393
+But then also please do help by answering questions from other students, right? We want to form somewhat of a community around this course here, so please do not just post questions, but also see if you can answer questions from other students.
+但是也请帮助回答其他学生的问题，对吧？我们希望在这个课程周围形成一个社区，所以请不要只发布问题，还要看看是否可以回答其他学生的问题。
+
+317
+00:55:20,393 --> 00:55:24,393
+The more you're able to do that, the more everyone kind of benefits.
+你越能做到这一点，每个人都会从中受益。
+
+318
+00:55:25,500 --> 00:55:30,360
+You can ask for help and that does include in some cases posting code.
+你可以寻求帮助，有时候包括发布代码。
+
+319
+00:55:30,360 --> 00:55:37,890
+But please we have further, or I should say further instructions are posted in the main welcome message in the forum.
+但请注意，我们在论坛的主要欢迎信息中发布了进一步的说明。
+
+320
+00:55:37,890 --> 00:56:00,330
+But we do have some sort of formal rules, but the reality is you can do things like post code and stuff and you can even share small amounts of code, but please be reasonable, don't just verbatim share entire solutions on the course forum, you get the most out of this course by implementing the assignments yourselves.
+我们确实有一些正式的规定，但现实是你可以发布代码和其他东西，甚至可以分享少量的代码，但请合理，不要在课程论坛上直接分享整个解决方案，你可以通过自己实现任务来获得最大的收益。
+
+321
+00:56:00,330 --> 00:56:09,150
+And if you post your code, then that the makes other people not able to have that experience, or they just end up copying the code and not writing it themselves.
+如果你发布了你的代码，那么其他人就无法获得那种体验，或者他们最终只是复制代码而不是自己编写。
+
+322
+00:56:09,150 --> 00:56:16,380
+And so be reasonable when it comes to what you post in the forums, you can absolutely share code and share at least snippets of code and things like this.
+因此，在论坛上发布什么内容时要合理，你可以分享代码和代码片段等。
+
+323
+00:56:16,380 --> 00:56:36,993
+Again, it's an online course, so you could in some sense, do whatever you want, but at least in the public forum, please do be sort of reasonable in terms of not trying to give away content for people that would rather not sort of see the full solutions posted for the assignments.
+再次强调，这是一门在线课程，你可以在某种程度上做任何你想做的事情，但至少在公共论坛上，请合理，不要试图为那些不想看到完整解决方案的人提供内容。
+
+324
+00:56:39,450 --> 00:56:47,280
+All right, with that, I'm ending the first lecture here with a few parting words.
+好了，我在这里结束了第一讲，留下几句话。
+
+325
+00:56:47,280 --> 00:56:54,483
+So we're really excited to be able to offer this course publicly and we really look forward to having you in the course.
+我们非常高兴能够公开提供这门课程，我们真的很期待你加入这门课程。
+
+326
+00:56:55,470 --> 00:57:01,980
+And if you do have feedback or comments for us, please let us know.
+如果你有反馈或意见，请告诉我们。
+
+327
+00:57:01,980 --> 00:57:16,980
+Now it may not be possible to make changes during this offering, but we really want, we are making this course public because we want it to be a resource for those that are interested in deep learning systems, or just interested in deep learning as a whole.
+现在可能不可能在这个过程中进行更改，但我们真的希望，我们公开这门课程是因为我们希望它成为一个资源，为那些对深度学习系统感兴趣或对深度学习整体感兴趣的人提供帮助。
+
+328
+00:57:16,980 --> 00:57:23,883
+And if you can give us feedback that can help us improve at that mission, we appreciate it.
+如果你能给我们反馈，帮助我们实现这个目标，我们将不胜感激。
+
+329
+00:57:25,050 --> 00:57:32,130
+So we look forward to having you in the course, as I said, I promise the next lecture is much more content full.
+所以我们期待你加入这门课程，就像我说的，我保证下一讲会更加充实。
+
+330
+00:57:32,130 --> 00:57:42,120
+So if you got through this and said, hey, where's the, I haven't learned anything yet, where's all the content? Look at the next lecture next, it will cover some of the basics of machine learning.
+如果你已经通过了这个，说：“嘿，我还没学到什么，所有的内容在哪里？”请看下一讲，它将涵盖一些机器学习的基础知识。
+
+331
+00:57:42,120 --> 00:57:45,270
+And then soon we'll get into automatic differentiation after that.
+然后很快我们会进入自动微分的内容。
+
+332
+00:57:45,270 --> 00:57:52,370
+But we really look forward to having you and we hope you enjoy this course as much as we're enjoying putting it together.
+但我们真的很期待你的加入，希望你和我们一样喜欢这门课程。
+

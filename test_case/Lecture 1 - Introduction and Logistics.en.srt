@@ -1,0 +1,5343 @@
+1
+00:00:01,260 --> 00:00:06,260
+- Hi everyone and welcome
+to the first lecture
+
+2
+00:00:06,300 --> 00:00:10,140
+of our online course on
+deep learning systems,
+
+3
+00:00:10,140 --> 00:00:12,243
+algorithms and implementation.
+
+4
+00:00:13,230 --> 00:00:16,470
+I'm Zico Kolter, I'm going to
+be giving this lecture,
+
+5
+00:00:16,470 --> 00:00:19,710
+but I'm teaching this course
+with my co-instructor,
+
+6
+00:00:19,710 --> 00:00:23,553
+Tianqi Chen, who will be giving
+some of the later lectures.
+
+7
+00:00:24,690 --> 00:00:28,260
+We're both faculty at
+Carnegie Mellon University,
+
+8
+00:00:28,260 --> 00:00:32,190
+and we're also offering this
+course this Fall at CMU.
+
+9
+00:00:32,190 --> 00:00:35,640
+But we're making all the material public
+
+10
+00:00:35,640 --> 00:00:38,703
+as part of this online course.
+
+11
+00:00:39,930 --> 00:00:43,320
+This lecture's gonna
+be a basic introduction
+
+12
+00:00:43,320 --> 00:00:45,810
+to the topics of this course,
+
+13
+00:00:45,810 --> 00:00:49,473
+as well as cover some of
+the logistics of the course.
+
+14
+00:00:50,640 --> 00:00:52,320
+As such, it's gonna be a bit different
+
+15
+00:00:52,320 --> 00:00:55,410
+from other lectures where
+we'l actually go into detail
+
+16
+00:00:55,410 --> 00:01:00,360
+about the methods, the
+math, the code, et cetera.
+
+17
+00:01:00,360 --> 00:01:03,303
+This is really just a
+lecture with slides in it,
+
+18
+00:01:04,320 --> 00:01:07,620
+but we're gonna cover a
+bit about why this course
+
+19
+00:01:07,620 --> 00:01:10,350
+might be of interest to you.
+
+20
+00:01:10,350 --> 00:01:14,220
+Why we think these are
+important topics to know about, 
+
+21
+00:01:14,220 --> 00:01:18,360
+and also cover a bit of background
+
+22
+00:01:18,360 --> 00:01:21,963
+on the logistics and setup of this course.
+
+23
+00:01:23,760 --> 00:01:27,780
+All right, so as I said, this
+lecture really has two parts.
+
+24
+00:01:27,780 --> 00:01:30,030
+The first part is about
+why you should study,
+
+25
+00:01:30,030 --> 00:01:31,380
+deep learning systems at all.
+
+26
+00:01:31,380 --> 00:01:33,267
+Why you might wanna take this course.
+
+27
+00:01:33,267 --> 00:01:36,090
+And the second will be
+more about the course info
+
+28
+00:01:36,090 --> 00:01:37,293
+and logistics.
+
+29
+00:01:38,190 --> 00:01:41,820
+So let's jump right in and
+get started talking about
+
+30
+00:01:41,820 --> 00:01:45,123
+why you might want to study
+deep learning systems.
+
+31
+00:01:46,740 --> 00:01:50,220
+Now the aim of this
+course is to provide you
+
+32
+00:01:50,220 --> 00:01:53,010
+with an introduction to the functioning
+
+33
+00:01:53,010 --> 00:01:55,980
+of modern, deep learning systems.
+
+34
+00:01:55,980 --> 00:01:59,250
+And what that means is,
+you're going to learn
+
+35
+00:01:59,250 --> 00:02:03,063
+about how these things work internally.
+
+36
+00:02:04,110 --> 00:02:05,700
+You're gonna learn about methods,
+
+37
+00:02:05,700 --> 00:02:08,340
+like automatic differentiation,
+
+38
+00:02:08,340 --> 00:02:12,210
+a number of basic neural
+network architectures,
+
+39
+00:02:12,210 --> 00:02:16,650
+optimization, as well as
+methods for efficient
+
+40
+00:02:16,650 --> 00:02:20,100
+operations on systems like GPUs.
+
+41
+00:02:20,100 --> 00:02:23,550
+This is how these modern
+deep learning systems
+
+42
+00:02:23,550 --> 00:02:26,973
+actually are run efficiently
+on modern hardware.
+
+43
+00:02:28,980 --> 00:02:31,530
+To solidify your understanding,
+
+44
+00:02:31,530 --> 00:02:35,550
+the main effort that you'll
+put in throughout this course
+
+45
+00:02:35,550 --> 00:02:37,800
+is that through the homeworks,
+
+46
+00:02:37,800 --> 00:02:41,850
+you will develop the needle library.
+
+47
+00:02:41,850 --> 00:02:46,020
+Needle stands for the necessary
+elements of deep learning.
+
+48
+00:02:46,020 --> 00:02:48,510
+And it's a deep learning library
+
+49
+00:02:48,510 --> 00:02:50,343
+loosely similar to PyTorch.
+
+50
+00:02:52,080 --> 00:02:56,370
+You're going to incrementally
+throughout your assignments,
+
+51
+00:02:56,370 --> 00:03:00,270
+implement many common architectures
+
+52
+00:03:00,270 --> 00:03:05,270
+and many of the aspects of this
+library really from scratch.
+
+53
+00:03:07,470 --> 00:03:09,480
+So why should you do this?
+
+54
+00:03:09,480 --> 00:03:12,540
+Why might you want to study deep learning?
+
+55
+00:03:12,540 --> 00:03:15,633
+And why might you want to
+study deep learning systems?
+
+56
+00:03:16,530 --> 00:03:17,430
+Well, to start off with,
+
+57
+00:03:17,430 --> 00:03:19,650
+let's answer the easier question first.
+
+58
+00:03:19,650 --> 00:03:21,120
+Why do you want to study,
+
+59
+00:03:21,120 --> 00:03:24,420
+or why might you want
+to study deep learning?
+
+60
+00:03:24,420 --> 00:03:27,120
+Now chances are, if
+you're taking this course,
+
+61
+00:03:27,120 --> 00:03:30,300
+you probably already like deep learning
+
+62
+00:03:30,300 --> 00:03:32,310
+or at least know about deep learning
+
+63
+00:03:32,310 --> 00:03:34,020
+and probably have a pretty good idea
+
+64
+00:03:34,020 --> 00:03:37,140
+about why you might want to
+study deep learning.
+
+65
+00:03:37,140 --> 00:03:40,050
+But I will give a few
+quick examples anyway,
+
+66
+00:03:40,050 --> 00:03:42,600
+many of which you've
+probably already seen,
+
+67
+00:03:42,600 --> 00:03:44,970
+but it wouldn't really
+be a deep learning course
+
+68
+00:03:44,970 --> 00:03:47,220
+if we didn't start off the first lecture
+
+69
+00:03:47,220 --> 00:03:49,860
+with some cool pictures about the things
+
+70
+00:03:49,860 --> 00:03:51,610
+that deep learning can currently do.
+
+71
+00:03:52,680 --> 00:03:57,680
+So maybe you heard about the
+famous AlexNet architecture,
+
+72
+00:03:59,130 --> 00:04:01,890
+which was developed in 2012,
+
+73
+00:04:01,890 --> 00:04:04,860
+which performed very, very well
+
+74
+00:04:04,860 --> 00:04:08,520
+on the ImageNet image
+classification challenge.
+
+75
+00:04:08,520 --> 00:04:10,350
+I need to highlight right off the bat,
+
+76
+00:04:10,350 --> 00:04:13,200
+this is not a history of deep learning,
+
+77
+00:04:13,200 --> 00:04:15,870
+nor is it assigning credit to any sort of
+
+78
+00:04:15,870 --> 00:04:20,520
+first elements that, first
+architectures of deep learning,
+
+79
+00:04:20,520 --> 00:04:22,800
+that's an argument I
+do not wanna get into.
+
+80
+00:04:22,800 --> 00:04:25,620
+But this was a very,
+very famous architecture
+
+81
+00:04:25,620 --> 00:04:30,620
+that really at least as a
+field and as a technique
+
+82
+00:04:30,990 --> 00:04:35,990
+in the public view
+really did turn a corner
+
+83
+00:04:37,170 --> 00:04:41,220
+on availability and power of deep learning
+
+84
+00:04:41,220 --> 00:04:43,500
+by essentially building an architecture
+
+85
+00:04:43,500 --> 00:04:47,250
+that could classify images
+into one of 1000 classes,
+
+86
+00:04:47,250 --> 00:04:50,880
+much better than standard
+computer vision techniques
+
+87
+00:04:50,880 --> 00:04:51,713
+at the time.
+
+88
+00:04:53,790 --> 00:04:57,150
+You probably also heard
+about the AlphaGo system,
+
+89
+00:04:57,150 --> 00:04:58,690
+which was developed in 2016
+
+90
+00:05:00,450 --> 00:05:04,140
+and defeated, not quite the
+world champion, I guess,
+
+91
+00:05:04,140 --> 00:05:07,950
+or number one, but a very, very
+highly ranked, essentially,
+
+92
+00:05:07,950 --> 00:05:11,223
+one of the world's best
+players at the game of Go.
+
+93
+00:05:12,270 --> 00:05:16,050
+Now the game of Go for a
+long time was viewed as
+
+94
+00:05:16,050 --> 00:05:21,050
+a grand challenge for
+computer play of games
+
+95
+00:05:22,590 --> 00:05:25,590
+because the number of possible
+moves at each location
+
+96
+00:05:25,590 --> 00:05:28,290
+is very, very large
+and standard techniques
+
+97
+00:05:28,290 --> 00:05:31,503
+like those used in chess, just
+weren't very applicable here.
+
+98
+00:05:32,340 --> 00:05:34,980
+But using techniques from deep learning,
+
+99
+00:05:34,980 --> 00:05:39,420
+this team at DeepMind was
+able to build a system
+
+100
+00:05:39,420 --> 00:05:43,350
+that could defeat essentially at the time,
+
+101
+00:05:43,350 --> 00:05:44,760
+one of the best players in the world,
+
+102
+00:05:44,760 --> 00:05:48,630
+and soon after all the best
+human players in the world,
+
+103
+00:05:48,630 --> 00:05:51,150
+much, much faster than I think anyone
+
+104
+00:05:51,150 --> 00:05:53,250
+in the field really expected it to happen.
+
+105
+00:05:56,250 --> 00:06:00,720
+Maybe you've also heard or
+seen about images like these,
+
+106
+00:06:00,720 --> 00:06:05,430
+these are images of faces
+generated by the StyleGAN system,
+
+107
+00:06:05,430 --> 00:06:08,370
+and I know we're all used
+to seeing these things now,
+
+108
+00:06:08,370 --> 00:06:09,960
+we're actually quite used to seeing faces
+
+109
+00:06:09,960 --> 00:06:12,660
+that are not real, we
+see them everywhere now.
+
+110
+00:06:12,660 --> 00:06:17,430
+But I remember when this post
+was first made on Twitter,
+
+111
+00:06:17,430 --> 00:06:19,440
+people were advertising
+this paper on Twitter
+
+112
+00:06:19,440 --> 00:06:20,820
+and I thought people were joking.
+
+113
+00:06:20,820 --> 00:06:23,760
+I thought, actually, this
+was just a set of pictures
+
+114
+00:06:23,760 --> 00:06:26,790
+from the training set that
+people were joking about
+
+115
+00:06:26,790 --> 00:06:29,970
+and saying they were generated by the GAN,
+
+116
+00:06:29,970 --> 00:06:31,140
+by the adversarial network.
+
+117
+00:06:31,140 --> 00:06:32,490
+But no, they really were, right,
+
+118
+00:06:32,490 --> 00:06:35,520
+these are actually fake images
+generated by this network.
+
+119
+00:06:35,520 --> 00:06:40,520
+And I think that we almost
+take it for granted now
+
+120
+00:06:40,530 --> 00:06:43,410
+just how easy it is to generate
+pictures of fake people,
+
+121
+00:06:43,410 --> 00:06:45,720
+which was a capability we did not have
+
+122
+00:06:45,720 --> 00:06:46,923
+four or five years ago.
+
+123
+00:06:49,260 --> 00:06:51,450
+A little bit more recent history now,
+
+124
+00:06:51,450 --> 00:06:54,420
+you've likely heard
+about the GPT-3 system.
+
+125
+00:06:54,420 --> 00:06:59,310
+This is a system built by
+OpenAI that can generate text
+
+126
+00:06:59,310 --> 00:07:01,710
+and the way it generates text
+is it essentially writes text
+
+127
+00:07:01,710 --> 00:07:04,170
+one word or one token at a time.
+
+128
+00:07:04,170 --> 00:07:07,110
+So given all the previous
+tokens in a sentence,
+
+129
+00:07:07,110 --> 00:07:10,350
+it predicts the next one
+and then it adds that,
+
+130
+00:07:10,350 --> 00:07:12,840
+appends that to the text,
+and predicts the next one.
+
+131
+00:07:12,840 --> 00:07:15,780
+And from this very simple seeming process,
+
+132
+00:07:15,780 --> 00:07:20,190
+we are nonetheless able to
+generate amazingly complex
+
+133
+00:07:20,190 --> 00:07:23,310
+and coherent pieces of text just from
+
+134
+00:07:23,310 --> 00:07:24,990
+essentially a deep learning system
+
+135
+00:07:24,990 --> 00:07:28,110
+that's meant to predict
+really a distribution
+
+136
+00:07:28,110 --> 00:07:31,680
+over next possible tokens in text.
+
+137
+00:07:31,680 --> 00:07:34,350
+And in fact here, it
+hopefully it's legible
+
+138
+00:07:34,350 --> 00:07:35,490
+in the video here, but this,
+
+139
+00:07:35,490 --> 00:07:37,080
+I actually asked GPT-3
+
+140
+00:07:37,080 --> 00:07:41,100
+to write a summary of this course,
+
+141
+00:07:41,100 --> 00:07:43,590
+and it spit out a very reasonable summary
+
+142
+00:07:43,590 --> 00:07:45,720
+of a deep learning course.
+
+143
+00:07:45,720 --> 00:07:48,360
+In fact, it's actually a very
+bad summary of this course,
+
+144
+00:07:48,360 --> 00:07:51,240
+because it's says, we're
+gonna talk about the theory
+
+145
+00:07:51,240 --> 00:07:52,740
+and the math and then we're gonna cover
+
+146
+00:07:52,740 --> 00:07:54,480
+unsupervised learning and
+reinforcement learning.
+
+147
+00:07:54,480 --> 00:07:58,350
+But it would be a very good
+summary of a kind of generic
+
+148
+00:07:58,350 --> 00:08:01,170
+deep learning course that will
+be offered that is offered,
+
+149
+00:08:01,170 --> 00:08:04,293
+in fact here and will be offered
+at many, many universities.
+
+150
+00:08:06,570 --> 00:08:08,550
+You've also probably seen AlphaFold
+
+151
+00:08:08,550 --> 00:08:10,470
+and the AlphaFold 2 system.
+
+152
+00:08:10,470 --> 00:08:15,470
+This is a system that predicts
+the 3D structure of proteins
+
+153
+00:08:15,570 --> 00:08:18,720
+from their DNA sequence.
+
+154
+00:08:18,720 --> 00:08:20,640
+This for a very, very long time
+
+155
+00:08:20,640 --> 00:08:24,630
+has been a grand challenge in biology,
+
+156
+00:08:24,630 --> 00:08:29,130
+understanding how DNA
+sequences form the 3D structure
+
+157
+00:08:29,130 --> 00:08:32,970
+of proteins that actually
+carry out tasks in the body.
+
+158
+00:08:32,970 --> 00:08:35,298
+And for a very, very long time,
+
+159
+00:08:35,298 --> 00:08:39,150
+this is a chart here of
+the progress and accuracy
+
+160
+00:08:39,150 --> 00:08:41,370
+of these systems over many years
+
+161
+00:08:41,370 --> 00:08:45,030
+at sort of a well known competition
+
+162
+00:08:45,030 --> 00:08:47,700
+on this task of protein
+folding prediction.
+
+163
+00:08:47,700 --> 00:08:50,070
+And over the course of four years,
+
+164
+00:08:50,070 --> 00:08:53,790
+this system, AlphaFold built by DeepMind,
+
+165
+00:08:53,790 --> 00:08:58,790
+again, was able to really
+produce a amazing breakthrough,
+
+166
+00:08:58,830 --> 00:09:03,000
+amazing scientific
+breakthrough in the quality
+
+167
+00:09:03,000 --> 00:09:06,510
+and accuracy of this prediction
+
+168
+00:09:06,510 --> 00:09:08,490
+to the point where effectively
+
+169
+00:09:08,490 --> 00:09:10,890
+you could argue that at
+least in some restricted cases,
+
+170
+00:09:10,890 --> 00:09:13,983
+this problem is in fact
+effectively solved.
+
+171
+00:09:15,720 --> 00:09:18,874
+And finally, it wouldn't be 2022
+
+172
+00:09:18,874 --> 00:09:22,000
+if I didn't include a picture of
+
+173
+00:09:22,920 --> 00:09:26,103
+an image generated by
+a deep learning system.
+
+174
+00:09:27,150 --> 00:09:31,620
+This is a picture generated by
+the Stable Diffusion system,
+
+175
+00:09:31,620 --> 00:09:34,890
+which actually was released
+like a week and a half ago.
+
+176
+00:09:34,890 --> 00:09:36,720
+In fact, it was released on the same day
+
+177
+00:09:36,720 --> 00:09:39,030
+we announced, we also posted the video
+
+178
+00:09:39,030 --> 00:09:40,500
+announcing this public course,
+
+179
+00:09:40,500 --> 00:09:43,410
+so they really stole our thunder here.
+
+180
+00:09:43,410 --> 00:09:45,900
+Of course, this also
+relates to the work done
+
+181
+00:09:45,900 --> 00:09:48,420
+by the DALLE-2 system
+and going back for the
+
+182
+00:09:48,420 --> 00:09:51,540
+DALLE system and many papers before then.
+
+183
+00:09:51,540 --> 00:09:55,350
+But these systems are amazing
+in that they can take
+
+184
+00:09:55,350 --> 00:09:57,750
+a text prompt and generate,
+
+185
+00:09:57,750 --> 00:10:00,240
+that probably no one has
+ever really thought of before,
+
+186
+00:10:00,240 --> 00:10:04,230
+and generate a very realistic
+painting in many cases
+
+187
+00:10:04,230 --> 00:10:09,000
+or image in many cases that
+corresponds to that text.
+
+188
+00:10:09,000 --> 00:10:12,990
+So here I wrote the text
+prompt of a dog dressed
+
+189
+00:10:12,990 --> 00:10:14,760
+as a university professor
+
+190
+00:10:14,760 --> 00:10:17,670
+nervously preparing his first
+lecture of the semester,
+
+191
+00:10:17,670 --> 00:10:19,260
+10 minutes before the start of class.
+
+192
+00:10:19,260 --> 00:10:20,850
+I don't know why I would've
+thought of that thing,
+
+193
+00:10:20,850 --> 00:10:23,190
+you can imagine it yourself.
+
+194
+00:10:23,190 --> 00:10:25,200
+And it was an oil painting on canvas
+
+195
+00:10:25,200 --> 00:10:27,720
+and you see what the system generated was,
+
+196
+00:10:27,720 --> 00:10:31,650
+well, it looks like a dog
+dressed as a university professor
+
+197
+00:10:31,650 --> 00:10:34,290
+preparing a lecture, I guess
+10 minutes before class,
+
+198
+00:10:34,290 --> 00:10:37,740
+that part maybe is
+evident in his expression
+
+199
+00:10:37,740 --> 00:10:39,870
+and it looks kinda like an oil painting.
+
+200
+00:10:39,870 --> 00:10:42,870
+And this is just so amazing,
+
+201
+00:10:42,870 --> 00:10:45,220
+the capabilities that we
+have in these systems.
+
+202
+00:10:46,800 --> 00:10:49,350
+Now one thing you may notice about
+
+203
+00:10:49,350 --> 00:10:51,810
+all these examples I give, except the very first one,
+
+204
+00:10:51,810 --> 00:10:55,320
+is that they're all done
+essentially at companies,
+
+205
+00:10:55,320 --> 00:10:56,370
+not actually the last one.
+
+206
+00:10:56,370 --> 00:10:57,680
+So Stable Diffusion actually is done
+
+207
+00:10:57,680 --> 00:10:58,710
+at a relatively small company,
+
+208
+00:10:58,710 --> 00:11:01,200
+but they still have a
+fair amount of resources
+
+209
+00:11:01,200 --> 00:11:02,973
+that were behind this effort.
+
+210
+00:11:04,770 --> 00:11:06,510
+And the other point I wanna make though,
+
+211
+00:11:06,510 --> 00:11:08,460
+is in case you're a little
+bit concerned saying,
+
+212
+00:11:08,460 --> 00:11:11,580
+oh, all this stuff is just
+happening at big companies.
+
+213
+00:11:11,580 --> 00:11:14,100
+What can one person or
+a small group of people
+
+214
+00:11:14,100 --> 00:11:16,200
+really do to influence this?
+
+215
+00:11:16,200 --> 00:11:18,030
+I would, first of all, point to that
+
+216
+00:11:18,030 --> 00:11:20,280
+first paper and Stable
+Diffusion paper actually
+
+217
+00:11:20,280 --> 00:11:22,830
+is bookend examples of
+what a few people can do
+
+218
+00:11:22,830 --> 00:11:25,830
+with the right methods
+and the right cleverness.
+
+219
+00:11:25,830 --> 00:11:28,470
+But I wanna highlight a few examples too,
+
+220
+00:11:28,470 --> 00:11:31,770
+of smaller efforts that
+I think have still been
+
+221
+00:11:31,770 --> 00:11:35,883
+amazingly impressive at shaping
+the field of deep learning.
+
+222
+00:11:37,210 --> 00:11:41,850
+So the DeOldify work
+essentially done by two people
+
+223
+00:11:41,850 --> 00:11:45,120
+is more or less, or was, I
+believe still is more or less,
+
+224
+00:11:45,120 --> 00:11:48,330
+a state of the art technique
+for taking old pictures,
+
+225
+00:11:48,330 --> 00:11:50,400
+old photographs in black and white
+
+226
+00:11:50,400 --> 00:11:53,970
+and creating color versions of these.
+
+227
+00:11:53,970 --> 00:11:56,610
+Now image colorization has
+been researched as a topic
+
+228
+00:11:56,610 --> 00:11:59,400
+for a long time, but this system
+
+229
+00:11:59,400 --> 00:12:02,640
+really is an effort of a few people
+
+230
+00:12:02,640 --> 00:12:07,410
+that ultimately achieves,
+I think the visually best
+
+231
+00:12:07,410 --> 00:12:10,710
+version of this sort of task
+that I have seen from this.
+
+232
+00:12:10,710 --> 00:12:13,230
+Done essentially by two people
+with very limited resources,
+
+233
+00:12:13,230 --> 00:12:14,880
+at least in the initial versions.
+
+234
+00:12:16,620 --> 00:12:18,420
+If you work in computer vision these days,
+
+235
+00:12:18,420 --> 00:12:21,690
+you've probably heard of
+the PyTorch image models
+
+236
+00:12:21,690 --> 00:12:23,253
+or timm library.
+
+237
+00:12:24,120 --> 00:12:26,430
+This is essentially work by one person
+
+238
+00:12:26,430 --> 00:12:29,100
+that wanted to implement a whole bunch of,
+
+239
+00:12:29,100 --> 00:12:31,830
+with some help now, but at
+least starting out one person,
+
+240
+00:12:31,830 --> 00:12:35,770
+Ross Wightman, who wanted
+to implement a whole lot of
+
+241
+00:12:36,780 --> 00:12:39,870
+deep learning image classification models
+
+242
+00:12:39,870 --> 00:12:42,998
+from many, many papers
+and test them all out
+
+243
+00:12:42,998 --> 00:12:45,900
+on benchmark data.
+
+244
+00:12:45,900 --> 00:12:47,850
+And in many cases using
+pre-trained weights
+
+245
+00:12:47,850 --> 00:12:50,490
+from those papers or many cases,
+training them from scratch.
+
+246
+00:12:50,490 --> 00:12:52,263
+And this has been, started at least
+
+247
+00:12:52,263 --> 00:12:56,430
+as a relatively small effort by one person
+
+248
+00:12:56,430 --> 00:12:59,310
+and has become really the dominant
+
+249
+00:12:59,310 --> 00:13:01,420
+image classification library
+
+250
+00:13:01,420 --> 00:13:03,960
+that we all use academically
+
+251
+00:13:03,960 --> 00:13:07,293
+when we are building these vision systems.
+
+252
+00:13:08,880 --> 00:13:11,520
+And finally, I won't highlight
+these other ones actually,
+
+253
+00:13:11,520 --> 00:13:13,890
+because these in fact
+are community efforts,
+
+254
+00:13:13,890 --> 00:13:18,890
+but there's been many other
+examples of libraries,
+
+255
+00:13:18,900 --> 00:13:23,610
+systems, big, big sort of code endeavors
+
+256
+00:13:23,610 --> 00:13:25,380
+that are essentially community driven
+
+257
+00:13:25,380 --> 00:13:27,810
+and that they are for both
+libraries and frameworks
+
+258
+00:13:27,810 --> 00:13:30,360
+that have been community
+driven that have really driven
+
+259
+00:13:30,360 --> 00:13:31,680
+the field forward.
+
+260
+00:13:31,680 --> 00:13:33,840
+And I'll actually mention
+some of these again
+
+261
+00:13:33,840 --> 00:13:38,310
+when I introduce briefly my co-teacher
+
+262
+00:13:38,310 --> 00:13:39,513
+in this course, Tianqi.
+
+263
+00:13:42,060 --> 00:13:45,360
+So all of this that
+I've talked about so far
+
+264
+00:13:45,360 --> 00:13:47,223
+probably is not news to you.
+
+265
+00:13:48,150 --> 00:13:51,990
+If you're watching this, you
+probably say, yes, I get it,
+
+266
+00:13:51,990 --> 00:13:54,870
+deep learning is great, that's
+why I'm taking this course,
+
+267
+00:13:54,870 --> 00:13:57,000
+that's why I'm listening
+to this video so far,
+
+268
+00:13:57,000 --> 00:13:58,950
+if you haven't skipped forward already.
+
+269
+00:14:00,030 --> 00:14:04,140
+But why should you learn
+about deep learning systems?
+
+270
+00:14:04,140 --> 00:14:07,050
+Why do you actually want to
+study deep learning systems?
+
+271
+00:14:07,050 --> 00:14:07,980
+Not just deep learning,
+
+272
+00:14:07,980 --> 00:14:11,220
+but the actual architectures behind
+
+273
+00:14:11,220 --> 00:14:12,910
+that enable these systems
+
+274
+00:14:14,160 --> 00:14:17,220
+and the way I'm going to motivate this
+
+275
+00:14:17,220 --> 00:14:22,220
+is I'm going to show a chart
+here of a Google Trends chart
+
+276
+00:14:25,080 --> 00:14:29,610
+of the interest measured
+somehow in deep learning,
+
+277
+00:14:29,610 --> 00:14:33,990
+the term deep learning over
+the past 15 years or so,
+
+278
+00:14:33,990 --> 00:14:34,893
+14 years.
+
+279
+00:14:36,420 --> 00:14:39,600
+And I'm gonna annotate this chart
+
+280
+00:14:39,600 --> 00:14:42,660
+with a few events of note.
+
+281
+00:14:42,660 --> 00:14:46,653
+So in the late 2000s,
+
+282
+00:14:47,550 --> 00:14:50,730
+this is actually when the
+field of deep learning
+
+283
+00:14:50,730 --> 00:14:53,430
+in some sense took off academically.
+
+284
+00:14:53,430 --> 00:14:56,040
+So I was going to conferences at this time
+
+285
+00:14:56,040 --> 00:14:59,100
+and I remember at
+conferences like NeurIPS,
+
+286
+00:14:59,100 --> 00:15:04,020
+this deep learning became a thing,
+
+287
+00:15:04,020 --> 00:15:07,350
+a field where there were lots
+of papers in it every year
+
+288
+00:15:07,350 --> 00:15:08,733
+in the late 2000s.
+
+289
+00:15:09,840 --> 00:15:13,410
+But still, maybe this is always
+how academic work happens.
+
+290
+00:15:13,410 --> 00:15:15,450
+Still, there wasn't much as measured
+
+291
+00:15:15,450 --> 00:15:18,030
+by Google Trends relative
+to the current day.
+
+292
+00:15:18,030 --> 00:15:20,970
+There wasn't a whole lot of
+interest in deep learning,
+
+293
+00:15:20,970 --> 00:15:24,570
+it was just sort of an
+academic trend like many others
+
+294
+00:15:24,570 --> 00:15:25,980
+that you've probably not heard of
+
+295
+00:15:25,980 --> 00:15:28,680
+because they were 15 years old
+
+296
+00:15:28,680 --> 00:15:30,280
+and no one's using them anymore.
+
+297
+00:15:31,770 --> 00:15:34,560
+Then in 2012, as I mentioned,
+
+298
+00:15:34,560 --> 00:15:39,000
+the AlexNet network was
+released, which again,
+
+299
+00:15:39,000 --> 00:15:42,720
+this is not a history of
+the field of deep learning,
+
+300
+00:15:42,720 --> 00:15:44,880
+and I've of course should also mention,
+
+301
+00:15:44,880 --> 00:15:46,470
+though I should, of course mention that
+
+302
+00:15:46,470 --> 00:15:50,700
+the actual mathematics of deep learning
+
+303
+00:15:50,700 --> 00:15:53,010
+and neural networks goes
+back well into the 80s
+
+304
+00:15:53,010 --> 00:15:55,233
+and probably before then to the 70s,
+
+305
+00:15:56,130 --> 00:15:59,280
+this is just a sort of
+recent history, of course.
+
+306
+00:15:59,280 --> 00:16:01,740
+And again, I'm only
+annotating a few events,
+
+307
+00:16:01,740 --> 00:16:04,470
+not trying to make claims
+about who was first to do what,
+
+308
+00:16:04,470 --> 00:16:07,023
+et cetera, it's a game
+I don't wanna play in.
+
+309
+00:16:08,430 --> 00:16:10,479
+But the AlexNet was a
+very popular architecture,
+
+310
+00:16:10,479 --> 00:16:14,220
+yet still, and there started to be a little uptick
+
+311
+00:16:14,220 --> 00:16:15,813
+in interest in deep learning,
+
+312
+00:16:17,520 --> 00:16:19,770
+but still not too much happened.
+
+313
+00:16:19,770 --> 00:16:23,490
+So state of the art performance
+on image classification
+
+314
+00:16:23,490 --> 00:16:25,090
+and still not too much happened.
+
+315
+00:16:26,250 --> 00:16:27,423
+So then what happened?
+
+316
+00:16:28,950 --> 00:16:30,960
+When did this start to really take off?
+
+317
+00:16:30,960 --> 00:16:34,470
+Well, a few other things
+happened in the later years.
+
+318
+00:16:34,470 --> 00:16:37,740
+So in 2015, in 2016,
+
+319
+00:16:37,740 --> 00:16:42,450
+some libraries like Keras
+and TensorFlow and PyTorch
+
+320
+00:16:42,450 --> 00:16:43,283
+were released.
+
+321
+00:16:44,250 --> 00:16:46,320
+And if you actually look at the timing
+
+322
+00:16:46,320 --> 00:16:49,920
+of when deep learning
+became truly popular,
+
+323
+00:16:49,920 --> 00:16:53,860
+it coincides much more with
+the release of these libraries
+
+324
+00:16:54,720 --> 00:16:58,410
+than the actual sort of what we think of
+
+325
+00:16:58,410 --> 00:17:02,463
+as some of the big notable
+papers or events in the field.
+
+326
+00:17:03,390 --> 00:17:05,790
+And so I kind of wanna
+make the controversial,
+
+327
+00:17:05,790 --> 00:17:08,100
+but maybe not that controversial claim
+
+328
+00:17:08,100 --> 00:17:12,930
+that the single largest driver
+of the widespread adoption
+
+329
+00:17:12,930 --> 00:17:16,890
+of deep learning has been the creation
+
+330
+00:17:16,890 --> 00:17:19,320
+of what essentially amounts to,
+
+331
+00:17:19,320 --> 00:17:22,677
+easy to use automatic
+differentiation libraries.
+
+332
+00:17:22,677 --> 00:17:25,830
+Now that's a little bit
+too simplified, of course.
+
+333
+00:17:25,830 --> 00:17:27,480
+The actual deep learning systems,
+
+334
+00:17:27,480 --> 00:17:28,470
+which we're gonna talk
+about in this course
+
+335
+00:17:28,470 --> 00:17:31,200
+involve much more than
+automatic differentiation.
+
+336
+00:17:31,200 --> 00:17:34,890
+But this core technology,
+
+337
+00:17:34,890 --> 00:17:37,260
+which again goes back to the 70s,
+
+338
+00:17:37,260 --> 00:17:39,180
+not a new technology,
+but the widespread avail,
+
+339
+00:17:39,180 --> 00:17:41,130
+and there were frameworks before that.
+
+340
+00:17:41,130 --> 00:17:43,080
+So before PyTorch, there was Torch,
+
+341
+00:17:43,080 --> 00:17:44,670
+just not many people used it,
+
+342
+00:17:44,670 --> 00:17:46,350
+because you had to learn
+a whole new language
+
+343
+00:17:46,350 --> 00:17:48,840
+called Lua to implement your models there.
+
+344
+00:17:48,840 --> 00:17:53,727
+So the availability of
+Python based frameworks
+
+345
+00:17:54,660 --> 00:17:58,320
+that lets you quickly
+prototype new architectures,
+
+346
+00:17:58,320 --> 00:17:59,820
+new models.
+
+347
+00:17:59,820 --> 00:18:04,320
+This I think was the single biggest driver
+
+348
+00:18:04,320 --> 00:18:08,343
+of the explosion of
+interest in deep learning.
+
+349
+00:18:09,690 --> 00:18:11,580
+Now one thing you may also
+see from this chart is
+
+350
+00:18:11,580 --> 00:18:14,100
+maybe we're in bad territory recently,
+
+351
+00:18:14,100 --> 00:18:15,570
+maybe something's happening recently.
+
+352
+00:18:15,570 --> 00:18:17,340
+I don't think it is I think,
+
+353
+00:18:17,340 --> 00:18:20,580
+there's often issues with
+sort of the latest data
+
+354
+00:18:20,580 --> 00:18:22,170
+in Google Trends.
+
+355
+00:18:22,170 --> 00:18:24,960
+But more than that, I think
+probably was also happening
+
+356
+00:18:24,960 --> 00:18:27,270
+is that a lot of these
+things are just now falling
+
+357
+00:18:27,270 --> 00:18:28,800
+under the umbrella of AI,
+
+358
+00:18:28,800 --> 00:18:30,210
+which I will try to avoid that term,
+
+359
+00:18:30,210 --> 00:18:31,680
+I'll try to be specific
+about deep learning
+
+360
+00:18:31,680 --> 00:18:33,000
+as much as possible.
+
+361
+00:18:33,000 --> 00:18:34,636
+But probably a lot what's happening,
+
+362
+00:18:34,636 --> 00:18:36,000
+is people are just using the term AI
+
+363
+00:18:36,000 --> 00:18:36,863
+to talk about a lot of these things
+
+364
+00:18:36,863 --> 00:18:38,913
+and not the term deep learning always.
+
+365
+00:18:40,530 --> 00:18:43,380
+So another way of sort of
+emphasizing this exact same point,
+
+366
+00:18:43,380 --> 00:18:48,380
+I'm actually going to reference
+of story from Tianqi's work.
+
+367
+00:18:49,350 --> 00:18:51,630
+And he, I actually was quite,
+
+368
+00:18:51,630 --> 00:18:53,250
+I admit, I was quite late to the game
+
+369
+00:18:53,250 --> 00:18:54,900
+when it came to deep learning,
+
+370
+00:18:54,900 --> 00:18:57,360
+despite being around
+people that were using it,
+
+371
+00:18:57,360 --> 00:18:58,770
+some of the pioneers in the field.
+
+372
+00:18:58,770 --> 00:19:00,630
+I actually didn't start
+working in deep learning
+
+373
+00:19:00,630 --> 00:19:01,893
+until about 2015.
+
+374
+00:19:03,000 --> 00:19:05,520
+Maybe not surprisingly about when
+
+375
+00:19:05,520 --> 00:19:07,353
+I could easily prototype stuff.
+
+376
+00:19:08,790 --> 00:19:11,940
+But Tianqi, he was actually
+working on deep learning
+
+377
+00:19:11,940 --> 00:19:12,843
+back in the day,
+
+378
+00:19:13,890 --> 00:19:16,803
+back in 2012, when a
+lot of these architectures
+
+379
+00:19:16,803 --> 00:19:18,510
+were first being developed.
+
+380
+00:19:18,510 --> 00:19:21,480
+And in fact, one of his first
+projects as a PhD student
+
+381
+00:19:21,480 --> 00:19:26,100
+was to write code for ConvNets
+
+382
+00:19:26,100 --> 00:19:29,430
+that would accelerate
+their development on GPUs
+
+383
+00:19:29,430 --> 00:19:31,560
+this around the same time that AlexNet
+
+384
+00:19:31,560 --> 00:19:32,820
+and such was being developed
+
+385
+00:19:32,820 --> 00:19:35,703
+and so he was doing
+similar things at the time.
+
+386
+00:19:37,080 --> 00:19:40,650
+And the figures he gives
+is that to implement
+
+387
+00:19:40,650 --> 00:19:45,650
+really a capable convolution architecture
+
+388
+00:19:46,080 --> 00:19:49,890
+for image classification
+on a data set like ImageNet
+
+389
+00:19:49,890 --> 00:19:54,780
+at the time, it took him
+about 44,000 lines of code
+
+390
+00:19:54,780 --> 00:19:57,750
+and about six months of coding to do so.
+
+391
+00:19:57,750 --> 00:19:59,843
+And I'll make this point later,
+
+392
+00:19:59,843 --> 00:20:02,400
+but Tianqi is a really good coder
+
+393
+00:20:02,400 --> 00:20:05,040
+and it still took him this long to write
+
+394
+00:20:05,040 --> 00:20:07,923
+a working deep learning architecture.
+
+395
+00:20:09,960 --> 00:20:11,940
+Contrast that with today,
+
+396
+00:20:11,940 --> 00:20:13,840
+today, if you wanna do the same thing,
+
+397
+00:20:14,850 --> 00:20:18,300
+you would probably have to
+write about 100 lines of code
+
+398
+00:20:18,300 --> 00:20:21,240
+and you could probably
+do it in a few hours.
+
+399
+00:20:21,240 --> 00:20:26,240
+And the reason why is because
+of deep learning systems
+
+400
+00:20:26,280 --> 00:20:30,243
+like PyTorch, like
+TensorFlow and now like JAX.
+
+401
+00:20:32,280 --> 00:20:36,390
+And I think we often
+don't fully appreciate
+
+402
+00:20:36,390 --> 00:20:39,900
+just how much of an enabling factor it is
+
+403
+00:20:39,900 --> 00:20:42,780
+to be able to iterate this quickly.
+
+404
+00:20:42,780 --> 00:20:45,750
+We think of deep learning
+models as being slow to train
+
+405
+00:20:45,750 --> 00:20:47,970
+and slow to develop and
+especially large ones.
+
+406
+00:20:47,970 --> 00:20:51,690
+But this is amazingly fast,
+
+407
+00:20:51,690 --> 00:20:54,840
+we have an amazingly fast
+current iteration time
+
+408
+00:20:54,840 --> 00:20:58,623
+enabled by these deep learning systems.
+
+409
+00:21:01,890 --> 00:21:04,037
+But this still doesn't answer the question
+
+410
+00:21:04,037 --> 00:21:06,450
+that I set out to answer, which is,
+
+411
+00:21:06,450 --> 00:21:08,550
+why should you take this course?
+
+412
+00:21:08,550 --> 00:21:11,553
+So maybe you agree now that
+deep learning systems are great.
+
+413
+00:21:12,450 --> 00:21:13,650
+Why don't you just use them, right?
+
+414
+00:21:13,650 --> 00:21:15,810
+You can just use, I'm sure
+you already do, right?
+
+415
+00:21:15,810 --> 00:21:18,753
+You probably use PyTorch,
+and TensorFlow and JAX.
+
+416
+00:21:20,040 --> 00:21:22,230
+Why should you take a course
+
+417
+00:21:22,230 --> 00:21:25,443
+about how these systems actually work?
+
+418
+00:21:26,580 --> 00:21:30,240
+And there I actually think
+there are three reasons,
+
+419
+00:21:30,240 --> 00:21:35,130
+I'm going to give for why this course
+
+420
+00:21:35,130 --> 00:21:37,350
+might be right for you to take
+
+421
+00:21:37,350 --> 00:21:39,300
+if you are interested in deep learning.
+
+422
+00:21:40,530 --> 00:21:44,790
+The first reason of course
+is, maybe obviously,
+
+423
+00:21:44,790 --> 00:21:47,880
+if you want to build
+deep learning systems,
+
+424
+00:21:47,880 --> 00:21:49,230
+you better understand them.
+
+425
+00:21:50,970 --> 00:21:55,830
+So despite the current state
+of deep learning libraries
+
+426
+00:21:55,830 --> 00:21:57,690
+where you may say that, okay,
+
+427
+00:21:57,690 --> 00:21:59,670
+libraries like TensorFlow
+and PyTorch kind of won,
+
+428
+00:21:59,670 --> 00:22:01,470
+they're the standards everyone uses.
+
+429
+00:22:02,340 --> 00:22:04,320
+It's actually not really true.
+
+430
+00:22:04,320 --> 00:22:07,800
+I think actually the field
+of deep learning systems
+
+431
+00:22:07,800 --> 00:22:10,740
+is remarkably fluid as evidenced
+
+432
+00:22:10,740 --> 00:22:14,040
+by the relatively recent emergence of JAX
+
+433
+00:22:14,040 --> 00:22:17,760
+as a dominant framework
+for a lot of research
+
+434
+00:22:17,760 --> 00:22:18,647
+in deep learning.
+
+435
+00:22:18,647 --> 00:22:20,190
+It's a relatively new thing,
+
+436
+00:22:20,190 --> 00:22:21,990
+this happened the last couple years.
+
+437
+00:22:23,130 --> 00:22:26,820
+But I don't think we're
+done yet in some way,
+
+438
+00:22:26,820 --> 00:22:28,590
+I think there's actually
+a lot of work to be done
+
+439
+00:22:28,590 --> 00:22:31,650
+in developing new systems,
+maybe more specialized systems,
+
+440
+00:22:31,650 --> 00:22:34,440
+maybe systems that
+specialize in some different
+
+441
+00:22:34,440 --> 00:22:37,590
+area or different paradigm
+for deep learning.
+
+442
+00:22:37,590 --> 00:22:39,930
+But I don't think we're finished with what
+
+443
+00:22:39,930 --> 00:22:43,080
+the final state of deep learning
+systems is gonna look like.
+
+444
+00:22:43,080 --> 00:22:46,590
+And if you want to develop
+your own frameworks
+
+445
+00:22:46,590 --> 00:22:50,460
+or build upon existing
+frameworks and by the way,
+
+446
+00:22:50,460 --> 00:22:52,920
+all the frameworks out there
+essentially are open source,
+
+447
+00:22:52,920 --> 00:22:56,820
+so you could definitely
+just download them,
+
+448
+00:22:56,820 --> 00:22:58,920
+the source currently and
+start contributing to it
+
+449
+00:22:58,920 --> 00:23:00,330
+if you understand them.
+
+450
+00:23:00,330 --> 00:23:04,530
+If you want to do all
+that, then this course,
+
+451
+00:23:04,530 --> 00:23:07,550
+and some practice will
+prepare you to do this.
+
+452
+00:23:07,550 --> 00:23:09,780
+So this is maybe the most obvious reason
+
+453
+00:23:09,780 --> 00:23:11,460
+why you might wanna take this course
+
+454
+00:23:11,460 --> 00:23:14,520
+if you want to build and
+contribute to these libraries
+
+455
+00:23:14,520 --> 00:23:15,353
+as well.
+
+456
+00:23:17,700 --> 00:23:20,730
+But that's not the only reason,
+
+457
+00:23:20,730 --> 00:23:22,140
+and the second reason
+for taking this course
+
+458
+00:23:22,140 --> 00:23:24,660
+is actually the one that I would emphasize
+
+459
+00:23:24,660 --> 00:23:28,263
+most heavily for
+practitioners in the field.
+
+460
+00:23:29,490 --> 00:23:34,490
+And that reason is,
+understanding how the internals
+
+461
+00:23:36,030 --> 00:23:38,760
+of deep learning systems work
+
+462
+00:23:38,760 --> 00:23:42,813
+lets you use them more
+efficiently and more effectively.
+
+463
+00:23:44,850 --> 00:23:46,260
+And I really do mean that, right?
+
+464
+00:23:46,260 --> 00:23:49,470
+So if you want to build scalable models,
+
+465
+00:23:49,470 --> 00:23:51,970
+efficient models, models
+that will execute quickly
+
+466
+00:23:53,070 --> 00:23:56,940
+or that make full utilization of a GPU,
+
+467
+00:23:56,940 --> 00:24:00,600
+you really do want to understand
+
+468
+00:24:00,600 --> 00:24:03,270
+how these systems are
+working underneath the hood.
+
+469
+00:24:03,270 --> 00:24:04,380
+What is really being executed?
+
+470
+00:24:04,380 --> 00:24:07,980
+How are they translating
+your high level description
+
+471
+00:24:07,980 --> 00:24:10,080
+of a network architecture,
+
+472
+00:24:10,080 --> 00:24:13,330
+to something that really
+executes on hardware
+
+473
+00:24:14,460 --> 00:24:19,460
+and then trains and
+differentiates that system
+
+474
+00:24:19,710 --> 00:24:22,560
+and adjust parameters and all that.
+
+475
+00:24:22,560 --> 00:24:26,040
+How does that work and
+understanding how that works
+
+476
+00:24:26,040 --> 00:24:29,580
+will actually enable you
+to write more efficient
+
+477
+00:24:29,580 --> 00:24:31,470
+and more effective code.
+
+478
+00:24:31,470 --> 00:24:33,870
+And this is especially true
+if you're doing research
+
+479
+00:24:33,870 --> 00:24:34,703
+in deep learning.
+
+480
+00:24:34,703 --> 00:24:36,810
+So especially if you
+are doing things like,
+
+481
+00:24:36,810 --> 00:24:39,960
+developing new kinds of
+layers, new architectures,
+
+482
+00:24:39,960 --> 00:24:42,060
+new structures in deep learning.
+
+483
+00:24:42,060 --> 00:24:46,200
+This will be vastly
+improved if you understand
+
+484
+00:24:46,200 --> 00:24:51,030
+the logic and the mechanisms
+behind these systems.
+
+485
+00:24:51,030 --> 00:24:52,230
+I've always kind of referred to
+
+486
+00:24:52,230 --> 00:24:55,140
+understanding deep learning
+systems as a kind of superpower
+
+487
+00:24:55,140 --> 00:24:58,440
+that can let you accomplish
+your research aims
+
+488
+00:24:58,440 --> 00:25:01,860
+even if your research aims
+are not about system building
+
+489
+00:25:01,860 --> 00:25:05,163
+can enable you to accomplish
+them much more efficiently.
+
+490
+00:25:07,920 --> 00:25:10,743
+This is probably the main
+reason why most of you,
+
+491
+00:25:11,820 --> 00:25:14,403
+I think, can and should take this course.
+
+492
+00:25:15,780 --> 00:25:19,230
+But I would be remiss if I
+didn't add one more reason
+
+493
+00:25:19,230 --> 00:25:21,120
+to this pile, which is that,
+
+494
+00:25:21,120 --> 00:25:24,003
+deep learning systems
+are really, really cool.
+
+495
+00:25:25,440 --> 00:25:30,270
+And the reason why these
+systems are so much fun
+
+496
+00:25:30,270 --> 00:25:31,653
+is actually very simple.
+
+497
+00:25:32,670 --> 00:25:37,670
+And that is, that despite
+the seeming complexity
+
+498
+00:25:37,740 --> 00:25:40,980
+of these things, PyTorch
+and TensorFlow at this point
+
+499
+00:25:40,980 --> 00:25:42,993
+are millions of lines of code.
+
+500
+00:25:44,010 --> 00:25:48,960
+But despite the seeming
+complexity of these libraries,
+
+501
+00:25:48,960 --> 00:25:53,460
+the core underlying algorithms
+behind deep learning systems,
+
+502
+00:25:53,460 --> 00:25:56,640
+behind quite capable
+deep learning systems,
+
+503
+00:25:56,640 --> 00:26:01,263
+to be honest, are
+extremely, extremely simple.
+
+504
+00:26:02,190 --> 00:26:05,550
+Really the core algorithms behind
+
+505
+00:26:05,550 --> 00:26:09,450
+every single deep learning architecture,
+
+506
+00:26:09,450 --> 00:26:11,583
+every single, all of those advances
+
+507
+00:26:11,583 --> 00:26:14,160
+in machine learning models that you saw
+
+508
+00:26:14,160 --> 00:26:17,130
+that I put up on those previous screens.
+
+509
+00:26:17,130 --> 00:26:20,430
+At least algorithmically, they're
+all essentially based upon
+
+510
+00:26:20,430 --> 00:26:24,180
+automatic differentiation and
+gradient based optimization,
+
+511
+00:26:24,180 --> 00:26:26,250
+at least from a mathematical standpoint,
+
+512
+00:26:26,250 --> 00:26:29,580
+those are the two or handful of algorithms
+
+513
+00:26:29,580 --> 00:26:31,980
+that actually underlie all of this.
+
+514
+00:26:31,980 --> 00:26:35,700
+And then on the implementation side,
+
+515
+00:26:35,700 --> 00:26:40,700
+essentially, they are built
+upon efficient linear algebra,
+
+516
+00:26:41,850 --> 00:26:46,443
+especially efficient matrix
+multiplies on GPU systems.
+
+517
+00:26:48,120 --> 00:26:51,630
+Unlike say an operating system where
+
+518
+00:26:51,630 --> 00:26:52,980
+if you wanna build an operating system,
+
+519
+00:26:52,980 --> 00:26:55,050
+you really have to build
+quite a bit of code,
+
+520
+00:26:55,050 --> 00:26:57,153
+you have to write a lot of code.
+
+521
+00:26:59,550 --> 00:27:01,140
+And so courses on operating systems
+
+522
+00:27:01,140 --> 00:27:01,973
+that take you through operating systems
+
+523
+00:27:01,973 --> 00:27:04,290
+and usually build a very, very basic one.
+
+524
+00:27:04,290 --> 00:27:06,410
+And you have to write, even for that,
+
+525
+00:27:06,410 --> 00:27:08,730
+you have to write a lot
+of code to do anything
+
+526
+00:27:08,730 --> 00:27:10,470
+at all reasonable.
+
+527
+00:27:10,470 --> 00:27:13,440
+But you actually could
+write and you will write
+
+528
+00:27:13,440 --> 00:27:15,630
+a reasonable deep learning library,
+
+529
+00:27:15,630 --> 00:27:17,100
+if you wanna be really
+compact with your code,
+
+530
+00:27:17,100 --> 00:27:19,950
+you could probably do it in
+less than 2000 lines of code.
+
+531
+00:27:21,000 --> 00:27:23,220
+Something that will run on a GPU
+
+532
+00:27:23,220 --> 00:27:24,990
+that will do automatic differentiation,
+
+533
+00:27:24,990 --> 00:27:27,150
+that will have operations
+like convolutions
+
+534
+00:27:27,150 --> 00:27:29,640
+and convolution networks,
+recurrent networks,
+
+535
+00:27:29,640 --> 00:27:31,740
+transformers, all this
+kind of thing, right.
+
+536
+00:27:31,740 --> 00:27:33,690
+You can do it in almost no code
+
+537
+00:27:33,690 --> 00:27:38,043
+because the actual ideas underlying
+these systems are simple.
+
+538
+00:27:40,350 --> 00:27:43,360
+And they're also, and I say this
+
+539
+00:27:44,370 --> 00:27:46,860
+a little bit tongue in cheek,
+
+540
+00:27:46,860 --> 00:27:48,510
+but they're also kind of magical.
+
+541
+00:27:50,280 --> 00:27:53,820
+Before I worked in deep learning,
+
+542
+00:27:53,820 --> 00:27:56,910
+I sort of was brought up in
+traditional machine learning
+
+543
+00:27:56,910 --> 00:28:00,120
+when we derived all our gradients by hand,
+
+544
+00:28:00,120 --> 00:28:01,860
+and that was the big
+effort you went through
+
+545
+00:28:01,860 --> 00:28:02,940
+when you derived some new model,
+
+546
+00:28:02,940 --> 00:28:05,240
+as you wrote out a bunch
+of gradients by hand.
+
+547
+00:28:06,660 --> 00:28:09,270
+I remember the first time I built
+
+548
+00:28:09,270 --> 00:28:11,310
+an automatic differentiation library
+
+549
+00:28:11,310 --> 00:28:13,980
+and I realized that I could take,
+
+550
+00:28:13,980 --> 00:28:16,023
+form some complex expression,
+
+551
+00:28:16,920 --> 00:28:20,940
+take its gradient and then form
+
+552
+00:28:20,940 --> 00:28:24,780
+an even more complex
+expression of its gradient
+
+553
+00:28:24,780 --> 00:28:28,560
+and differentiate through
+that thing, and do all that
+
+554
+00:28:28,560 --> 00:28:32,220
+despite the fact that I
+actually would really struggle
+
+555
+00:28:32,220 --> 00:28:33,933
+to even derive that by hand.
+
+556
+00:28:35,190 --> 00:28:36,023
+I probably could do it,
+
+557
+00:28:36,023 --> 00:28:39,000
+but it would take me quite
+a while to derive this
+
+558
+00:28:39,000 --> 00:28:42,573
+manually yet I could write
+some code that did it.
+
+559
+00:28:43,560 --> 00:28:46,230
+This is really, really cool.
+
+560
+00:28:46,230 --> 00:28:48,390
+And it's an experience I think everyone
+
+561
+00:28:48,390 --> 00:28:50,240
+working in deep learning should have.
+
+562
+00:28:52,590 --> 00:28:55,440
+All right, so with all that being said,
+
+563
+00:28:55,440 --> 00:28:59,160
+let me give a little bit
+more now boring information
+
+564
+00:28:59,160 --> 00:29:02,793
+about this course and the
+logistics of this course.
+
+565
+00:29:05,880 --> 00:29:10,880
+First up to introduce myself
+and my co-instructor Tianqi.
+
+566
+00:29:13,050 --> 00:29:17,100
+I am a faculty member at Carnegie Mellon,
+
+567
+00:29:17,100 --> 00:29:19,023
+I've been there since 2012.
+
+568
+00:29:20,430 --> 00:29:24,270
+But in addition to working
+in industry or at CMU,
+
+569
+00:29:24,270 --> 00:29:26,640
+I've also done a fair
+amount of work in industry.
+
+570
+00:29:26,640 --> 00:29:29,040
+So I was previously at
+a company called C3 AI.
+
+571
+00:29:29,040 --> 00:29:32,400
+Now I work, I'm a chief
+scientist in AI research
+
+572
+00:29:32,400 --> 00:29:34,683
+at Bosch and the Bosch Center for AI.
+
+573
+00:29:35,880 --> 00:29:40,880
+And my research in academics focuses on
+
+574
+00:29:42,570 --> 00:29:45,960
+a lot of techniques for new algorithms
+
+575
+00:29:45,960 --> 00:29:48,570
+and new methods now in deep learning.
+
+576
+00:29:48,570 --> 00:29:52,320
+So I've done a lot of work
+on adversarial robustness,
+
+577
+00:29:52,320 --> 00:29:53,153
+I've done a lot of work,
+
+578
+00:29:53,153 --> 00:29:56,310
+especially certified and provable
+
+579
+00:29:56,310 --> 00:29:59,520
+defenses against adversarial attacks.
+
+580
+00:29:59,520 --> 00:30:02,700
+Also done a lot of work in
+what we call implicit layers,
+
+581
+00:30:02,700 --> 00:30:04,960
+these are layers that instead of just
+
+582
+00:30:06,090 --> 00:30:07,830
+being formed by some sort of stacking
+
+583
+00:30:07,830 --> 00:30:10,290
+of traditional operations,
+
+584
+00:30:10,290 --> 00:30:12,540
+you form them by actually solving
+
+585
+00:30:12,540 --> 00:30:16,440
+a more complex operator like
+an optimization problem,
+
+586
+00:30:16,440 --> 00:30:19,110
+or like a fixed point equation.
+
+587
+00:30:19,110 --> 00:30:21,270
+And you actually differentiate through
+those analytically.
+
+588
+00:30:21,270 --> 00:30:24,000
+In fact, we'll according to the
+current schedule, at least,
+
+589
+00:30:24,000 --> 00:30:25,890
+if there is time, we will have a lecture
+
+590
+00:30:25,890 --> 00:30:28,740
+on implicit layers at the
+very end of this course.
+
+591
+00:30:28,740 --> 00:30:30,990
+Implemented, of course,
+in our own framework.
+
+592
+00:30:32,190 --> 00:30:34,620
+I was also an early PyTorch adopter,
+
+593
+00:30:34,620 --> 00:30:39,620
+and one of my marks of
+pride, I'm going to quickly
+
+594
+00:30:40,440 --> 00:30:44,580
+sort of not hold a candle
+to the system's work,
+
+595
+00:30:44,580 --> 00:30:47,520
+Tianqi has done that, I'm
+about to show in a second.
+
+596
+00:30:47,520 --> 00:30:49,740
+But myself and my group, we
+were early PyTorch adopters,
+
+597
+00:30:49,740 --> 00:30:53,370
+we were actually mentioned
+as the first group
+
+598
+00:30:53,370 --> 00:30:57,420
+releasing third party
+libraries for PyTorch.
+
+599
+00:30:57,420 --> 00:31:00,120
+And one of my claims to fame there is that
+
+600
+00:31:00,120 --> 00:31:04,500
+as part of our efforts to
+release an optimization layer,
+
+601
+00:31:04,500 --> 00:31:06,420
+so this was a layer, a third party library
+
+602
+00:31:06,420 --> 00:31:11,420
+that would solve optimization
+problems as a layer
+
+603
+00:31:12,060 --> 00:31:14,705
+in a deep networks like
+quadratic programs,
+
+604
+00:31:14,705 --> 00:31:16,770
+if you know what those are.
+
+605
+00:31:16,770 --> 00:31:21,770
+And to do so, I wrote a CUDA
+kernel as part of PyTorch
+
+606
+00:31:24,420 --> 00:31:26,850
+that could do batch parallel solving
+
+607
+00:31:26,850 --> 00:31:29,640
+of multiple linear systems as part of our,
+
+608
+00:31:29,640 --> 00:31:32,160
+as one step of our optimization solver.
+
+609
+00:31:32,160 --> 00:31:34,950
+And the real claim to
+fame there, of course,
+
+610
+00:31:34,950 --> 00:31:38,550
+is that in doing so I messed up or rather,
+
+611
+00:31:38,550 --> 00:31:40,860
+I wouldn't standardize somehow
+
+612
+00:31:40,860 --> 00:31:44,490
+the matrix striding that PyTorch assumes
+
+613
+00:31:44,490 --> 00:31:47,220
+coming out of its CUDA kernels.
+
+614
+00:31:47,220 --> 00:31:52,220
+And I introduced a bug in
+PyTorch's linear solver
+
+615
+00:31:52,470 --> 00:31:54,660
+that I think persisted
+for a year after that,
+
+616
+00:31:54,660 --> 00:31:57,000
+just everyone was so confused
+about why this linear solver
+
+617
+00:31:57,000 --> 00:31:58,590
+would just randomly crash at times.
+
+618
+00:31:58,590 --> 00:32:00,780
+So that's my claim to fame, I guess,
+
+619
+00:32:00,780 --> 00:32:02,883
+sadly about deep learning systems.
+
+620
+00:32:03,780 --> 00:32:07,170
+Now the other instructor
+is a bit different.
+
+621
+00:32:07,170 --> 00:32:12,170
+So Tianqi Chen is also
+a faculty member at CMU.
+
+622
+00:32:12,360 --> 00:32:15,210
+And also in addition to
+this has a foot in industry,
+
+623
+00:32:15,210 --> 00:32:19,050
+so he was the co-founder
+of the OctoML company,
+
+624
+00:32:19,050 --> 00:32:20,730
+which is a company now
+does a lot of support
+
+625
+00:32:20,730 --> 00:32:23,430
+and development for the TVM library.
+
+626
+00:32:23,430 --> 00:32:25,650
+But the real claim to
+fame is the following.
+
+627
+00:32:25,650 --> 00:32:29,640
+So I'm giving this lecture
+
+628
+00:32:29,640 --> 00:32:31,920
+so I can suitably embarrass
+Tianqi a little bit
+
+629
+00:32:31,920 --> 00:32:34,290
+in our introduction here.
+
+630
+00:32:34,290 --> 00:32:39,120
+For a long time, the standard
+story I will give about him
+
+631
+00:32:39,120 --> 00:32:42,270
+is that in deep learning systems
+
+632
+00:32:42,270 --> 00:32:43,650
+or machine learning systems as a whole,
+
+633
+00:32:43,650 --> 00:32:46,440
+there really are three
+big players in this field.
+
+634
+00:32:46,440 --> 00:32:50,220
+There is Google, of course,
+releasing TensorFlow, JAX
+
+635
+00:32:50,220 --> 00:32:51,360
+and many other libraries.
+
+636
+00:32:51,360 --> 00:32:53,250
+There's Facebook, of course from PyTorch,
+
+637
+00:32:53,250 --> 00:32:57,210
+but also things like Prophet,
+a time series library,
+
+638
+00:32:57,210 --> 00:32:58,980
+and then there's Tianqi.
+
+639
+00:32:58,980 --> 00:33:00,540
+So Tianqi has been,
+
+640
+00:33:00,540 --> 00:33:02,940
+he was the original developer of XGBoost,
+
+641
+00:33:02,940 --> 00:33:05,730
+one of the most frequently used libraries
+
+642
+00:33:05,730 --> 00:33:10,020
+for gradient boosting and still
+one of the most widely used
+
+643
+00:33:10,020 --> 00:33:12,543
+libraries for tabular data.
+
+644
+00:33:13,440 --> 00:33:15,450
+He was a lead developer
+for the MXNet library,
+
+645
+00:33:15,450 --> 00:33:18,117
+which was another deep
+learning framework like PyTorch
+
+646
+00:33:18,117 --> 00:33:19,470
+and TensorFlow.
+
+647
+00:33:19,470 --> 00:33:21,600
+And then most recently, one
+of the founding developers
+
+648
+00:33:21,600 --> 00:33:25,140
+and core developers of
+the Apache TVM library.
+
+649
+00:33:25,140 --> 00:33:29,070
+And so he has done kind of
+an amazing number of things
+
+650
+00:33:29,070 --> 00:33:31,200
+in machine learning systems as a whole,
+
+651
+00:33:31,200 --> 00:33:34,380
+and actually quite excited
+to be able to teach
+
+652
+00:33:34,380 --> 00:33:35,430
+this course with him.
+
+653
+00:33:36,960 --> 00:33:40,320
+So before now I jump into
+the details of this course
+
+654
+00:33:40,320 --> 00:33:44,013
+and these lectures, I want
+to offer a big disclaimer,
+
+655
+00:33:45,300 --> 00:33:47,880
+which I think needs to be said here.
+
+656
+00:33:47,880 --> 00:33:51,090
+And what I'm saying here is
+that we are offering this course
+
+657
+00:33:51,090 --> 00:33:53,420
+online for the first time.
+
+658
+00:33:53,420 --> 00:33:55,500
+We have not done this before
+
+659
+00:33:55,500 --> 00:33:59,490
+and a lot of the material,
+especially the assignments,
+
+660
+00:33:59,490 --> 00:34:03,300
+which is the most complex
+part of this course
+
+661
+00:34:03,300 --> 00:34:05,550
+is being revamped from
+the previous version.
+
+662
+00:34:05,550 --> 00:34:07,890
+Actually being revamped,
+even for the CMU version
+
+663
+00:34:07,890 --> 00:34:10,557
+and then that will be they're
+kind of beta testing this,
+
+664
+00:34:10,557 --> 00:34:14,130
+and then you'll be given the
+assignments soon after that.
+
+665
+00:34:14,130 --> 00:34:19,130
+But as par for the course here,
+there are, no pun intended,
+
+666
+00:34:21,300 --> 00:34:22,810
+but as par for the course,
+
+667
+00:34:22,810 --> 00:34:25,770
+there are going to be bugs in the content
+
+668
+00:34:25,770 --> 00:34:28,710
+and the assignments, or
+just in the logistics
+
+669
+00:34:28,710 --> 00:34:30,390
+of how we run things, right?
+
+670
+00:34:30,390 --> 00:34:31,680
+This is the first time we're offering this
+
+671
+00:34:31,680 --> 00:34:34,020
+as an online course, there
+are going to be bugs,
+
+672
+00:34:34,020 --> 00:34:36,990
+there are going to be
+hiccups, please bear with us.
+
+673
+00:34:36,990 --> 00:34:38,880
+There's a saying that you
+get what you pay for, right?
+
+674
+00:34:38,880 --> 00:34:40,803
+And this course is free,
+
+675
+00:34:42,540 --> 00:34:45,480
+it's free because we want
+people to be taking it
+
+676
+00:34:45,480 --> 00:34:46,950
+and want this material to be out there.
+
+677
+00:34:46,950 --> 00:34:49,710
+But we are doing this ourselves
+
+678
+00:34:49,710 --> 00:34:50,925
+and we are putting it together ourselves
+
+679
+00:34:50,925 --> 00:34:53,430
+and there will be bugs in it.
+
+680
+00:34:53,430 --> 00:34:56,640
+So we apologize kind of
+ahead of time for this,
+
+681
+00:34:56,640 --> 00:34:59,760
+please bear with us, we will
+do our best to fix these things
+
+682
+00:34:59,760 --> 00:35:03,030
+and extend deadlines as needed
+to account for these bugs,
+
+683
+00:35:03,030 --> 00:35:05,850
+but they will be there, and we appreciate,
+
+684
+00:35:05,850 --> 00:35:09,914
+you are all beta testers for
+this course as we create it.
+
+685
+00:35:09,914 --> 00:35:13,260
+So part of the fun of
+taking an online course
+
+686
+00:35:13,260 --> 00:35:16,200
+for the first time is that
+you become a beta tester
+
+687
+00:35:16,200 --> 00:35:17,523
+for the course.
+
+688
+00:35:19,050 --> 00:35:21,570
+All right, now learning objectives,
+
+689
+00:35:21,570 --> 00:35:22,860
+what are you gonna learn in this course?
+
+690
+00:35:22,860 --> 00:35:25,680
+I've probably made this
+clear from past slides,
+
+691
+00:35:25,680 --> 00:35:29,400
+but let me lay it out just in very,
+
+692
+00:35:29,400 --> 00:35:31,143
+hopefully clear terms here.
+
+693
+00:35:32,430 --> 00:35:34,350
+If you stay through this whole course,
+
+694
+00:35:34,350 --> 00:35:36,630
+do all the assignments
+and do a final project.
+
+695
+00:35:36,630 --> 00:35:38,310
+Then by the end of this course,
+
+696
+00:35:38,310 --> 00:35:41,100
+you will understand the basic functioning
+
+697
+00:35:41,100 --> 00:35:43,080
+of modern, deep learning libraries,
+
+698
+00:35:43,080 --> 00:35:45,630
+including concepts like
+automatic differentiation
+
+699
+00:35:45,630 --> 00:35:48,630
+and grade based optimization
+from an algorithmic standpoint.
+
+700
+00:35:49,830 --> 00:35:53,910
+You will be able to implement
+really from scratch, right,
+
+701
+00:35:53,910 --> 00:35:55,740
+because we're talking
+about implementing these
+
+702
+00:35:55,740 --> 00:35:59,070
+without PyTorch or without
+TensorFlow behind you,
+
+703
+00:35:59,070 --> 00:36:01,803
+but just really, just from raw Python,
+
+704
+00:36:02,790 --> 00:36:04,860
+you'll be able to implement several
+
+705
+00:36:04,860 --> 00:36:06,390
+standard deep learning architectures,
+
+706
+00:36:06,390 --> 00:36:10,560
+things like MLPs, ConvNets, RNNs or LSTMs,
+
+707
+00:36:10,560 --> 00:36:12,720
+various kinds of RNNs,
+and then transformers,
+
+708
+00:36:12,720 --> 00:36:14,313
+and do it truly from scratch.
+
+709
+00:36:15,450 --> 00:36:18,630
+And you will also understand and implement
+
+710
+00:36:18,630 --> 00:36:22,140
+how hardware acceleration
+works under the hood
+
+711
+00:36:22,140 --> 00:36:26,373
+and be able to develop your
+own highly efficient code.
+
+712
+00:36:28,830 --> 00:36:29,910
+Now it's not going to be,
+
+713
+00:36:29,910 --> 00:36:32,670
+I should emphasize it's not
+going to be nearly as efficient
+
+714
+00:36:32,670 --> 00:36:36,840
+as libraries like PyTorch or TensorFlow.
+
+715
+00:36:36,840 --> 00:36:38,520
+There's still a big gap between
+
+716
+00:36:38,520 --> 00:36:42,210
+the very best that optimization can do
+
+717
+00:36:42,210 --> 00:36:45,090
+and that the code optimization
+can do, I should emphasize.
+
+718
+00:36:45,090 --> 00:36:49,710
+And what you can do with 2000
+lines of code, no question.
+
+719
+00:36:49,710 --> 00:36:52,740
+So we're not gonna break
+any speed records here,
+
+720
+00:36:52,740 --> 00:36:54,720
+but you will be able to create libraries
+
+721
+00:36:54,720 --> 00:36:57,510
+that work on reasonable,
+medium sized data,
+
+722
+00:36:57,510 --> 00:37:00,330
+data like CIFAR, right, reasonably sized
+
+723
+00:37:00,330 --> 00:37:04,110
+networks and architectures,
+you'll be able to develop them,
+
+724
+00:37:04,110 --> 00:37:05,640
+write medium size architectures
+
+725
+00:37:05,640 --> 00:37:07,470
+that actually work for these systems
+
+726
+00:37:07,470 --> 00:37:10,860
+and do it entirely from scratch on GPU
+
+727
+00:37:10,860 --> 00:37:14,313
+with automatic differentiation, with
+nice optimizers, all that.
+
+728
+00:37:15,870 --> 00:37:20,870
+Now the course website,
+which is dlsyscourse.org,
+
+729
+00:37:22,560 --> 00:37:26,670
+has all this information
+and will have a listing
+
+730
+00:37:26,670 --> 00:37:30,060
+and also posting of all the
+lectures for the course.
+
+731
+00:37:30,060 --> 00:37:32,790
+And you can look at the schedule of topics
+
+732
+00:37:32,790 --> 00:37:34,680
+to see what you'll be learning there.
+
+733
+00:37:34,680 --> 00:37:37,320
+Now, one thing to emphasize
+is that that schedule,
+
+734
+00:37:37,320 --> 00:37:39,210
+at least the schedule
+here that I'm listing
+
+735
+00:37:39,210 --> 00:37:41,160
+is the schedule for the CMU version,
+
+736
+00:37:41,160 --> 00:37:44,970
+which is about two weeks
+ahead of the online version.
+
+737
+00:37:44,970 --> 00:37:48,450
+But we will also post
+the dates and the videos
+
+738
+00:37:48,450 --> 00:37:51,600
+for all the online lectures
+as they become available
+
+739
+00:37:51,600 --> 00:37:54,390
+and it will follow the same structure as
+
+740
+00:37:54,390 --> 00:37:55,320
+the main CMU course.
+
+741
+00:37:55,320 --> 00:37:58,500
+Actually only this lecture
+has slightly different slides
+
+742
+00:37:58,500 --> 00:38:00,330
+because there's different logistics
+
+743
+00:38:00,330 --> 00:38:03,480
+for the online course
+versus the CMU course.
+
+744
+00:38:03,480 --> 00:38:06,690
+But the rest of the schedule
+will follow the same schedule
+
+745
+00:38:06,690 --> 00:38:11,010
+between the CMU version of the
+course and the online course
+
+746
+00:38:11,010 --> 00:38:13,920
+and the schedule is up on the website.
+
+747
+00:38:13,920 --> 00:38:16,860
+It talks about things like covering
+
+748
+00:38:16,860 --> 00:38:20,553
+an ML refresher and background,
+automatic differentiation,
+
+749
+00:38:21,390 --> 00:38:24,090
+different types of
+architectures, et cetera.
+
+750
+00:38:24,090 --> 00:38:26,070
+Now one thing you will see
+is a lot of the lectures
+
+751
+00:38:26,070 --> 00:38:29,520
+are broken down between
+algorithm lectures,
+
+752
+00:38:29,520 --> 00:38:33,257
+so lectures covering kind of
+the methodological algorithms
+
+753
+00:38:35,910 --> 00:38:39,390
+or techniques used to solve some
+
+754
+00:38:39,390 --> 00:38:42,300
+or to accomplish some
+task in deep learning,
+
+755
+00:38:42,300 --> 00:38:44,490
+and then implementation lectures
+
+756
+00:38:44,490 --> 00:38:48,150
+where we will actually
+implement some portions of this
+
+757
+00:38:48,150 --> 00:38:52,350
+or walk you through
+some simple live coding
+
+758
+00:38:52,350 --> 00:38:55,863
+of how these things actually
+are done in practice.
+
+759
+00:38:57,840 --> 00:39:02,640
+Now in order to take this course,
+
+760
+00:39:02,640 --> 00:39:05,280
+what should you know ahead of time?
+
+761
+00:39:05,280 --> 00:39:09,180
+And to be honest about this,
+
+762
+00:39:09,180 --> 00:39:12,750
+there is some reasonable
+prerequisites you should have here
+
+763
+00:39:12,750 --> 00:39:14,310
+in order to get the
+most out of this course.
+
+764
+00:39:14,310 --> 00:39:17,460
+Now it's not to say that if you
+don't have all these things,
+
+765
+00:39:17,460 --> 00:39:19,020
+the course is impossible.
+
+766
+00:39:19,020 --> 00:39:21,540
+If you're really excited
+about it and want to learn
+
+767
+00:39:21,540 --> 00:39:24,090
+some of these things concurrently
+
+768
+00:39:24,090 --> 00:39:26,760
+as you go through the
+course, you are welcome to,
+
+769
+00:39:26,760 --> 00:39:29,110
+just know that it will
+be more effort to do so.
+
+770
+00:39:30,030 --> 00:39:30,863
+But to take this course,
+
+771
+00:39:30,863 --> 00:39:33,270
+you should have some background
+in systems programming.
+
+772
+00:39:33,270 --> 00:39:38,270
+That means basically C++
+coding, how to compile things,
+
+773
+00:39:39,330 --> 00:39:44,310
+how to compile things like,
+not just run Python scripts,
+
+774
+00:39:44,310 --> 00:39:46,710
+but actually compile executable code
+
+775
+00:39:46,710 --> 00:39:51,243
+that sort of runs on natively on hardware.
+
+776
+00:39:53,310 --> 00:39:56,500
+Linear algebra, so you
+should be familiar with
+
+777
+00:39:58,050 --> 00:39:59,880
+vector and matrix notation.
+
+778
+00:39:59,880 --> 00:40:02,490
+So there's no math, I
+mentioned in this lecture,
+
+779
+00:40:02,490 --> 00:40:05,853
+but later lectures will actually require,
+
+780
+00:40:06,990 --> 00:40:09,810
+I will write things like a
+bunch of matrices and vectors
+
+781
+00:40:09,810 --> 00:40:10,740
+multiply it against each other.
+
+782
+00:40:10,740 --> 00:40:12,540
+I will do things like take gradients
+
+783
+00:40:12,540 --> 00:40:14,280
+or derivatives of these things
+
+784
+00:40:14,280 --> 00:40:16,383
+and you should know what that means.
+
+785
+00:40:18,330 --> 00:40:22,350
+That means also, and probably
+the biggest requirement
+
+786
+00:40:22,350 --> 00:40:26,280
+really is linear algebra,
+but there's other things too,
+
+787
+00:40:26,280 --> 00:40:29,610
+like calculus, really, to be
+clear, just taking derivatives.
+
+788
+00:40:29,610 --> 00:40:32,580
+We don't really do any integrals,
+
+789
+00:40:32,580 --> 00:40:34,020
+there's some integrals
+in probability, I guess,
+
+790
+00:40:34,020 --> 00:40:37,443
+but we don't do many
+integrals in deep learning.
+
+791
+00:40:38,340 --> 00:40:40,860
+But you should know when I write things
+
+792
+00:40:40,860 --> 00:40:42,360
+like gradient symbols and stuff like that,
+
+793
+00:40:42,360 --> 00:40:43,740
+you should know what these things mean
+
+794
+00:40:43,740 --> 00:40:45,120
+or have some understanding of it.
+
+795
+00:40:45,120 --> 00:40:47,130
+We can provide some links to refreshers
+
+796
+00:40:47,130 --> 00:40:48,060
+or background material on this,
+
+797
+00:40:48,060 --> 00:40:51,240
+but if this is really brand new to you,
+
+798
+00:40:51,240 --> 00:40:54,840
+this could be somewhat challenging
+to become familiar with.
+
+799
+00:40:54,840 --> 00:40:57,120
+As well as sort of basic proofs,
+
+800
+00:40:57,120 --> 00:40:59,250
+now we're not gonna do
+many proofs in this course
+
+801
+00:40:59,250 --> 00:41:01,260
+to be very clear, this is
+really a systems course,
+
+802
+00:41:01,260 --> 00:41:02,340
+but you should be familiar
+
+803
+00:41:02,340 --> 00:41:05,490
+with sort of the basic
+constructs of how you go about
+
+804
+00:41:05,490 --> 00:41:07,290
+deriving things mathematically.
+
+805
+00:41:07,290 --> 00:41:09,740
+How do you derive a gradient
+and stuff like this?
+
+806
+00:41:10,950 --> 00:41:14,470
+You need some Python and
+C++ development background
+
+807
+00:41:16,200 --> 00:41:18,900
+and a common question that's asked,
+
+808
+00:41:18,900 --> 00:41:22,530
+is how much C++ background do you need?
+
+809
+00:41:22,530 --> 00:41:26,460
+The answer is, I don't think that much,
+
+810
+00:41:26,460 --> 00:41:29,190
+we're not using any
+advanced features of C++
+
+811
+00:41:29,190 --> 00:41:33,120
+or anything, we're not even using,
+
+812
+00:41:33,120 --> 00:41:35,270
+certainly not C++20 and not even C++11
+
+813
+00:41:35,270 --> 00:41:36,270
+or anything like that.
+
+814
+00:41:36,270 --> 00:41:39,540
+I don't even know if that's
+the right year to be honest.
+
+815
+00:41:39,540 --> 00:41:40,560
+I don't know those things very well,
+
+816
+00:41:40,560 --> 00:41:42,750
+we're not using unique
+pointers or anything like that.
+
+817
+00:41:42,750 --> 00:41:46,770
+It's really just C with a
+few classes in addition.
+
+818
+00:41:46,770 --> 00:41:50,910
+So I see this as actually
+very minimal C++ experience,
+
+819
+00:41:50,910 --> 00:41:53,790
+but what you should know how to do is
+
+820
+00:41:53,790 --> 00:41:57,120
+if we give you a template for
+
+821
+00:41:57,120 --> 00:42:00,960
+writing a matrix
+multiplication call in C++,
+
+822
+00:42:00,960 --> 00:42:04,410
+so this template would take
+in a bunch of float pointers
+
+823
+00:42:04,410 --> 00:42:06,600
+and const float pointers
+and stuff like that.
+
+824
+00:42:06,600 --> 00:42:10,620
+The sizes of these
+matrices, things like this,
+
+825
+00:42:10,620 --> 00:42:14,310
+where those pointers point
+to the raw underlying data
+
+826
+00:42:14,310 --> 00:42:16,470
+in the in the matrices,
+
+827
+00:42:16,470 --> 00:42:19,165
+you should know how to write quickly
+
+828
+00:42:19,165 --> 00:42:22,920
+a matrix multiplication
+routine that would multiply
+
+829
+00:42:22,920 --> 00:42:24,510
+these two matrices together.
+
+830
+00:42:24,510 --> 00:42:26,010
+And then most importantly,
+
+831
+00:42:26,010 --> 00:42:29,280
+because this will happen,
+when you mess up your indexing
+
+832
+00:42:29,280 --> 00:42:32,280
+in C++ because there's
+no safe indexing there
+
+833
+00:42:32,280 --> 00:42:34,380
+and you have a segfault of your program,
+
+834
+00:42:34,380 --> 00:42:36,480
+you should know how to debug it,
+
+835
+00:42:36,480 --> 00:42:38,730
+either through a debugger,
+or if you're like me,
+
+836
+00:42:38,730 --> 00:42:40,800
+then through at least, the very least
+
+837
+00:42:40,800 --> 00:42:43,140
+through printf statements that,
+
+838
+00:42:43,140 --> 00:42:45,030
+this is how I debug honestly, C++ code.
+
+839
+00:42:45,030 --> 00:42:47,880
+But you should know how to fix things
+
+840
+00:42:47,880 --> 00:42:50,190
+when your code segfaults, right?
+
+841
+00:42:50,190 --> 00:42:53,400
+So that's kind of the level
+of C++ background you need.
+
+842
+00:42:53,400 --> 00:42:55,410
+Python, you should probably be familiar
+
+843
+00:42:55,410 --> 00:42:58,650
+with classes and such in Python too,
+
+844
+00:42:58,650 --> 00:43:00,210
+because you will be implementing
+
+845
+00:43:00,210 --> 00:43:03,030
+most of the structure of
+this library in Python
+
+846
+00:43:03,030 --> 00:43:04,440
+and that you have to be familiar with.
+
+847
+00:43:04,440 --> 00:43:06,150
+But C++ is really sort of
+
+848
+00:43:06,150 --> 00:43:07,650
+for the low level background.
+
+849
+00:43:07,650 --> 00:43:09,660
+You don't need to know CUDA
+programming ahead of time,
+
+850
+00:43:09,660 --> 00:43:11,760
+we will cover what you need
+to know for the course,
+
+851
+00:43:11,760 --> 00:43:14,403
+but you need to understand
+basic C++ programming.
+
+852
+00:43:15,390 --> 00:43:17,640
+And then finally you do need
+to have prior experience
+
+853
+00:43:17,640 --> 00:43:19,116
+with machine learning.
+
+854
+00:43:19,116 --> 00:43:22,500
+If all of this, if machine
+learning is really new to you,
+
+855
+00:43:22,500 --> 00:43:23,910
+you're much better off taking
+
+856
+00:43:23,910 --> 00:43:25,110
+a machine learning course first
+
+857
+00:43:25,110 --> 00:43:27,570
+and then taking this course afterwards.
+
+858
+00:43:27,570 --> 00:43:29,460
+You will get much, much more out of this
+
+859
+00:43:29,460 --> 00:43:32,010
+if you're already familiar
+with machine learning
+
+860
+00:43:32,010 --> 00:43:34,020
+and probably already
+familiar with deep learning,
+
+861
+00:43:34,020 --> 00:43:36,900
+to a large degree and
+then take this course
+
+862
+00:43:36,900 --> 00:43:39,513
+to understand more how
+these things actually work.
+
+863
+00:43:41,010 --> 00:43:43,950
+So if you are unsure
+about your background,
+
+864
+00:43:43,950 --> 00:43:45,840
+then what I would say is,
+
+865
+00:43:45,840 --> 00:43:48,240
+take a look at the first three lectures,
+
+866
+00:43:48,240 --> 00:43:51,240
+I guess not including
+this one, the next three,
+
+867
+00:43:51,240 --> 00:43:53,190
+and look at homework zero,
+
+868
+00:43:53,190 --> 00:43:56,520
+which is gonna be released
+two days after we release,
+
+869
+00:43:56,520 --> 00:43:58,053
+we officially start the class.
+
+870
+00:43:59,580 --> 00:44:03,142
+This homework zero is essentially
+meant to be a refresher
+
+871
+00:44:03,142 --> 00:44:07,590
+on some basic ideas of traditional
+ways of writing things.
+
+872
+00:44:07,590 --> 00:44:10,470
+Basically you will implement
+softmax regression
+
+873
+00:44:10,470 --> 00:44:12,630
+and a simple two layer neural network.
+
+874
+00:44:12,630 --> 00:44:15,210
+And you should be familiar with how,
+
+875
+00:44:15,210 --> 00:44:19,530
+neural network in using
+kind of manual backprop
+
+876
+00:44:19,530 --> 00:44:21,360
+and you should be familiar with that,
+
+877
+00:44:21,360 --> 00:44:22,920
+you should have seen this before
+
+878
+00:44:22,920 --> 00:44:25,140
+and maybe with a bit of refresher,
+
+879
+00:44:25,140 --> 00:44:28,380
+be able to do that relatively quickly
+
+880
+00:44:28,380 --> 00:44:30,230
+to know this course is right for you.
+
+881
+00:44:31,711 --> 00:44:34,857
+And one of these, you
+actually will also write C
+
+882
+00:44:34,857 --> 00:44:36,600
+with a C++ backend.
+
+883
+00:44:36,600 --> 00:44:39,090
+But if that is very challenging for you,
+
+884
+00:44:39,090 --> 00:44:41,070
+then probably should
+take some other material
+
+885
+00:44:41,070 --> 00:44:42,330
+before you take this course.
+
+886
+00:44:42,330 --> 00:44:45,450
+But if all those things
+are pretty straightforward
+
+887
+00:44:45,450 --> 00:44:48,660
+or really can be made more
+straightforward again,
+
+888
+00:44:48,660 --> 00:44:50,040
+if you brush up a little bit,
+
+889
+00:44:50,040 --> 00:44:52,953
+then this course is likely
+the right level for you.
+
+890
+00:44:54,600 --> 00:44:56,910
+Now there are four main
+elements to this course,
+
+891
+00:44:56,910 --> 00:44:59,943
+the video lectures of which
+you are watching the first one,
+
+892
+00:45:00,810 --> 00:45:03,090
+programming based homeworks,
+
+893
+00:45:03,090 --> 00:45:05,760
+a final project done in groups
+
+894
+00:45:05,760 --> 00:45:08,790
+and interaction in the course forum.
+
+895
+00:45:08,790 --> 00:45:11,070
+And it's important to
+take part in all of these
+
+896
+00:45:11,070 --> 00:45:12,810
+in order to get the full
+value of the course.
+
+897
+00:45:12,810 --> 00:45:16,050
+I really think that
+each of these components
+
+898
+00:45:16,050 --> 00:45:17,790
+plays a crucial, crucial role
+
+899
+00:45:17,790 --> 00:45:20,430
+in really understanding the material.
+
+900
+00:45:20,430 --> 00:45:21,420
+Even if, for example,
+
+901
+00:45:21,420 --> 00:45:23,340
+lectures are not directly
+using the homework,
+
+902
+00:45:23,340 --> 00:45:25,140
+they're still very important to know.
+
+903
+00:45:25,140 --> 00:45:30,090
+And even if the forum is
+in some sense, optional,
+
+904
+00:45:30,090 --> 00:45:33,030
+it's very valuable to get interaction
+
+905
+00:45:33,030 --> 00:45:34,620
+with other students taking the course
+
+906
+00:45:34,620 --> 00:45:36,820
+in order to get the
+most out of it possible.
+
+907
+00:45:38,880 --> 00:45:42,420
+I do want to emphasize that
+this online public course
+
+908
+00:45:42,420 --> 00:45:45,030
+is offered really independently
+of the CMU version.
+
+909
+00:45:45,030 --> 00:45:49,260
+So we can't offer CMU
+credit or things like this
+
+910
+00:45:49,260 --> 00:45:51,540
+for taking this course, even if you pass
+
+911
+00:45:51,540 --> 00:45:53,280
+and do well on the course.
+
+912
+00:45:53,280 --> 00:45:56,340
+But what we will do is
+for everyone in the course
+
+913
+00:45:56,340 --> 00:45:57,990
+who completes the assignments,
+
+914
+00:45:57,990 --> 00:46:00,810
+gets an average of 80% or higher
+
+915
+00:46:00,810 --> 00:46:02,370
+and submits a final project,
+
+916
+00:46:02,370 --> 00:46:04,740
+you'll receive a certificate
+of completion for the course
+
+917
+00:46:04,740 --> 00:46:07,740
+to sort of indicate you've completed it.
+
+918
+00:46:07,740 --> 00:46:08,910
+We'll somehow make it official,
+
+919
+00:46:08,910 --> 00:46:10,470
+probably post it on the
+website or something
+
+920
+00:46:10,470 --> 00:46:13,290
+so you can have an official
+link to it and things like that.
+
+921
+00:46:13,290 --> 00:46:16,020
+But you will receive a
+certificate of completion
+
+922
+00:46:16,020 --> 00:46:18,780
+personalized to you that in some sense,
+
+923
+00:46:18,780 --> 00:46:20,850
+certifies you've taken
+and completed this course,
+
+924
+00:46:20,850 --> 00:46:25,050
+even in online, even just, in some sense
+
+925
+00:46:25,050 --> 00:46:26,850
+in the online public version.
+
+926
+00:46:26,850 --> 00:46:27,960
+Because it is a lot of effort
+
+927
+00:46:27,960 --> 00:46:30,810
+and we do want to ensure that
+you have something to show
+
+928
+00:46:30,810 --> 00:46:32,790
+and some sort of record
+that you've completed this
+
+929
+00:46:32,790 --> 00:46:35,553
+and done it successfully.
+
+930
+00:46:37,020 --> 00:46:39,960
+Now I'll end by just
+describing each of these
+
+931
+00:46:39,960 --> 00:46:42,690
+a little bit in each
+of these four elements
+
+932
+00:46:42,690 --> 00:46:44,490
+in a bit more detail here.
+
+933
+00:46:44,490 --> 00:46:47,340
+So the video lectures
+themselves are going to be
+
+934
+00:46:47,340 --> 00:46:48,990
+essentially in the format
+you're watching right now.
+
+935
+00:46:48,990 --> 00:46:53,990
+So they will be live
+recordings of the lecture,
+
+936
+00:46:54,360 --> 00:46:58,047
+they will consist of slide
+presentations like this one.
+
+937
+00:46:58,047 --> 00:46:59,790
+But most won't just be this,
+
+938
+00:46:59,790 --> 00:47:00,780
+I think this is the only lecture
+
+939
+00:47:00,780 --> 00:47:02,610
+that is just nothing but slides.
+
+940
+00:47:02,610 --> 00:47:04,650
+The rest will all also have things like
+
+941
+00:47:04,650 --> 00:47:07,230
+mathematical notes to them, derivations
+
+942
+00:47:07,230 --> 00:47:09,060
+and in many cases live coding
+
+943
+00:47:09,060 --> 00:47:11,033
+to illustrate some ideas, okay?
+
+944
+00:47:12,000 --> 00:47:14,220
+Videos for all the
+intellectuals will be posted
+
+945
+00:47:14,220 --> 00:47:16,290
+to YouTube or other video sites.
+
+946
+00:47:16,290 --> 00:47:17,310
+We're gonna try to make them available
+
+947
+00:47:17,310 --> 00:47:18,150
+on a few different video sites
+
+948
+00:47:18,150 --> 00:47:20,370
+so that they can be accessed globally
+
+949
+00:47:20,370 --> 00:47:22,650
+according to the course schedule.
+
+950
+00:47:22,650 --> 00:47:25,290
+And videos will be available to everyone,
+
+951
+00:47:25,290 --> 00:47:27,960
+so because they're on YouTube
+anyone can watch them.
+
+952
+00:47:27,960 --> 00:47:30,210
+So you can actually watch
+without officially enrolling
+
+953
+00:47:30,210 --> 00:47:32,610
+in the course, many of
+you probably are watching
+
+954
+00:47:32,610 --> 00:47:34,760
+without officially
+enrolling in the course.
+
+955
+00:47:35,850 --> 00:47:37,920
+They don't require
+registering for the course.
+
+956
+00:47:37,920 --> 00:47:39,060
+One thing I will mention,
+
+957
+00:47:39,060 --> 00:47:40,460
+which you can probably tell from this,
+
+958
+00:47:40,460 --> 00:47:43,020
+if you've made it this far
+through the lecture so far,
+
+959
+00:47:43,020 --> 00:47:45,750
+is that these lectures
+are taken in one take.
+
+960
+00:47:45,750 --> 00:47:48,450
+We're not doing a lot of editing here.
+
+961
+00:47:48,450 --> 00:47:50,280
+Essentially, we are recording these live
+
+962
+00:47:50,280 --> 00:47:51,570
+and we will with minimal
+
+963
+00:47:51,570 --> 00:47:53,280
+can be cutting at the beginning at the end
+
+964
+00:47:53,280 --> 00:47:55,770
+or if something really goes
+bad cropping in the middle,
+
+965
+00:47:55,770 --> 00:47:57,720
+we're mostly gonna do these in one take
+
+966
+00:47:57,720 --> 00:48:00,780
+and with all the hiccups
+and such that happen
+
+967
+00:48:00,780 --> 00:48:01,613
+in a real lecture.
+
+968
+00:48:01,613 --> 00:48:04,530
+So this is sort of a online version,
+
+969
+00:48:04,530 --> 00:48:06,900
+but still kind of live stream,
+
+970
+00:48:06,900 --> 00:48:09,333
+think of them as live streams of lectures.
+
+971
+00:48:11,340 --> 00:48:12,810
+The second component that I mentioned
+
+972
+00:48:12,810 --> 00:48:14,220
+was programming assignments.
+
+973
+00:48:14,220 --> 00:48:15,960
+And this is actually, if I was to say,
+
+974
+00:48:15,960 --> 00:48:18,960
+this is probably the most
+important component of the class.
+
+975
+00:48:18,960 --> 00:48:21,240
+So in addition to homework zero,
+
+976
+00:48:21,240 --> 00:48:24,510
+which is kind of a separate
+thing in and of itself,
+
+977
+00:48:24,510 --> 00:48:27,570
+there are four homeworks,
+homeworks one through four,
+
+978
+00:48:27,570 --> 00:48:31,890
+and these four homeworks take you through
+
+979
+00:48:31,890 --> 00:48:36,360
+the process of building different aspects
+
+980
+00:48:36,360 --> 00:48:41,360
+of this needle library,
+this minimal Python,
+
+981
+00:48:41,910 --> 00:48:43,413
+deep learning framework.
+
+982
+00:48:44,340 --> 00:48:47,400
+And in particular, you're
+going to first develop
+
+983
+00:48:47,400 --> 00:48:50,790
+an automatic differentiation
+framework for needle.
+
+984
+00:48:50,790 --> 00:48:53,430
+Then you will use this to build a simple
+
+985
+00:48:53,430 --> 00:48:57,210
+neural network library
+with things like modules
+
+986
+00:48:57,210 --> 00:48:59,940
+for neural networks,
+optimization techniques,
+
+987
+00:48:59,940 --> 00:49:02,040
+data loading, that kind of stuff.
+
+988
+00:49:02,040 --> 00:49:06,360
+You will then implement
+linear algebra backends
+
+989
+00:49:06,360 --> 00:49:09,120
+on both CPUs and GPU systems.
+
+990
+00:49:09,120 --> 00:49:11,280
+And finally, you'll use these things
+
+991
+00:49:11,280 --> 00:49:13,260
+implement a number of,
+in the fourth assignment,
+
+992
+00:49:13,260 --> 00:49:16,500
+a number of common architectures
+
+993
+00:49:16,500 --> 00:49:18,538
+like combination networks
+recurrent networks
+
+994
+00:49:18,538 --> 00:49:20,883
+and possibly Transformers.
+
+995
+00:49:22,890 --> 00:49:25,920
+Each of these assignments
+builds on previous ones
+
+996
+00:49:25,920 --> 00:49:27,450
+and you actually have to
+complete them in order,
+
+997
+00:49:27,450 --> 00:49:29,640
+you have to complete the first assignment
+
+998
+00:49:29,640 --> 00:49:31,320
+before you can do later ones
+
+999
+00:49:31,320 --> 00:49:33,750
+because they build on each other.
+
+1000
+00:49:33,750 --> 00:49:37,500
+And this process of building this library
+
+1001
+00:49:37,500 --> 00:49:41,220
+really is the key component of the course
+
+1002
+00:49:41,220 --> 00:49:44,640
+and it is how you will
+learn the most through it.
+
+1003
+00:49:44,640 --> 00:49:49,640
+So anyone can watch the lecture videos,
+
+1004
+00:49:51,030 --> 00:49:54,570
+but in order to submit the assignments,
+
+1005
+00:49:54,570 --> 00:49:58,350
+you do need to officially
+sign up for the course.
+
+1006
+00:49:58,350 --> 00:50:00,060
+So you have to actually
+register for the course,
+
+1007
+00:50:00,060 --> 00:50:01,590
+so if you're watching
+this video just on YouTube
+
+1008
+00:50:01,590 --> 00:50:03,090
+and have not signed up for the course yet,
+
+1009
+00:50:03,090 --> 00:50:05,400
+if you want to submit the assignments,
+
+1010
+00:50:05,400 --> 00:50:08,220
+which is really the way
+you learn this material,
+
+1011
+00:50:08,220 --> 00:50:11,460
+then you sign up for the course
+and you will get an account
+
+1012
+00:50:11,460 --> 00:50:14,223
+to submit assignments to
+our auto grading setup.
+
+1013
+00:50:15,450 --> 00:50:19,050
+Now one thing I want to
+mention is that the homeworks
+
+1014
+00:50:19,050 --> 00:50:20,853
+are entirely coding based.
+
+1015
+00:50:21,690 --> 00:50:24,540
+There's no derivations, nothing
+like this in the homeworks
+
+1016
+00:50:24,540 --> 00:50:25,980
+or whatever derivation we have,
+
+1017
+00:50:25,980 --> 00:50:27,210
+it's sort of implicit because then
+
+1018
+00:50:27,210 --> 00:50:28,350
+you have to code it up afterwards,
+
+1019
+00:50:28,350 --> 00:50:30,600
+to know if it actually works or not.
+
+1020
+00:50:30,600 --> 00:50:32,430
+The homeworks are entirely coding based
+
+1021
+00:50:32,430 --> 00:50:33,870
+and they're all auto graded.
+
+1022
+00:50:33,870 --> 00:50:35,550
+This is actually true
+for the CNU version too.
+
+1023
+00:50:35,550 --> 00:50:37,650
+This is the exact same in the
+CNU version of the course.
+
+1024
+00:50:37,650 --> 00:50:41,250
+Everything, there's no theory
+questions on the homework,
+
+1025
+00:50:41,250 --> 00:50:44,280
+it is just programming
+assignments, all code based.
+
+1026
+00:50:44,280 --> 00:50:48,810
+And it's graded through
+our own auto grading system
+
+1027
+00:50:48,810 --> 00:50:51,393
+that I've actually been
+developing for a few years.
+
+1028
+00:50:52,860 --> 00:50:55,620
+And this auto grading system
+works a bit differently
+
+1029
+00:50:55,620 --> 00:50:57,510
+from others you may have seen,
+
+1030
+00:50:57,510 --> 00:51:02,510
+I'll document this a
+lot in a future lecture,
+
+1031
+00:51:02,610 --> 00:51:05,610
+actually a separate video
+about the auto grading system
+
+1032
+00:51:05,610 --> 00:51:08,283
+I'll post soon after this one.
+
+1033
+00:51:09,330 --> 00:51:11,280
+I'll run to the process of submitting code
+
+1034
+00:51:11,280 --> 00:51:12,570
+to this auto grader.
+
+1035
+00:51:12,570 --> 00:51:14,550
+But the big difference that
+I'll just highlight right now
+
+1036
+00:51:14,550 --> 00:51:15,660
+is that in this auto grader,
+
+1037
+00:51:15,660 --> 00:51:18,000
+you actually run all your code locally
+
+1038
+00:51:18,000 --> 00:51:20,310
+rather than submitting
+your code and having it run
+
+1039
+00:51:20,310 --> 00:51:22,830
+on the auto grader which
+causes all sorts of problems
+
+1040
+00:51:22,830 --> 00:51:25,590
+because the environment
+in the auto grader
+
+1041
+00:51:25,590 --> 00:51:28,410
+is never the same as the
+one you've coded on locally.
+
+1042
+00:51:28,410 --> 00:51:30,990
+So you actually run all
+your execution locally
+
+1043
+00:51:30,990 --> 00:51:32,310
+and you only submit answers.
+
+1044
+00:51:32,310 --> 00:51:35,310
+So the answers and check
+against reference solutions
+
+1045
+00:51:35,310 --> 00:51:36,210
+in the auto grading system,
+
+1046
+00:51:36,210 --> 00:51:37,800
+which makes it much more efficient,
+
+1047
+00:51:37,800 --> 00:51:40,770
+much faster to run as
+well as sort of makes it
+
+1048
+00:51:40,770 --> 00:51:43,440
+a little bit less painful
+in terms of debugging
+
+1049
+00:51:43,440 --> 00:51:44,790
+environment setups.
+
+1050
+00:51:44,790 --> 00:51:49,710
+So I'll go through all that
+in a second in later lecture.
+
+1051
+00:51:49,710 --> 00:51:51,480
+It also means that essentially running
+
+1052
+00:51:51,480 --> 00:51:53,370
+in Colab environments, at least currently,
+
+1053
+00:51:53,370 --> 00:51:55,590
+I know Colab's changing monthly,
+
+1054
+00:51:55,590 --> 00:51:57,540
+so we may run into some
+issues, hiccups with Colab.
+
+1055
+00:51:57,540 --> 00:52:00,540
+But at least currently you
+can do all the assignments
+
+1056
+00:52:00,540 --> 00:52:04,017
+in Colab and submit them,
+execute them all in Colab
+
+1057
+00:52:04,017 --> 00:52:06,570
+and do all the auto grading and use that.
+
+1058
+00:52:06,570 --> 00:52:08,850
+And as I said, I will go through that,
+
+1059
+00:52:08,850 --> 00:52:12,960
+the setup and at least
+the desired workflow
+
+1060
+00:52:12,960 --> 00:52:14,850
+for how you should do assignments.
+
+1061
+00:52:14,850 --> 00:52:16,590
+I'll go through that in a separate video
+
+1062
+00:52:16,590 --> 00:52:19,980
+in a few, probably posted actually concurrently
+
+1063
+00:52:19,980 --> 00:52:23,043
+with this one, but in
+a few more in a days.
+
+1064
+00:52:25,230 --> 00:52:27,540
+All right, the second to last component
+
+1065
+00:52:27,540 --> 00:52:28,770
+is the final project.
+
+1066
+00:52:28,770 --> 00:52:32,550
+So in addition to homeworks,
+there will be a final project
+
+1067
+00:52:32,550 --> 00:52:35,550
+and unlike the homeworks, which
+are to be done individually,
+
+1068
+00:52:36,540 --> 00:52:39,270
+the final project should
+be done in groups.
+
+1069
+00:52:39,270 --> 00:52:40,380
+So you will form groups,
+
+1070
+00:52:40,380 --> 00:52:42,150
+there will be posting on
+the forums to form groups
+
+1071
+00:52:42,150 --> 00:52:44,640
+as the time comes then in groups of three,
+
+1072
+00:52:44,640 --> 00:52:45,720
+especially for the online course,
+
+1073
+00:52:45,720 --> 00:52:47,280
+if you wanna find a group of one,
+
+1074
+00:52:47,280 --> 00:52:50,880
+or if you find bigger
+groups that's certainly fine
+
+1075
+00:52:50,880 --> 00:52:54,330
+the point is to form a group
+and do a final project.
+
+1076
+00:52:54,330 --> 00:52:56,880
+And the idea here is the
+final project involves
+
+1077
+00:52:56,880 --> 00:53:00,450
+developing some new piece
+of functionality for needle.
+
+1078
+00:53:00,450 --> 00:53:02,430
+So it's kind of homework five,
+
+1079
+00:53:02,430 --> 00:53:04,080
+designing homework five, right?
+
+1080
+00:53:04,080 --> 00:53:06,210
+Well, to be clear, it's
+homework zero and homework four,
+
+1081
+00:53:06,210 --> 00:53:07,680
+the homework so you're the final project
+
+1082
+00:53:07,680 --> 00:53:09,300
+is like homework five.
+
+1083
+00:53:09,300 --> 00:53:13,557
+You develop some new
+functionality capability
+
+1084
+00:53:14,700 --> 00:53:16,170
+to the needle framework.
+
+1085
+00:53:16,170 --> 00:53:17,040
+It's really important though,
+
+1086
+00:53:17,040 --> 00:53:18,960
+that this final project involves some kind of
+
+1087
+00:53:18,960 --> 00:53:20,550
+extension to needle,
+
+1088
+00:53:20,550 --> 00:53:23,070
+not just implementing some architecture
+
+1089
+00:53:23,070 --> 00:53:25,230
+and certainly not just
+implementing an architecture
+
+1090
+00:53:25,230 --> 00:53:26,400
+in PyTorch or TensorFlow.
+
+1091
+00:53:26,400 --> 00:53:28,590
+You can't just do that as a final project,
+
+1092
+00:53:28,590 --> 00:53:32,310
+it really has to be an
+extension of the needle library,
+
+1093
+00:53:32,310 --> 00:53:34,920
+add a different kind of
+hardware acceleration
+
+1094
+00:53:34,920 --> 00:53:35,823
+to the back end.
+
+1095
+00:53:37,140 --> 00:53:42,140
+Our GPU work is gonna work
+on CUDA using CUDA libraries.
+
+1096
+00:53:42,270 --> 00:53:44,550
+So you could do one that uses OpenCL
+
+1097
+00:53:44,550 --> 00:53:48,450
+or maybe optimizes for the M1 Apple chip,
+
+1098
+00:53:48,450 --> 00:53:49,530
+stuff like this, right?
+
+1099
+00:53:49,530 --> 00:53:50,940
+All these things are possible,
+
+1100
+00:53:50,940 --> 00:53:55,530
+or maybe you do sort of
+hardware fused optimization
+
+1101
+00:53:55,530 --> 00:53:57,520
+for fused operators and things like this.
+
+1102
+00:53:57,520 --> 00:53:59,280
+These there all potential projects,
+
+1103
+00:53:59,280 --> 00:54:01,320
+we'll also post a few more possibilities.
+
+1104
+00:54:01,320 --> 00:54:03,870
+But the idea is that you
+want to do some extension
+
+1105
+00:54:03,870 --> 00:54:05,943
+of needle as your final project.
+
+1106
+00:54:07,560 --> 00:54:11,700
+And finally, the last
+thing is the course forum.
+
+1107
+00:54:11,700 --> 00:54:15,000
+So for those who sign up for
+the course, and actually again,
+
+1108
+00:54:15,000 --> 00:54:17,700
+this part requires you to
+actually enroll in the course.
+
+1109
+00:54:17,700 --> 00:54:19,230
+When you enroll in the course,
+
+1110
+00:54:19,230 --> 00:54:21,960
+you will soon thereafter get an invitation
+
+1111
+00:54:21,960 --> 00:54:24,540
+to join the class forum
+
+1112
+00:54:24,540 --> 00:54:26,730
+where you could log in after this class,
+
+1113
+00:54:26,730 --> 00:54:29,123
+after watching this lecture,
+if you haven't done so yet.
+
+1114
+00:54:30,120 --> 00:54:32,010
+And you should use this course forum,
+
+1115
+00:54:32,010 --> 00:54:36,450
+essentially as a resource
+to discuss and talk about
+
+1116
+00:54:36,450 --> 00:54:38,043
+the aspects of the course.
+
+1117
+00:54:39,210 --> 00:54:41,550
+You can and should ask
+for help, for example,
+
+1118
+00:54:41,550 --> 00:54:43,860
+with assignments in the forum.
+
+1119
+00:54:43,860 --> 00:54:45,900
+We won't be able to answer all questions
+
+1120
+00:54:45,900 --> 00:54:48,570
+that is, we instructors and the TAs
+
+1121
+00:54:48,570 --> 00:54:50,640
+won't be able to answer all of them
+
+1122
+00:54:50,640 --> 00:54:52,505
+just due to sort of availability.
+
+1123
+00:54:52,505 --> 00:54:57,330
+But please do up vote questions
+that you find important
+
+1124
+00:54:57,330 --> 00:54:58,770
+and relevant that you are
+struggling with maybe.
+
+1125
+00:54:58,770 --> 00:55:00,950
+And we will try to answer the most upvoted
+
+1126
+00:55:00,950 --> 00:55:03,480
+or the most liked questions
+to be sure that they're not
+
+1127
+00:55:03,480 --> 00:55:06,630
+sort of widespread issues
+that everyone's encountering.
+
+1128
+00:55:06,630 --> 00:55:10,410
+But then also please do
+help by answering questions
+
+1129
+00:55:10,410 --> 00:55:12,210
+from other students, right?
+
+1130
+00:55:12,210 --> 00:55:14,070
+We want to form somewhat of a community
+
+1131
+00:55:14,070 --> 00:55:15,270
+around this course here,
+
+1132
+00:55:15,270 --> 00:55:18,000
+so please do not just post questions,
+
+1133
+00:55:18,000 --> 00:55:19,560
+but also see if you can answer questions
+
+1134
+00:55:19,560 --> 00:55:20,393
+from other students.
+
+1135
+00:55:20,393 --> 00:55:21,690
+The more you're able to do that,
+
+1136
+00:55:21,690 --> 00:55:24,393
+the more everyone kind of benefits.
+
+1137
+00:55:25,500 --> 00:55:28,680
+You can ask for help and that does include
+
+1138
+00:55:28,680 --> 00:55:30,360
+in some cases posting code.
+
+1139
+00:55:30,360 --> 00:55:33,240
+But please we have further,
+
+1140
+00:55:33,240 --> 00:55:35,070
+or I should say further instructions
+
+1141
+00:55:35,070 --> 00:55:37,890
+are posted in the main
+welcome message in the forum.
+
+1142
+00:55:37,890 --> 00:55:42,890
+But we do have some sort of formal rules,
+
+1143
+00:55:44,160 --> 00:55:46,080
+but the reality is you can do things
+
+1144
+00:55:46,080 --> 00:55:47,070
+like post code and stuff
+
+1145
+00:55:47,070 --> 00:55:49,530
+and you can even share
+small amounts of code,
+
+1146
+00:55:49,530 --> 00:55:50,520
+but please be reasonable,
+
+1147
+00:55:50,520 --> 00:55:54,060
+don't just verbatim share entire solutions
+
+1148
+00:55:54,060 --> 00:55:55,440
+on the course forum,
+
+1149
+00:55:55,440 --> 00:55:57,840
+you get the most out of this course
+
+1150
+00:55:57,840 --> 00:56:00,330
+by implementing the
+assignments yourselves.
+
+1151
+00:56:00,330 --> 00:56:01,903
+And if you post your code,
+
+1152
+00:56:01,903 --> 00:56:04,200
+then that the makes other people
+
+1153
+00:56:04,200 --> 00:56:05,460
+not able to have that experience,
+
+1154
+00:56:05,460 --> 00:56:07,470
+or they just end up copying the code
+
+1155
+00:56:07,470 --> 00:56:09,150
+and not writing it themselves.
+
+1156
+00:56:09,150 --> 00:56:11,100
+And so be reasonable when it comes
+
+1157
+00:56:11,100 --> 00:56:12,210
+to what you post in the forums,
+
+1158
+00:56:12,210 --> 00:56:14,790
+you can absolutely share
+code and share at least
+
+1159
+00:56:14,790 --> 00:56:16,380
+snippets of code and things like this.
+
+1160
+00:56:16,380 --> 00:56:20,820
+Again, it's an online course,
+so you could in some sense,
+
+1161
+00:56:20,820 --> 00:56:21,653
+do whatever you want,
+
+1162
+00:56:21,653 --> 00:56:23,100
+but at least in the public forum,
+
+1163
+00:56:23,100 --> 00:56:27,870
+please do be sort of reasonable
+
+1164
+00:56:27,870 --> 00:56:30,090
+in terms of not trying
+to give away content
+
+1165
+00:56:30,090 --> 00:56:32,280
+for people that would rather not sort of
+
+1166
+00:56:32,280 --> 00:56:36,993
+see the full solutions
+posted for the assignments.
+
+1167
+00:56:39,450 --> 00:56:42,330
+All right, with that,
+
+1168
+00:56:42,330 --> 00:56:47,280
+I'm ending the first lecture
+here with a few parting words.
+
+1169
+00:56:47,280 --> 00:56:48,810
+So we're really excited
+
+1170
+00:56:48,810 --> 00:56:50,820
+to be able to offer this course publicly
+
+1171
+00:56:50,820 --> 00:56:54,483
+and we really look forward
+to having you in the course.
+
+1172
+00:56:55,470 --> 00:57:00,470
+And if you do have feedback
+or comments for us,
+
+1173
+00:57:00,720 --> 00:57:01,980
+please let us know.
+
+1174
+00:57:01,980 --> 00:57:03,780
+Now it may not be possible to make changes
+
+1175
+00:57:03,780 --> 00:57:06,930
+during this offering, but we really want,
+
+1176
+00:57:06,930 --> 00:57:09,600
+we are making this course
+public because we want it to be
+
+1177
+00:57:09,600 --> 00:57:12,840
+a resource for those that are interested
+
+1178
+00:57:12,840 --> 00:57:14,730
+in deep learning systems,
+
+1179
+00:57:14,730 --> 00:57:16,980
+or just interested in
+deep learning as a whole.
+
+1180
+00:57:16,980 --> 00:57:20,770
+And if you can give us feedback
+that can help us improve
+
+1181
+00:57:21,720 --> 00:57:23,883
+at that mission, we appreciate it.
+
+1182
+00:57:25,050 --> 00:57:28,140
+So we look forward to
+having you in the course,
+
+1183
+00:57:28,140 --> 00:57:30,540
+as I said, I promise the next lecture
+
+1184
+00:57:30,540 --> 00:57:32,130
+is much more content full.
+
+1185
+00:57:32,130 --> 00:57:34,080
+So if you got through this and said,
+
+1186
+00:57:34,080 --> 00:57:36,420
+hey, where's the, I haven't
+learned anything yet,
+
+1187
+00:57:36,420 --> 00:57:37,630
+where's all the content?
+
+1188
+00:57:37,630 --> 00:57:39,180
+Look at the next lecture next,
+
+1189
+00:57:39,180 --> 00:57:42,120
+it will cover some of the
+basics of machine learning.
+
+1190
+00:57:42,120 --> 00:57:43,440
+And then soon we'll get into
+
+1191
+00:57:43,440 --> 00:57:45,270
+automatic differentiation after that.
+
+1192
+00:57:45,270 --> 00:57:47,700
+But we really look forward to having you
+
+1193
+00:57:47,700 --> 00:57:50,070
+and we hope you enjoy this course
+
+1194
+00:57:50,070 --> 00:57:52,370
+as much as we're enjoying
+putting it together.
+

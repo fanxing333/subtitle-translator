@@ -8,11 +8,13 @@ class Subtitle:
         self.file_path = file_path  # 文件路径
         self.source = source
         self.st_list = []  # 每一段字幕作为一个 dict 存在 list 里面
+        self.sentence_list = []
 
         # read srt file
         with open(file_path, "r") as f:
             self.file_data = f.read()
 
+        # 暂时无用
         self.plain_text = ""
 
     # transform file data to subtitle list
@@ -89,6 +91,7 @@ class Subtitle:
 
         print("export to srt file successfully!")
 
+    # 暂时无用
     def get_excerpt(self):
         for sub in self.st_list:
             self.plain_text += sub["en_srt"]
@@ -99,13 +102,12 @@ class Subtitle:
         text = ""
         for st in self.st_list:
             text += st["en_srt"] + "#"
-            if len(text) > 3000:
+            if len(text) > 2000:
                 segment_list.append(text[:-1])
                 text = ""
         segment_list.append(text[:-1])
 
         # 把 segment 分批翻译，并按句子划分存到 sentence_list
-        sentence_list = []
         for i in tqdm(range(len(segment_list)), desc="Processing", ncols=80, leave=True):
             while True:
                 try:
@@ -116,26 +118,32 @@ class Subtitle:
 
             sub_sentence = res.split("#")
             if len(segment_list[i].split("#")) == len(sub_sentence):  # 完美结果
-                sentence_list += sub_sentence
+                self.sentence_list += sub_sentence
+                print("完美分割")
             elif len(segment_list[i].split("#")) > len(sub_sentence):  # 有些句子没有分开
-                for s in sub_sentence:
-                    sentence_list += s.split("。")
-
+                self.sentence_list += sub_sentence
+                print("有些句子没有分开")
             else:  # 奇怪的错误
                 print("奇怪的错误")
 
     def translate(self):
-        for sub in self.st_list:
-            sub["cn_srt"] = translate_by_sentence(sub["en_srt"])
+        for i, sub in enumerate(self.st_list):
+            if i < len(self.sentence_list):
+                sub["cn_srt"] = self.sentence_list[i]
+            else:
+                break
+            #sub["cn_srt"] = translate_by_sentence(sub["en_srt"])
 
 
 if __name__ == "__main__":
     # 1. 初始化 读取 srt 文件
-    subtitle = Subtitle(file_path="test.srt", source="whisper")
+    subtitle = Subtitle(file_path="test_case/Lecture 1 - Introduction and Logistics.en.srt", source="youtube")
     # 2. 根据不同的字幕风格转导为相应的字幕格式
     subtitle.st_list = subtitle.trans_to_list()
+
+    subtitle.get_segment_list()
     # 3. 翻译
     subtitle.translate()
 
     # 导出为双语字幕文件
-    subtitle.export_srt("l1_trans.srt")
+    subtitle.export_srt("test_case/l1_export.srt")
