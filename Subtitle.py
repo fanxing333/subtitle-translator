@@ -121,8 +121,12 @@ class Subtitle:
                 self.sentence_list += sub_sentence
                 print("完美分割")
             elif len(segment_list[i].split("#")) > len(sub_sentence):  # 有些句子没有分开
+                start_num = len(self.sentence_list) + 1
                 self.sentence_list += sub_sentence
-                print("有些句子没有分开")
+                end_num = len(self.sentence_list) + 1
+                unaligned_num = end_num - start_num - len(sub_sentence)
+
+                print(f"第 {start_num} - {end_num} 号的句子没有分开，有 {unaligned_num} 行unaligned")
             else:  # 奇怪的错误
                 print("奇怪的错误")
 
