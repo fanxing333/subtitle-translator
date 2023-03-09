@@ -1,8 +1,9 @@
+import os
 import time
 import logging
 
 import openai
-sk = "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"
+sk = os.environ.get("OPENAI_API")
 openai.api_key = sk
 
 logging.basicConfig(level=logging.INFO, filename='output.log')
