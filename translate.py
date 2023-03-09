@@ -1,8 +1,11 @@
 import time
+import logging
 
 import openai
 sk = "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"
 openai.api_key = sk
+
+logging.basicConfig(level=logging.INFO, filename='output.log')
 
 # @policy A: 逐段翻译 风险度高 GPT极有可能返回错误的分段
 def translate(segment):
@@ -19,11 +22,11 @@ def translate(segment):
                 ],
                 temperature=0.2
             )
-            print(f"消耗 tokens: {result['usage']['total_tokens']}")
-            print(result["choices"][0]["message"]["content"])
+            logging.info(f"消耗 tokens: {result['usage']['total_tokens']}")
+            logging.info(result["choices"][0]["message"]["content"].strip())
             break
         except Exception as e:
-            print(e)
+            logging.info(e)
 
     return result["choices"][0]["message"]["content"].strip()
 
@@ -33,6 +36,7 @@ def translate_by_sentence(sentence):
     # 请求直到成功，openai 的速率检测太迷！
     while True:
         try:
+            time.sleep(5)
             result = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo",
                 messages=[
@@ -42,10 +46,9 @@ def translate_by_sentence(sentence):
             )
             break
         except Exception as e:
-            print(e)
+            logging.info(e)
 
-    time.sleep(3)
-    print(f"消耗 tokens: {result['usage']['total_tokens']}")
-    print(result["choices"][0]["message"]["content"])
+    logging.info(f"消耗 tokens: {result['usage']['total_tokens']}")
+    logging.info(result["choices"][0]["message"]["content"].strip())
 
     return result["choices"][0]["message"]["content"].strip()

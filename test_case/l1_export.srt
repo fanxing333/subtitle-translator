@@ -1483,7 +1483,6 @@ So you will form groups, there will be posting on the forums to form groups as t
 299
 00:52:54,330 --> 00:53:00,450
 And the idea here is the final project involves developing some new piece of functionality for needle.
-这里的想法是开发一些新的needle功能，
 
 300
 00:53:00,450 --> 00:53:09,300

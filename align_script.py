@@ -1,4 +1,4 @@
-with open("test_case/l1_export.srt", "r") as f:
+with open("test_case/output.srt", "r") as f:
     file_data = f.read()
 
 sub_dict_list = []
@@ -45,7 +45,7 @@ for i in range(len(sub_dict_list)):
         sub_dict_list[i]["cn_srt"] = split_item[0]
         sub_dict_list[i+1]["cn_srt"] = split_item[1]
 
-with open("test_case/l1_export.srt", 'w') as file:
+with open("test_case/output.srt", 'w') as file:
     for sub in sub_dict_list:
         file.write(str(sub['number']) + '\n')
         file.write(sub['start_time'] + ' --> ' + sub['end_time'] + '\n')
