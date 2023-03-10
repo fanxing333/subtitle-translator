@@ -1,13 +1,13 @@
 from tqdm import tqdm
-import logging
 import time
+
+from logger import logger
 from translate import translate_by_sentence, translate
-logging.basicConfig(level=logging.INFO, filename='output.log')
 
 class Subtitle:
-    def __init__(self, file_path, source):
+    def __init__(self, file_path, style):
         self.file_path = file_path  # 文件路径
-        self.source = source
+        self.style = style
         self.st_list = []  # 每一段字幕作为一个 dict 存在 list 里面
         self.sentence_list = []
         self.segment_list = []
@@ -43,7 +43,7 @@ class Subtitle:
                 sub_dict = {}
 
         # 如果字幕文件来源是 youtube 那就按照它的格式解析
-        if self.source == "youtube":
+        if self.style == "youtube":
             sub_dict_modified = {
                 "number": None,
                 "start_time": None,
@@ -91,7 +91,7 @@ class Subtitle:
                     file.write(sub['cn_srt'] + '\n')
                 file.write('\n')
 
-        logging.info("export to srt file successfully!")
+        logger.info("export to srt file successfully!")
 
     def get_segment_list(self):
         # 把每一段都存储到一个列表，段的划分受限于 tokens 的大小，段落越长，机器的上下文理解力就越好，但越容易超出限制。
@@ -120,6 +120,7 @@ class Subtitle:
         if policy == 0:
             # 逐句翻译
             for i in tqdm(range(len(self.st_list)), desc="Processing", ncols=80, leave=True):
+                time.sleep(1)
                 self.st_list[i]["cn_srt"] = translate_by_sentence(self.st_list[i]["en_srt"])
 
         elif policy == 1:
@@ -128,25 +129,20 @@ class Subtitle:
             # 把 segment 分批翻译，并按句子划分存到 sentence_list
             for i in tqdm(range(len(self.segment_list)), desc="Processing", ncols=80, leave=True):
                 seg = self.segment_list[i]
-                while True:
-                    try:
-                        res = translate(seg["text"])
-                        break
-                    except Exception as e:
-                        logging.info(e)
+                res = translate(seg["text"])
 
                 sentence_list = res.split("#")
                 if seg["length"] == len(sentence_list):  # 完美结果
                     self.sentence_list += sentence_list
-                    logging.info("完美分割")
+                    logger.info("完美分割")
 
                 elif seg["length"] > len(sentence_list):  # 有些句子没有分开
                     self.sentence_list += sentence_list
-                    logging.info(
+                    logger.warning(
                         f"第 {seg['start']} - {seg['end']} 号的句子没有分开，有 {seg['length'] - len(sentence_list)} 行unaligned")
 
                 else:  # 奇怪的错误
-                    logging.info("奇怪的错误")
+                    logger.error("奇怪的错误")
 
             for i, sub in enumerate(self.st_list):
                 if i < len(self.sentence_list):
@@ -156,7 +152,7 @@ class Subtitle:
 
 if __name__ == "__main__":
     # 1. 初始化 读取 srt 文件
-    subtitle = Subtitle(file_path="test_case/Lecture 1 - Introduction and Logistics.en.srt", source="youtube")
+    subtitle = Subtitle(file_path="test_case/Lecture 1 - Introduction and Logistics.en.srt", style="youtube")
     # 2. 根据不同的字幕风格转导为相应的字幕格式
     subtitle.st_list = subtitle.trans_to_list()
     # 3. 翻译
