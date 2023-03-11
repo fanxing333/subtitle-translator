@@ -4,11 +4,14 @@ import time
 from logger import logger
 from translate import translate_by_sentence, translate
 
+def sub_dict_init():
+    return {"number": None, "start_time": None, "end_time": None, "en_srt": "", "cn_srt": ""}
+
 class Subtitle:
     def __init__(self, file_path, style):
         self.file_path = file_path  # 文件路径
-        self.style = style
-        self.st_list = []  # 每一段字幕作为一个 dict 存在 list 里面
+        self.style = style  # 字幕文件风格
+        self.st_list = []  # 每一段字幕文本作为一个 dict 存在 list 里面
         self.sentence_list = []
         self.segment_list = []
 
@@ -16,41 +19,32 @@ class Subtitle:
         with open(file_path, "r") as f:
             self.file_data = f.read()
 
-        # 暂时无用
-        self.plain_text = ""
-
     # transform file data to subtitle list
     def trans_to_list(self):
         sub_dict_list = []
-        sub_dict = {}
+        sub_dict = sub_dict_init()
         for i, line in enumerate(self.file_data.split("\n")):
-            if line.isdigit():  # 字幕编号
+            if line.isdigit():  # 字幕编号 number
                 sub_dict['number'] = int(line)
-                sub_dict['en_srt'] = ""
 
-            elif ' --> ' in line:  # 时间戳
+            elif ' --> ' in line:  # 时间点 timecode
                 start, end = line.split(' --> ')
                 sub_dict['start_time'] = start
                 sub_dict['end_time'] = end
 
-            elif line.strip():  # 字幕内容
+            elif line.strip():  # 字幕文本 subtitle text
+                # 如果一条字幕文本换行了，则合并为一行
                 sub_dict['en_srt'] += line + " "
 
             else:  # 字幕结束，将字幕字典存储到列表中
                 if sub_dict.get("number") is not None:
                     sub_dict['en_srt'] = sub_dict['en_srt'][:-1]
                     sub_dict_list.append(sub_dict)
-                sub_dict = {}
+                sub_dict = sub_dict_init()
 
         # 如果字幕文件来源是 youtube 那就按照它的格式解析
         if self.style == "youtube":
-            sub_dict_modified = {
-                "number": None,
-                "start_time": None,
-                "end_time": None,
-                "en_srt": "",
-                "cn_srt": ""
-            }
+            sub_dict_modified = sub_dict_init()
 
             sub_dict_modified_list = []
             number = 1
@@ -61,20 +55,24 @@ class Subtitle:
                     number += 1
                     sub_dict_modified["start_time"] = sub_dict["start_time"]
 
-                # 每句话都添加进字典里
                 sub_dict_modified["en_srt"] += sub_dict["en_srt"] + " "
 
-                # 如果一句话结束了
+                # 不管是人工制作还是机器识别的字幕，主要的目的还是将文本显示在视频上方
+                # 所以不会遵循某种格式来制作字幕，也没有这种标准，这给字幕文件的自动化转化造成了很大的麻烦
+                # 如何来界定一句话——为了尽量避免让 GPT 翻译没有上下文的半句话，造成翻译失真
+                # 根据字幕文件结尾是否是 {",", ".", "?"} 判断一句话是否结束
                 if sub_dict["en_srt"][-1] == ("." or "?" or "!"):
                     sub_dict_modified["end_time"] = sub_dict["end_time"]
                     sub_dict_modified_list.append(sub_dict_modified)
-                    sub_dict_modified = {
-                        "number": None,
-                        "start_time": None,
-                        "end_time": None,
-                        "en_srt": "",
-                        "cn_srt": ""
-                    }
+                    sub_dict_modified = sub_dict_init()
+                    continue
+
+                # 由于有些字幕根本就没有标点符号，所以这里根据长度将其分割，还有什么好办法？
+                if len(sub_dict_modified["en_srt"]) > 300:
+                    sub_dict_modified["end_time"] = sub_dict["end_time"]
+                    sub_dict_modified_list.append(sub_dict_modified)
+                    sub_dict_modified = sub_dict_init()
+                    continue
 
             return sub_dict_modified_list
 
@@ -120,7 +118,6 @@ class Subtitle:
         if policy == 0:
             # 逐句翻译
             for i in tqdm(range(len(self.st_list)), desc="Processing", ncols=80, leave=True):
-                time.sleep(1)
                 self.st_list[i]["cn_srt"] = translate_by_sentence(self.st_list[i]["en_srt"])
 
         elif policy == 1:

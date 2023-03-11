@@ -12,6 +12,8 @@ def translate_by_sentence(sentence):
     # 请求直到成功，openai 的速率检测太迷！
     while True:
         try:
+            # 可能 6 个 key 就不需要等待了？
+            time.sleep(max(1, 6-len(sks)))
             openai.api_key = random.choice(sks)
             result = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo",
@@ -22,10 +24,10 @@ def translate_by_sentence(sentence):
             )
             break
         except Exception as e:
-            time.sleep(5)
             logger.warning(e)
 
     logger.info(f"消耗 tokens: {result['usage']['total_tokens']}")
+    logger.info(sentence)
     logger.info(result["choices"][0]["message"]["content"].strip())
 
     return result["choices"][0]["message"]["content"].strip()
@@ -33,7 +35,6 @@ def translate_by_sentence(sentence):
 # @policy B: 逐段翻译 风险度高 GPT极有可能返回错误的分段
 def translate(segment):
     message = f"请帮我把下面的句子翻译成中文，并且不要删除任何的‘#’:\n{segment}"
-    # 请求直到成功，openai 的速率检测太迷！
     while True:
         try:
             openai.api_key = random.choice(sks)
@@ -47,11 +48,10 @@ def translate(segment):
                 temperature=0.2
             )
             logger.info(f"消耗 tokens: {result['usage']['total_tokens']}")
+            logger.info(segment)
             logger.info(result["choices"][0]["message"]["content"].strip())
             break
         except Exception as e:
             logger.warning(e)
 
     return result["choices"][0]["message"]["content"].strip()
-
-

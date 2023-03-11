@@ -36,7 +36,6 @@ for i, line in enumerate(file_data.split("\n")):
         }
 
 for i in range(len(sub_dict_list)):
-    #print(i)
     if "#" in sub_dict_list[i]["cn_srt"]:
 
         split_item = sub_dict_list[i]["cn_srt"].split("#")
