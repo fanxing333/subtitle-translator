@@ -5,9 +5,11 @@ def run(source_file, source_style, target_file, translate_policy, log_dir):
     # 导入字幕文件
     sub_source = Subtitle(file_path=source_file, style=source_style)
     # 转换字幕文件风格
-    sub_source.st_list = sub_source.trans_to_list()
+    sub_source.st_list = sub_source.mono_trans()
     # 字幕文件翻译
     sub_source.translate(policy=translate_policy)
+    # 生成结果统计
+    sub_source.statis()
     # 导出为双语字幕文件
     sub_source.export_srt(target_file)
 

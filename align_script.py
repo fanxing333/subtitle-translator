@@ -7,7 +7,7 @@ sub_dict = {
     "start_time": None,
     "end_time": None,
     "en_srt": "",
-    "cn_srt": ""
+    "zh_srt": ""
 }
 for i, line in enumerate(file_data.split("\n")):
     if line.isdigit():  # 字幕编号
@@ -22,7 +22,7 @@ for i, line in enumerate(file_data.split("\n")):
         sub_dict['en_srt'] = line.strip()
 
     elif "。" in line.strip():  # 中文字幕内容
-        sub_dict["cn_srt"] = line.strip()
+        sub_dict["zh_srt"] = line.strip()
 
     else:  # 字幕结束，将字幕字典存储到列表中
         if sub_dict.get("number") is not None:
@@ -32,23 +32,23 @@ for i, line in enumerate(file_data.split("\n")):
             "start_time": None,
             "end_time": None,
             "en_srt": "",
-            "cn_srt": ""
+            "zh_srt": ""
         }
 
 for i in range(len(sub_dict_list)):
-    if "#" in sub_dict_list[i]["cn_srt"]:
+    if "#" in sub_dict_list[i]["zh_srt"]:
 
-        split_item = sub_dict_list[i]["cn_srt"].split("#")
+        split_item = sub_dict_list[i]["zh_srt"].split("#")
         for j in range(len(sub_dict_list)-1, i, -1):
-            sub_dict_list[j]["cn_srt"] = sub_dict_list[j-1]["cn_srt"]
-        sub_dict_list[i]["cn_srt"] = split_item[0]
-        sub_dict_list[i+1]["cn_srt"] = split_item[1]
+            sub_dict_list[j]["zh_srt"] = sub_dict_list[j-1]["zh_srt"]
+        sub_dict_list[i]["zh_srt"] = split_item[0]
+        sub_dict_list[i+1]["zh_srt"] = split_item[1]
 
 with open("test_case/output.srt", 'w') as file:
     for sub in sub_dict_list:
         file.write(str(sub['number']) + '\n')
         file.write(sub['start_time'] + ' --> ' + sub['end_time'] + '\n')
         file.write(sub['en_srt'] + '\n')
-        if sub['cn_srt'] != "":
-            file.write(sub['cn_srt'] + '\n')
+        if sub['zh_srt'] != "":
+            file.write(sub['zh_srt'] + '\n')
         file.write('\n')

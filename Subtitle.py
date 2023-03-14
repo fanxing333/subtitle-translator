@@ -5,7 +5,7 @@ from logger import logger
 from translate import translate_by_sentence, translate
 
 def sub_dict_init():
-    return {"number": None, "start_time": None, "end_time": None, "en_srt": "", "cn_srt": ""}
+    return {"number": None, "start_time": None, "end_time": None, "en_srt": "", "zh_srt": ""}
 
 class Subtitle:
     def __init__(self, file_path, style):
@@ -20,7 +20,8 @@ class Subtitle:
             self.file_data = f.read()
 
     # transform file data to subtitle list
-    def trans_to_list(self):
+    # 针对单语字幕，且如果一条字幕有多行会被合并为一行
+    def mono_trans(self):
         sub_dict_list = []
         sub_dict = sub_dict_init()
         for i, line in enumerate(self.file_data.split("\n")):
@@ -38,7 +39,7 @@ class Subtitle:
 
             else:  # 字幕结束，将字幕字典存储到列表中
                 if sub_dict.get("number") is not None:
-                    sub_dict['en_srt'] = sub_dict['en_srt'][:-1]
+                    sub_dict['en_srt'] = sub_dict['en_srt'].strip()  # strip 后最后一个字符一定不是空格
                     sub_dict_list.append(sub_dict)
                 sub_dict = sub_dict_init()
 
@@ -85,8 +86,8 @@ class Subtitle:
                 file.write(str(sub['number']) + '\n')
                 file.write(sub['start_time'] + ' --> ' + sub['end_time'] + '\n')
                 file.write(sub['en_srt'] + '\n')
-                if sub['cn_srt'] != "":
-                    file.write(sub['cn_srt'] + '\n')
+                if sub['zh_srt'] != "":
+                    file.write(sub['zh_srt'] + '\n')
                 file.write('\n')
 
         logger.info("export to srt file successfully!")
@@ -118,7 +119,7 @@ class Subtitle:
         if policy == 0:
             # 逐句翻译
             for i in tqdm(range(len(self.st_list)), desc="Processing", ncols=80, leave=True):
-                self.st_list[i]["cn_srt"] = translate_by_sentence(self.st_list[i]["en_srt"])
+                self.st_list[i]["zh_srt"] = translate_by_sentence(self.st_list[i]["en_srt"])
 
         elif policy == 1:
             # 逐段翻译
@@ -143,15 +144,25 @@ class Subtitle:
 
             for i, sub in enumerate(self.st_list):
                 if i < len(self.sentence_list):
-                    sub["cn_srt"] = self.sentence_list[i]
+                    sub["zh_srt"] = self.sentence_list[i]
                 else:
                     break
+
+    def statis(self):
+        en_statis = [len(sub["en_srt"]) for sub in self.st_list]
+        zh_statis = [len(sub["zh_srt"]) for sub in self.st_list]
+
+        en_statis_max, en_statis_min, en_statis_mean = max(en_statis), min(en_statis), sum(en_statis) / len(en_statis)
+        zh_statis_max, zh_statis_min, zh_statis_mean = max(zh_statis), min(zh_statis), sum(zh_statis) / len(zh_statis)
+
+        logger.info(f"英文字幕最大长度: {en_statis_max}\n英文字幕最短长度: {en_statis_min}\n英文字幕平均长度: {en_statis_mean}")
+        logger.info(f"中文字幕最大长度: {zh_statis_max}\n中文字幕最短长度: {zh_statis_min}\n中文字幕平均长度: {zh_statis_mean}")
 
 if __name__ == "__main__":
     # 1. 初始化 读取 srt 文件
     subtitle = Subtitle(file_path="test_case/Lecture 1 - Introduction and Logistics.en.srt", style="youtube")
     # 2. 根据不同的字幕风格转导为相应的字幕格式
-    subtitle.st_list = subtitle.trans_to_list()
+    subtitle.st_list = subtitle.mono_trans()
     # 3. 翻译
     #subtitle.translate(policy=0)
     # 导出为双语字幕文件
