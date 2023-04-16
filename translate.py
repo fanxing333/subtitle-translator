@@ -34,7 +34,7 @@ def translate_by_sentence(sentence):
 
 # @policy B: 逐段翻译 风险度高 GPT极有可能返回错误的分段
 def translate(segment):
-    message = f"请帮我把下面的句子翻译成中文，并且不要删除任何的‘#’:\n{segment}"
+    message = f"Translate the following paragraph and remain the bracket:\n{segment}"
     while True:
         try:
             openai.api_key = random.choice(sks)
@@ -42,7 +42,7 @@ def translate(segment):
                 model="gpt-3.5-turbo",
                 messages=[
                     # system message 的效果不好，也可能是 prompt 没有设置好
-                    #{"role": "system", "content": "You are English-Chinese translator.You should translate sentence by sentence. Don't remove any '#' between sentences"},
+                    {"role": "system", "content": "You are English-Chinese translator."},
                     {"role": "user", "content": message}
                 ],
                 temperature=0.2
