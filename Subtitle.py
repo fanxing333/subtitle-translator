@@ -62,7 +62,7 @@ class Subtitle:
                 # 所以不会遵循某种格式来制作字幕，也没有这种标准，这给字幕文件的自动化转化造成了很大的麻烦
                 # 如何来界定一句话——为了尽量避免让 GPT 翻译没有上下文的半句话，造成翻译失真
                 # 根据字幕文件结尾是否是 {",", ".", "?"} 判断一句话是否结束
-                if sub_dict["en_srt"][-1] == ("." or "?" or "!"):
+                if sub_dict["en_srt"].endswith((".", "?", "!")):
                     sub_dict_modified["end_time"] = sub_dict["end_time"]
                     sub_dict_modified_list.append(sub_dict_modified)
                     sub_dict_modified = sub_dict_init()
